@@ -19,6 +19,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RewakeTheme {
+                RewakeApp()
             }
         }
     }
