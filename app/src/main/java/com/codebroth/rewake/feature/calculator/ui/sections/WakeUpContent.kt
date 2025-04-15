@@ -18,7 +18,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.codebroth.rewake.R
 import com.codebroth.rewake.feature.calculator.domain.usecase.CalculateBedTimesUseCase
 import com.codebroth.rewake.feature.calculator.ui.components.TimeInputButton
 import com.codebroth.rewake.feature.calculator.ui.components.TimeInputDialog
@@ -50,12 +52,13 @@ fun WakeUpContent() {
     val useCase = remember { CalculateBedTimesUseCase()}
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterVertically)
     ) {
-        Text("I want to wake up at...")
+        Text(stringResource(R.string.label_wake_up_prompt))
         TimeInputButton(
             timeText = TimeUtils.formatTime(selectedWakeUpTime),
             onClick = { showDialog = true }
@@ -63,7 +66,7 @@ fun WakeUpContent() {
 
         if (recommendedSleepTimes.isNotEmpty()) {
             Spacer(modifier = Modifier.height(16.dp))
-            Text("Recommended times to fall asleep:")
+            Text(stringResource(R.string.title_recommended_bed_times))
             recommendedSleepTimes.forEach { time ->
                 Text(
                     text = TimeUtils.formatTime(time),

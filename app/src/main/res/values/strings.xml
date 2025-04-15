@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">rewake</string>
+    <string name="wake_up_tab_name">Wake Up At</string>
+    <string name="sleep_at_tab_name">Sleep At</string>
+    <string name="label_wake_up_prompt">I want to wake up at...</string>
+    <string name="title_recommended_bed_times">Recommended bed times:</string>
+    <string name="label_sleep_at_prompt">I want to sleep at...</string>
+    <string name="title_recommended_wake_times">Recommended times to wake up:</string>
+    <string name="action_dismiss">Dismiss</string>
+    <string name="action_confirm">OK</string>
 </resources>

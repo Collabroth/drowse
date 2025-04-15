@@ -25,7 +25,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.codebroth.rewake.R
 import com.codebroth.rewake.feature.calculator.ui.sections.SleepAtContent
 import com.codebroth.rewake.feature.calculator.ui.sections.WakeUpContent
 import kotlinx.coroutines.launch
@@ -36,12 +38,12 @@ fun CalculatorScreen(modifier: Modifier = Modifier) {
 
     val calculatorTabItems = listOf(
         CalculatorTabItem(
-            title = "Wake Up At",
+            title = stringResource(R.string.wake_up_tab_name),
             selectedIcon = Icons.Default.BrightnessHigh,
             unselectedIcon = Icons.Outlined.BrightnessHigh
         ),
         CalculatorTabItem(
-            title = "Sleep At",
+            title = stringResource(R.string.sleep_at_tab_name),
             selectedIcon = Icons.Default.DarkMode,
             unselectedIcon = Icons.Outlined.DarkMode
         )
