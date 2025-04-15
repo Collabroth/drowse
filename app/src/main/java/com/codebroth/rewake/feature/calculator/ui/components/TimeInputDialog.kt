@@ -1,4 +1,4 @@
-package com.codebroth.rewake.feature.calculator.components
+package com.codebroth.rewake.feature.calculator.ui.components
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text

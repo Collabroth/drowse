@@ -1,4 +1,4 @@
-package com.codebroth.rewake.feature.calculator
+package com.codebroth.rewake.feature.calculator.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,8 +26,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import com.codebroth.rewake.feature.calculator.sections.SleepAtContent
-import com.codebroth.rewake.feature.calculator.sections.WakeUpContent
+import com.codebroth.rewake.feature.calculator.ui.sections.SleepAtContent
+import com.codebroth.rewake.feature.calculator.ui.sections.WakeUpContent
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
