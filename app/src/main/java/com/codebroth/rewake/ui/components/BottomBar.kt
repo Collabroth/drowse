@@ -13,20 +13,18 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.codebroth.rewake.navigation.AppDestination
-import com.codebroth.rewake.navigation.AppDestination.*
+import com.codebroth.rewake.navigation.AppDestination.Calculator
+import com.codebroth.rewake.navigation.AppDestination.Reminders
+import com.codebroth.rewake.navigation.AppDestination.Settings
 
 @Composable
 fun BottomBar(navController: NavHostController) {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-
     val navigationBarItems = listOf(
         BottomNavigationItem(
             title = "Calculator",
@@ -48,17 +46,15 @@ fun BottomBar(navController: NavHostController) {
         )
     )
 
-    var selectedNavBarItemIndex by rememberSaveable {
-        mutableIntStateOf(0)
-    }
-
     NavigationBar {
-        navigationBarItems.forEachIndexed() { index, item ->
-            NavigationBarItem(
-                selected = selectedNavBarItemIndex == index,
-                onClick = {
-                    selectedNavBarItemIndex = index
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination
 
+        navigationBarItems.forEachIndexed() { index, item ->
+            val isSelected = currentDestination?.hierarchy?.any { it.route == item.destination::class.qualifiedName } == true
+            NavigationBarItem(
+                selected = isSelected,
+                onClick = {
                     navController.navigate(item.destination) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
@@ -69,7 +65,7 @@ fun BottomBar(navController: NavHostController) {
                 },
                 icon = {
                     Icon(
-                        imageVector = if (index == selectedNavBarItemIndex) {
+                        imageVector = if (isSelected) {
                             item.selectedIcon
                         } else {
                             item.unselectedIcon
