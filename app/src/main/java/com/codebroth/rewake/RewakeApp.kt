@@ -19,79 +19,33 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import com.codebroth.rewake.feature.calculator.ui.CalculatorScreen
-import com.codebroth.rewake.ui.components.RewakeAppBar
+import androidx.navigation.compose.rememberNavController
+import com.codebroth.rewake.navigation.RewakeNavHost
+import com.codebroth.rewake.ui.components.BottomBar
+import com.codebroth.rewake.ui.components.TopBar
 import com.codebroth.rewake.ui.theme.RewakeTheme
 
 @Composable
 fun RewakeApp() {
 
-    val navigationBarItems = listOf(
-        BottomNavigationItem(
-            title = "Calculator",
-            selectedIcon = Icons.Default.Analytics,
-            unselectedIcon = Icons.Filled.Analytics
-        ),
-        BottomNavigationItem(
-            title = "Alarms",
-            selectedIcon = Icons.Default.Alarm,
-            unselectedIcon = Icons.Filled.Alarm
-        ),
-        BottomNavigationItem(
-            title = "Reminders",
-            selectedIcon = Icons.Default.Notifications,
-            unselectedIcon = Icons.Filled.Notifications
-        )
-    )
-
-    var selectedNavBarItemIndex by rememberSaveable {
-        mutableIntStateOf(0)
-    }
+    val navController = rememberNavController()
 
     Scaffold (
         topBar = {
-            RewakeAppBar()
+            TopBar()
         },
         bottomBar = {
-            NavigationBar {
-                navigationBarItems.forEachIndexed() { index, item ->
-                    NavigationBarItem(
-                        selected = selectedNavBarItemIndex == index,
-                        onClick = {
-                            selectedNavBarItemIndex = index
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = if (index == selectedNavBarItemIndex) {
-                                    item.selectedIcon
-                                } else {
-                                    item.unselectedIcon
-                                },
-                                contentDescription = item.title
-                            )
-                        },
-                        label = {
-                            Text(
-                                text = item.title
-                            )
-                        }
-                    )
-                }
-            }
+            BottomBar(navController)
         }
     ) { innerPadding ->
-        CalculatorScreen(
-            modifier = Modifier.fillMaxSize()
+        RewakeNavHost(
+            navController = navController,
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(innerPadding)
         )
     }
 }
-
-data class BottomNavigationItem(
-    val title: String,
-    val selectedIcon: ImageVector,
-    val unselectedIcon: ImageVector
-)
 
 @Preview
 @Composable

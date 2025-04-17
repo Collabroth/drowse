@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -58,5 +59,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     //More Icons
-    implementation("androidx.compose.material:material-icons-extended:1.7.8")
+    implementation(libs.androidx.material.icons.extended)
+
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+    // JSON serialization library, works with the Kotlin serialization plugin
+    implementation(libs.kotlinx.serialization.json)
 }

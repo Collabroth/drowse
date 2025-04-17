@@ -12,7 +12,7 @@ import com.codebroth.rewake.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RewakeAppBar(modifier: Modifier = Modifier) {
+fun TopBar(modifier: Modifier = Modifier) {
     TopAppBar(
         title ={ Text(stringResource(R.string.app_name)) },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
