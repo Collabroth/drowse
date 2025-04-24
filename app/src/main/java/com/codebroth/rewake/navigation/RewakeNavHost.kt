@@ -8,7 +8,9 @@ import androidx.navigation.compose.composable
 import com.codebroth.rewake.feature.calculator.ui.CalculatorScreen
 import com.codebroth.rewake.feature.reminder.ui.ReminderScreen
 import com.codebroth.rewake.feature.settings.ui.SettingsScreen
-import com.codebroth.rewake.navigation.AppDestination.*
+import com.codebroth.rewake.navigation.AppDestination.Calculator
+import com.codebroth.rewake.navigation.AppDestination.Reminders
+import com.codebroth.rewake.navigation.AppDestination.Settings
 
 @Composable
 fun RewakeNavHost(navController: NavHostController, modifier: Modifier = Modifier) {

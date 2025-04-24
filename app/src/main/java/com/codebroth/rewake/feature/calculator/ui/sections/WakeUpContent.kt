@@ -22,12 +22,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.codebroth.rewake.R
 import com.codebroth.rewake.feature.calculator.domain.usecase.CalculateBedTimesUseCase
+import com.codebroth.rewake.feature.calculator.domain.util.TimeUtils
 import com.codebroth.rewake.feature.calculator.ui.components.TimeInputButton
 import com.codebroth.rewake.feature.calculator.ui.components.TimeInputDialog
-import com.codebroth.rewake.feature.calculator.domain.usecase.CalculateWakeTimesUseCase
-import com.codebroth.rewake.feature.calculator.domain.util.TimeUtils
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
