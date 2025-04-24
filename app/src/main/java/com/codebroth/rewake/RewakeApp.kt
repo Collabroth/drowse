@@ -7,10 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.codebroth.rewake.navigation.RewakeNavHost
-import com.codebroth.rewake.ui.components.BottomBar
-import com.codebroth.rewake.ui.components.TopBar
-import com.codebroth.rewake.ui.theme.RewakeTheme
+import com.codebroth.rewake.core.navigation.RewakeNavHost
+import com.codebroth.rewake.core.ui.components.BottomBar
+import com.codebroth.rewake.core.ui.components.TopBar
+import com.codebroth.rewake.core.ui.theme.RewakeTheme
 
 @Composable
 fun RewakeApp() {
