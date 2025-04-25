@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.codebroth.rewake.R
 import com.codebroth.rewake.calculator.domain.usecase.CalculateBedTimesUseCase
-import com.codebroth.rewake.calculator.domain.util.TimeUtils
+import com.codebroth.rewake.core.domain.util.TimeUtils
 import com.codebroth.rewake.calculator.ui.components.TimeInputButton
 import com.codebroth.rewake.calculator.ui.components.TimeInputDialog
 import java.time.LocalTime

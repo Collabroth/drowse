@@ -22,17 +22,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.codebroth.rewake.core.domain.util.TimeUtils
 import com.codebroth.rewake.reminder.domain.model.Reminder
 import java.time.DayOfWeek
+import java.time.LocalTime
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun AddEditReminderDialog(
-    initial: Reminder?,            // null = new, otherwise we’re editing
+    initial: Reminder?,
     onCancel:  () -> Unit,
     onConfirm: (Reminder) -> Unit
 ) {
-    // 1) Remember local state
+
     var label by rememberSaveable { mutableStateOf(initial?.label.orEmpty()) }
     var days  by rememberSaveable { mutableStateOf(initial?.daysOfWeek.orEmpty()) }
     var hour  by rememberSaveable { mutableIntStateOf(initial?.hour ?: 21) }
@@ -45,7 +47,7 @@ fun AddEditReminderDialog(
             { _, h, m -> hour = h; minute = m },
             hour,
             minute,
-            true
+            false
         )
     }
 
@@ -76,9 +78,8 @@ fun AddEditReminderDialog(
                         )
                     }
                 }
-                // Time picker button
                 Button(onClick = { timePicker.show() }) {
-                    Text(text = "%02d:%02d".format(hour, minute))
+                    Text(text = TimeUtils.formatTime(LocalTime.of(hour, minute)))
                 }
             }
         },

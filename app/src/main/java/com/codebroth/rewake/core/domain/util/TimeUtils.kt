@@ -1,4 +1,4 @@
-package com.codebroth.rewake.calculator.domain.util
+package com.codebroth.rewake.core.domain.util
 
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter

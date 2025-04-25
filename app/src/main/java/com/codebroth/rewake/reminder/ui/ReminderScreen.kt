@@ -29,6 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.codebroth.rewake.reminder.domain.model.Reminder
+import com.codebroth.rewake.reminder.domain.model.formattedTime
+import java.util.Locale
 
 @Composable
 fun ReminderScreen(
@@ -99,22 +101,27 @@ private fun ReminderItem(
     ) {
         Row(
             modifier = Modifier
+                .fillMaxWidth()
                 .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column {
+                reminder.label?.let { lbl ->
+                    Text(
+                        text  = lbl,
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
                 Text(
-                    text = "%02dL%02d"
-                        .format(
-                            reminder.hour,
-                            reminder.minute
-                        ),
-                    style = MaterialTheme.typography.titleMedium
+                    text = reminder.formattedTime(),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(top = 4.dp)
                 )
                 Text(
                     text = reminder.daysOfWeek.joinToString { it.name.take(3) },
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.padding(top = 4.dp)
                 )
             }
             IconButton(onClick = onDelete) {
@@ -125,10 +132,4 @@ private fun ReminderItem(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun ReminderScreenPreview() {
-    ReminderScreen()
 }
