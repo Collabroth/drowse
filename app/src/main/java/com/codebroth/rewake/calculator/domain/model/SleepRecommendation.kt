@@ -4,6 +4,8 @@ import java.time.LocalTime
 
 
 data class SleepRecommendation(
-    val label: String,
+    // 1 cycle approximately 90 minutes
+    val cycles: Int,
+    val hours: Double,
     val time: LocalTime
 )
