@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import com.codebroth.rewake.R
 import com.codebroth.rewake.calculator.ui.sections.SleepAtContent
 import com.codebroth.rewake.calculator.ui.sections.WakeUpContent
@@ -34,7 +35,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CalculatorScreen(modifier: Modifier = Modifier) {
+fun CalculatorScreen(navController: NavHostController, modifier: Modifier = Modifier) {
 
     val calculatorTabItems = listOf(
         CalculatorTabItem(
@@ -99,7 +100,7 @@ fun CalculatorScreen(modifier: Modifier = Modifier) {
                 .weight(1f),
         ) { index ->
             when(index) {
-                0 -> WakeUpContent()
+                0 -> WakeUpContent(navController)
                 1 -> SleepAtContent()
             }
         }
@@ -112,14 +113,14 @@ data class CalculatorTabItem(
     val unselectedIcon: ImageVector,
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview
-@Composable
-fun CalculatorScreenPreview() {
-    Surface {
-        CalculatorScreen(
-            modifier = Modifier
-                .fillMaxSize()
-        )
-    }
-}
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Preview
+//@Composable
+//fun CalculatorScreenPreview() {
+//    Surface {
+//        CalculatorScreen(
+//            modifier = Modifier
+//                .fillMaxSize()
+//        )
+//    }
+//}

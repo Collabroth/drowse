@@ -3,9 +3,15 @@ package com.codebroth.rewake.calculator.ui.sections
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,16 +26,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import com.codebroth.rewake.R
+import com.codebroth.rewake.calculator.domain.model.SleepRecommendation
 import com.codebroth.rewake.calculator.domain.usecase.CalculateBedTimesUseCase
-import com.codebroth.rewake.core.domain.util.TimeUtils
+import com.codebroth.rewake.calculator.ui.components.SuggestionCard
 import com.codebroth.rewake.calculator.ui.components.TimeInputButton
 import com.codebroth.rewake.calculator.ui.components.TimeInputDialog
+import com.codebroth.rewake.core.domain.util.TimeUtils
+import com.codebroth.rewake.core.navigation.AppDestination
 import java.time.LocalTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WakeUpContent() {
+fun WakeUpContent(navController: NavHostController) {
 
     var showDialog by remember { mutableStateOf(false) }
 
@@ -43,8 +54,8 @@ fun WakeUpContent() {
         mutableStateOf(LocalTime.of(timePickerState.hour, timePickerState.minute))
     }
 
-    var recommendedSleepTimes by remember {
-        mutableStateOf(emptyList<LocalTime>())
+    var recommendations by remember {
+        mutableStateOf(emptyList<SleepRecommendation>())
     }
 
     val useCase = remember { CalculateBedTimesUseCase()}
@@ -62,14 +73,29 @@ fun WakeUpContent() {
             onClick = { showDialog = true }
         )
 
-        if (recommendedSleepTimes.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(stringResource(R.string.title_recommended_bed_times))
-            recommendedSleepTimes.forEach { time ->
-                Text(
-                    text = TimeUtils.formatTime(time),
-                    style = MaterialTheme.typography.bodyLarge
-                )
+        if (recommendations.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(stringResource(R.string.title_recommended_bed_times), style = MaterialTheme.typography.bodyLarge)
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement   = Arrangement.spacedBy(12.dp),
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+            ) {
+                items(recommendations) { rec ->
+                    SuggestionCard(
+                        rec,
+                        onSchedule = { time ->
+                            navController.navigate(AppDestination.Reminders(time.hour, time.minute)) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                            }
+                        }
+                    )
+                }
             }
         }
     }
@@ -82,7 +108,7 @@ fun WakeUpContent() {
                     timePickerState.hour,
                     timePickerState.minute
                 )
-                recommendedSleepTimes = useCase(selectedWakeUpTime).map { it.time }
+                recommendations = useCase(selectedWakeUpTime)
                 showDialog = false
             }
         ) {

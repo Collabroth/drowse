@@ -34,7 +34,7 @@ fun BottomBar(navController: NavHostController) {
         ),
         BottomNavigationItem(
             title = "Reminders",
-            destination = Reminders,
+            destination = Reminders(),
             selectedIcon = Icons.Default.Notifications,
             unselectedIcon = Icons.Outlined.Notifications
         ),
@@ -50,8 +50,14 @@ fun BottomBar(navController: NavHostController) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
 
-        navigationBarItems.forEachIndexed() { index, item ->
-            val isSelected = currentDestination?.hierarchy?.any { it.route == item.destination::class.qualifiedName } == true
+        navigationBarItems.forEachIndexed { index, item ->
+            val isSelected = currentDestination?.hierarchy?.any { destination ->
+                when(item.destination) {
+                    is Reminders -> destination.route
+                        ?.startsWith(Reminders::class.qualifiedName ?: "") == true
+                    else -> destination.route == item.destination::class.qualifiedName
+                }
+            } == true
             NavigationBarItem(
                 selected = isSelected,
                 onClick = {

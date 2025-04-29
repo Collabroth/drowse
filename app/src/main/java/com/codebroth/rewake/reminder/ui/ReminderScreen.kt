@@ -20,8 +20,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -36,9 +42,39 @@ import java.util.Locale
 fun ReminderScreen(
     modifier: Modifier = Modifier,
     viewModel: ReminderViewModel = hiltViewModel(),
+    setReminderHour: Int? = null,
+    setReminderMinute: Int? = null,
 ) {
     val reminders by viewModel.reminders.collectAsState()
-    val uiState = viewModel.uiState
+    val uiState by rememberUpdatedState(viewModel.uiState)
+
+    var hasConsumedArgs by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(setReminderHour, setReminderMinute) {
+        if (!hasConsumedArgs
+            && setReminderHour != null
+            && setReminderMinute != null
+            ) {
+            viewModel.showDialog(
+                Reminder(
+                    id = 0L,
+                    hour = setReminderHour,
+                    minute = setReminderMinute,
+                    daysOfWeek = emptySet(),
+                    label = null
+                )
+            )
+            hasConsumedArgs = true
+        }
+    }
+
+    if (uiState.isDialogOpen) {
+        AddEditReminderDialog(
+            initial = uiState.editingReminder,
+            onCancel = { viewModel.dismissDialog() },
+            onConfirm = { viewModel.onSaveReminder(it) }
+        )
+    }
 
     Box(
         modifier = modifier.fillMaxSize()
@@ -75,14 +111,6 @@ fun ReminderScreen(
             Icon(
                 imageVector = Icons.Default.Add,
                 contentDescription = "Add Reminder"
-            )
-        }
-
-        if (uiState.isDialogOpen) {
-            AddEditReminderDialog(
-                initial = uiState.editingReminder,
-                onCancel = { viewModel.dismissDialog() },
-                onConfirm = { viewModel.onSaveReminder(it) }
             )
         }
     }

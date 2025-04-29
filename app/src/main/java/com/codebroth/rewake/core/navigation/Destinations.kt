@@ -1,17 +1,17 @@
 package com.codebroth.rewake.core.navigation
 
+import com.codebroth.rewake.reminder.domain.model.Reminder
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed interface AppDestination {
+sealed class AppDestination() {
+    @Serializable
+    object Calculator : AppDestination()
 
     @Serializable
-    object Calculator : AppDestination
+    data class Reminders(val setReminderHour: Int? = null, val setReminderMinutes: Int? = null) : AppDestination()
 
     @Serializable
-    object Reminders : AppDestination
-
-    @Serializable
-    object Settings : AppDestination
-
+    object Settings : AppDestination()
 }
+
