@@ -1,4 +1,4 @@
-package com.codebroth.rewake.reminder.data
+package com.codebroth.rewake.core.data
 
 import java.time.DayOfWeek
 

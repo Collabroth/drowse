@@ -7,6 +7,6 @@ import javax.inject.Inject
 class AddReminderUseCase @Inject constructor(
     private val repo: ReminderRepository
 ) {
-    suspend operator fun invoke(reminder: Reminder): Long =
+    suspend operator fun invoke(reminder: Reminder): Int =
         repo.insertReminder(reminder)
 }

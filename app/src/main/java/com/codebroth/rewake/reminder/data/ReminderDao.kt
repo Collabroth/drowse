@@ -14,7 +14,7 @@ interface ReminderDao {
     fun getAllReminders(): Flow<List<ReminderEntity>>
 
     @Insert
-    suspend fun insert(reminder: ReminderEntity): Long
+    suspend fun insert(reminder: ReminderEntity): Int
 
     @Update
     suspend fun update(reminder: ReminderEntity)

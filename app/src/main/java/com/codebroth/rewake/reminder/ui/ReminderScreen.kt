@@ -56,7 +56,7 @@ fun ReminderScreen(
             ) {
             viewModel.showDialog(
                 Reminder(
-                    id = 0L,
+                    id = 0,
                     hour = setReminderHour,
                     minute = setReminderMinute,
                     daysOfWeek = emptySet(),

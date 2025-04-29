@@ -7,7 +7,7 @@ interface ReminderRepository {
 
     fun getAllReminders(): Flow<List<Reminder>>
 
-    suspend fun insertReminder(reminder: Reminder): Long
+    suspend fun insertReminder(reminder: Reminder): Int
 
     suspend fun updateReminder(reminder: Reminder)
 

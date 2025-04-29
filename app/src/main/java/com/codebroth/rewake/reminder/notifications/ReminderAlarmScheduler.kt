@@ -18,7 +18,7 @@ class ReminderAlarmScheduler @Inject constructor(
     private val alarmManager =
         context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-    fun scheduleReminder(reminderId: Long, reminder: Reminder) {
+    fun scheduleReminder(reminderId: Int, reminder: Reminder) {
         reminder.daysOfWeek.forEach { day ->
             val nextRun = Calendar.getInstance().apply {
                 set(Calendar.DAY_OF_WEEK, day.toCalendarDay())
@@ -52,18 +52,18 @@ class ReminderAlarmScheduler @Inject constructor(
         }
     }
 
-    fun cancelReminder(reminderId: Long) {
+    fun cancelReminder(reminderId: Int) {
         DayOfWeek.entries.forEach { day ->
             alarmManager.cancel(createPendingIntent(reminderId, day))
         }
     }
 
-    fun rescheduleReminder(reminderId: Long, reminder: Reminder) {
+    fun rescheduleReminder(reminderId: Int, reminder: Reminder) {
         cancelReminder(reminderId)
         scheduleReminder(reminderId, reminder)
     }
 
-    private fun createPendingIntent(reminderId: Long, day: DayOfWeek): PendingIntent {
+    private fun createPendingIntent(reminderId: Int, day: DayOfWeek): PendingIntent {
         val intent = Intent(context, ReminderReceiver::class.java).apply {
             putExtra(EXTRA_REMINDER_ID, reminderId)
         }
