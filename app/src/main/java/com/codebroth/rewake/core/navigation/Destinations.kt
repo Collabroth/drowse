@@ -1,6 +1,5 @@
 package com.codebroth.rewake.core.navigation
 
-import com.codebroth.rewake.reminder.domain.model.Reminder
 import kotlinx.serialization.Serializable
 
 @Serializable

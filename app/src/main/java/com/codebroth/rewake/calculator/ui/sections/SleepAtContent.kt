@@ -22,9 +22,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.codebroth.rewake.R
 import com.codebroth.rewake.calculator.domain.usecase.CalculateWakeTimesUseCase
-import com.codebroth.rewake.core.domain.util.TimeUtils
 import com.codebroth.rewake.calculator.ui.components.TimeInputButton
 import com.codebroth.rewake.calculator.ui.components.TimeInputDialog
+import com.codebroth.rewake.core.domain.util.TimeUtils
 import java.time.LocalTime
 
 @OptIn(ExperimentalMaterial3Api::class)
