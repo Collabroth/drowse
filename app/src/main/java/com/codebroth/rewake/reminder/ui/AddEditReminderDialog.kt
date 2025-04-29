@@ -21,7 +21,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.codebroth.rewake.R
 import com.codebroth.rewake.core.domain.util.TimeUtils
 import com.codebroth.rewake.reminder.domain.model.Reminder
 import java.time.DayOfWeek
@@ -53,13 +55,20 @@ fun AddEditReminderDialog(
 
     AlertDialog(
         onDismissRequest = onCancel,
-        title = { Text(if (initial == null) "Add Reminder" else "Edit Reminder") },
+        title = {
+            Text(
+                if (initial == null) {
+                    stringResource(R.string.action_add_reminder)
+                } else {
+                    stringResource(R.string.action_edit_reminder)
+                }
+        ) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 OutlinedTextField(
                     value = label,
                     onValueChange = { label = it },
-                    label = { Text("Label (optional)") },
+                    label = { Text(stringResource(R.string.reminder_dialog_label)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -95,12 +104,12 @@ fun AddEditReminderDialog(
                     )
                 )
             }) {
-                Text("Save")
+                Text(stringResource(R.string.action_confirm))
             }
         },
         dismissButton = {
             TextButton(onClick = onCancel) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_dismiss))
             }
         }
     )

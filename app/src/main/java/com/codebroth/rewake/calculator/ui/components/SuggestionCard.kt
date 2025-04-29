@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -16,7 +17,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.codebroth.rewake.R
 import com.codebroth.rewake.calculator.domain.model.SleepRecommendation
 import com.codebroth.rewake.core.domain.util.TimeUtils
 import java.time.LocalTime
@@ -25,7 +28,8 @@ import java.time.LocalTime
 fun SuggestionCard(
     rec: SleepRecommendation,
     modifier: Modifier = Modifier,
-    onSchedule: (LocalTime) -> Unit
+    onSchedule: (LocalTime) -> Unit,
+    isWakeTimes: Boolean = true
 ) {
     Card(
         modifier = modifier
@@ -41,8 +45,8 @@ fun SuggestionCard(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(4.dp)
-                    .weight(1f),
+                    .padding(4.dp),
+                    //.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
@@ -51,11 +55,11 @@ fun SuggestionCard(
                     style = MaterialTheme.typography.titleMedium
                 )
                 Text(
-                    text = "${rec.hours} hours",
+                    text = stringResource(R.string.recommendation_hours, rec.hours),
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = "${rec.cycles} cycles",
+                    text = stringResource(R.string.recommendation_cycles, rec.cycles),
                     style = MaterialTheme.typography.bodySmall
                 )
             }
@@ -63,7 +67,8 @@ fun SuggestionCard(
                 onClick = { onSchedule(rec.time) }
             ) {
                 Icon(
-                    imageVector = Icons.Default.Notifications,
+                    imageVector = if (isWakeTimes) Icons.Default.Notifications
+                    else Icons.Default.Alarm,
                     contentDescription = "schedule reminder"
                 )
             }

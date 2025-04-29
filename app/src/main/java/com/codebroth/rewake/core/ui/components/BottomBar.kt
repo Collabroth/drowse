@@ -14,10 +14,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.codebroth.rewake.R
 import com.codebroth.rewake.core.navigation.AppDestination
 import com.codebroth.rewake.core.navigation.AppDestination.Calculator
 import com.codebroth.rewake.core.navigation.AppDestination.Reminders
@@ -27,19 +29,19 @@ import com.codebroth.rewake.core.navigation.AppDestination.Settings
 fun BottomBar(navController: NavHostController) {
     val navigationBarItems = listOf(
         BottomNavigationItem(
-            title = "Calculator",
+            title = stringResource(R.string.title_calculator),
             destination = Calculator,
             selectedIcon = Icons.Default.Analytics,
             unselectedIcon = Icons.Outlined.Analytics
         ),
         BottomNavigationItem(
-            title = "Reminders",
+            title = stringResource(R.string.title_reminders),
             destination = Reminders(),
             selectedIcon = Icons.Default.Notifications,
             unselectedIcon = Icons.Outlined.Notifications
         ),
         BottomNavigationItem(
-            title = "Settings",
+            title = stringResource(R.string.title_settings),
             destination = Settings,
             selectedIcon = Icons.Default.Settings,
             unselectedIcon = Icons.Outlined.Settings

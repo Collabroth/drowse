@@ -8,4 +8,16 @@
     <string name="title_recommended_wake_times">Recommended times to wake up:</string>
     <string name="action_dismiss">Dismiss</string>
     <string name="action_confirm">OK</string>
+    <string name="recommendation_hours">%1$s hours</string>
+    <string name="recommendation_cycles">%1$s cycles</string>
+    <string name="title_calculator">Calculator</string>
+    <string name="title_reminders">Reminders</string>
+    <string name="title_settings">Settings</string>
+    <string name="action_add_reminder">Add Reminder</string>
+    <string name="action_edit_reminder">Edit Reminder</string>
+    <string name="reminder_dialog_label">Label (optional)</string>
+    <string name="empty_reminders_description">No reminders yet.\nTap + to add one.</string>
+    <string name="reminder_channel_description">This channel is used for bedtime reminders.</string>
+    <string name="reminder_notification_title">Bedtime Reminder</string>
+    <string name="reminder_notification_description">Time to wind down and get ready for bed!</string>
 </resources>

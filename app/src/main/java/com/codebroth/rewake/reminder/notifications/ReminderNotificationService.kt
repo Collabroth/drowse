@@ -29,8 +29,8 @@ class ReminderNotificationService(
     fun showReminderNotification(reminderId: Long) {
         val notification = NotificationCompat.Builder(context, REMINDER_CHANNEL_ID)
             .setSmallIcon(R.drawable.baseline_notifications_24)
-            .setContentTitle("Bedtime Reminder")
-            .setContentText("Time to wind down and get ready for bed!")
+            .setContentTitle(context.getString(R.string.reminder_notification_title))
+            .setContentText(context.getString(R.string.reminder_notification_description))
             .setContentIntent(activityPendingIntent)
             .build()
 

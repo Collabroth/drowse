@@ -3,6 +3,7 @@ package com.codebroth.rewake.reminder.notifications
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import com.codebroth.rewake.R
 
 object ReminderNotificationChannel {
 
@@ -12,7 +13,7 @@ object ReminderNotificationChannel {
             ReminderNotificationService.REMINDER_CHANNEL_NAME,
             NotificationManager.IMPORTANCE_DEFAULT
         )
-        channel.description = "This channel is used for bedtime reminders."
+        channel.description = context.getString(R.string.reminder_channel_description)
 
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)

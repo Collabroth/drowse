@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -21,7 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.codebroth.rewake.R
+import com.codebroth.rewake.calculator.domain.model.SleepRecommendation
 import com.codebroth.rewake.calculator.domain.usecase.CalculateWakeTimesUseCase
+import com.codebroth.rewake.calculator.ui.components.SuggestionCard
 import com.codebroth.rewake.calculator.ui.components.TimeInputButton
 import com.codebroth.rewake.calculator.ui.components.TimeInputDialog
 import com.codebroth.rewake.core.domain.util.TimeUtils
@@ -43,7 +48,7 @@ fun SleepAtContent() {
         mutableStateOf(LocalTime.of(timePickerState.hour, timePickerState.minute))
     }
 
-    var recommendedWakeTimes by remember { mutableStateOf(emptyList<LocalTime>()) }
+    var recommendations by remember { mutableStateOf(emptyList<SleepRecommendation>()) }
 
     val useCase = remember { CalculateWakeTimesUseCase() }
 
@@ -60,14 +65,25 @@ fun SleepAtContent() {
             onClick = { showDialog = true }
         )
 
-        if (recommendedWakeTimes.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(stringResource(R.string.title_recommended_wake_times))
-            recommendedWakeTimes.forEach { time ->
-                Text(
-                    text = TimeUtils.formatTime(time),
-                    style = MaterialTheme.typography.bodyLarge
-                )
+        if (recommendations.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(stringResource(R.string.title_recommended_wake_times), style = MaterialTheme.typography.bodyLarge)
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement   = Arrangement.spacedBy(12.dp),
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+            ) {
+                items(recommendations) { rec ->
+                    SuggestionCard(
+                        rec,
+                        onSchedule = { time ->
+                            println(time)
+                        },
+                        isWakeTimes = false
+                    )
+                }
             }
         }
     }
@@ -80,7 +96,7 @@ fun SleepAtContent() {
                     timePickerState.hour,
                     timePickerState.minute
                 )
-                recommendedWakeTimes = useCase(selectedBedTime).map { it.time }
+                recommendations = useCase(selectedBedTime)
                 showDialog = false
             }
         ) {

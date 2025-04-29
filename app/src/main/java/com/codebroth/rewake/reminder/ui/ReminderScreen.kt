@@ -29,9 +29,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.codebroth.rewake.R
 import com.codebroth.rewake.reminder.domain.model.Reminder
 import com.codebroth.rewake.reminder.domain.model.formattedTime
 
@@ -79,7 +81,7 @@ fun ReminderScreen(
 
         if (reminders.isEmpty()) {
             Text(
-                text = "No reminders yet.\nTap + to add one.",
+                text = stringResource(R.string.empty_reminders_description),
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.align(Alignment.Center),
                 textAlign = TextAlign.Center
@@ -102,7 +104,8 @@ fun ReminderScreen(
         }
         FloatingActionButton(
             onClick = { viewModel.showDialog() },
-            modifier = Modifier.align(Alignment.BottomEnd)
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
                 .padding(16.dp)
         ) {
             Icon(
