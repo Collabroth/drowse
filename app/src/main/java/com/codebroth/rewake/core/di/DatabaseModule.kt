@@ -28,6 +28,8 @@ object DatabaseModule {
         .build()
 
     @Provides
-    fun provideRemindersDao(db: RewakeDatabase): ReminderDao =
-        db.reminderDao()
+    fun provideRemindersDao(db: RewakeDatabase): ReminderDao = db.reminderDao()
+
+    @Provides
+    fun provideAlarmsDao(db: RewakeDatabase) = db.alarmDao()
 }
