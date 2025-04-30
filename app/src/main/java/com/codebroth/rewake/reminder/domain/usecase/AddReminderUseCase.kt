@@ -2,7 +2,7 @@ package com.codebroth.rewake.reminder.domain.usecase
 
 import com.codebroth.rewake.reminder.data.ReminderRepository
 import com.codebroth.rewake.reminder.domain.model.Reminder
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 class AddReminderUseCase @Inject constructor(
     private val repo: ReminderRepository

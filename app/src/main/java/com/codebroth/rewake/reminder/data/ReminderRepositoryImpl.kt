@@ -16,9 +16,9 @@ class ReminderRepositoryImpl @Inject constructor(
         dao.getAllReminders()
             .map { list -> list.map { it.toDomainModel() } }
 
-    override suspend fun insertReminder(reminder: Reminder): Long {
+    override suspend fun insertReminder(reminder: Reminder): Int {
         val rowId = dao.insert(reminder.fromDomainModel())
-        return rowId
+        return rowId.toInt()
     }
 
     override suspend fun updateReminder(reminder: Reminder) {

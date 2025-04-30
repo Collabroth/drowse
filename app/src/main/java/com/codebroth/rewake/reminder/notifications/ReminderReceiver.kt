@@ -8,8 +8,8 @@ import com.codebroth.rewake.reminder.notifications.ReminderNotificationService.C
 class ReminderReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent?) {
-        val reminderId = intent?.getLongExtra(EXTRA_REMINDER_ID, -1L) ?: return
-        if (reminderId != -1L) {
+        val reminderId = intent?.getIntExtra(EXTRA_REMINDER_ID, -1) ?: return
+        if (reminderId != -1) {
             ReminderNotificationService(context)
                 .showReminderNotification(reminderId)
         }

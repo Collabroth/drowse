@@ -26,7 +26,7 @@ class ReminderNotificationService(
                     PendingIntent.FLAG_IMMUTABLE
                 else 0
     )
-    fun showReminderNotification(reminderId: Long) {
+    fun showReminderNotification(reminderId: Int) {
         val notification = NotificationCompat.Builder(context, REMINDER_CHANNEL_ID)
             .setSmallIcon(R.drawable.baseline_notifications_24)
             .setContentTitle(context.getString(R.string.reminder_notification_title))

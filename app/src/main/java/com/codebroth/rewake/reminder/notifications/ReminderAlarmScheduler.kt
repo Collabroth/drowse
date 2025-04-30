@@ -70,7 +70,7 @@ class ReminderAlarmScheduler @Inject constructor(
         val requestCode = reminderId * 10 + day.ordinal
         return PendingIntent.getBroadcast(
             context,
-            requestCode.toInt(),
+            requestCode,
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
