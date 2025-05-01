@@ -1,9 +1,9 @@
-package com.codebroth.rewake.reminder.domain.model
+package com.codebroth.rewake.alarm.domain.model
 
 import com.codebroth.rewake.core.domain.util.TimeUtils
 import java.time.LocalTime
 
-fun Reminder.formattedTime(): String {
+fun Alarm.formattedTime(): String {
     val time = LocalTime.of(hour, minute)
     return TimeUtils.formatTime(time)
 }

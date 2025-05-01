@@ -11,6 +11,9 @@ sealed class AppDestination() {
     data class Reminders(val setReminderHour: Int? = null, val setReminderMinutes: Int? = null) : AppDestination()
 
     @Serializable
+    object Alarms : AppDestination()
+
+    @Serializable
     object Settings : AppDestination()
 }
 

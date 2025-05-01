@@ -31,7 +31,7 @@ import java.time.LocalTime
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun AddEditReminderDialog(
+fun ReminderDetailsDialog(
     initial: Reminder?,
     onCancel:  () -> Unit,
     onConfirm: (Reminder) -> Unit
@@ -68,7 +68,7 @@ fun AddEditReminderDialog(
                 OutlinedTextField(
                     value = label,
                     onValueChange = { label = it },
-                    label = { Text(stringResource(R.string.reminder_dialog_label)) },
+                    label = { Text(stringResource(R.string.details_dialog_label_field)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )

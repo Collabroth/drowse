@@ -15,9 +15,12 @@
     <string name="title_settings">Settings</string>
     <string name="action_add_reminder">Add Reminder</string>
     <string name="action_edit_reminder">Edit Reminder</string>
-    <string name="reminder_dialog_label">Label (optional)</string>
+    <string name="details_dialog_label_field">Label (optional)</string>
     <string name="empty_reminders_description">No reminders yet.\nTap + to add one.</string>
     <string name="reminder_channel_description">This channel is used for bedtime reminders.</string>
     <string name="reminder_notification_title">Bedtime Reminder</string>
     <string name="reminder_notification_description">Time to wind down and get ready for bed!</string>
+    <string name="title_alarms">Alarms</string>
+    <string name="empty_alarms_description">No alarms yet.\nTap + to add one.</string>
+    <string name="action_delete">Delete</string>
 </resources>

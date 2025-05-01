@@ -2,9 +2,9 @@ package com.codebroth.rewake.alarm.data
 
 import com.codebroth.rewake.alarm.domain.model.Alarm
 import com.codebroth.rewake.alarm.domain.model.fromDomainModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton

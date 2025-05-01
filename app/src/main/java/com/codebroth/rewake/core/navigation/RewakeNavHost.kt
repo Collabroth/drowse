@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.codebroth.rewake.alarm.ui.AlarmScreen
 import com.codebroth.rewake.calculator.ui.CalculatorScreen
 import com.codebroth.rewake.reminder.ui.ReminderScreen
 import com.codebroth.rewake.settings.ui.SettingsScreen
@@ -19,6 +20,9 @@ fun RewakeNavHost(navController: NavHostController, modifier: Modifier = Modifie
     ) {
         composable<AppDestination.Calculator> {
             CalculatorScreen(navController)
+        }
+        composable<AppDestination.Alarms> {
+            AlarmScreen()
         }
         composable<AppDestination.Reminders> {
             val args = it.toRoute<AppDestination.Reminders>()

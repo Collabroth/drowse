@@ -1,9 +1,11 @@
 package com.codebroth.rewake.core.ui.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Settings
@@ -21,6 +23,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.codebroth.rewake.R
 import com.codebroth.rewake.core.navigation.AppDestination
+import com.codebroth.rewake.core.navigation.AppDestination.Alarms
 import com.codebroth.rewake.core.navigation.AppDestination.Calculator
 import com.codebroth.rewake.core.navigation.AppDestination.Reminders
 import com.codebroth.rewake.core.navigation.AppDestination.Settings
@@ -33,6 +36,12 @@ fun BottomBar(navController: NavHostController) {
             destination = Calculator,
             selectedIcon = Icons.Default.Analytics,
             unselectedIcon = Icons.Outlined.Analytics
+        ),
+        BottomNavigationItem(
+            title = stringResource(R.string.title_alarms),
+            destination = Alarms,
+            selectedIcon = Icons.Default.Alarm,
+            unselectedIcon = Icons.Outlined.Alarm
         ),
         BottomNavigationItem(
             title = stringResource(R.string.title_reminders),

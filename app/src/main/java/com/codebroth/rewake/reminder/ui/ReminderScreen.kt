@@ -24,7 +24,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -44,8 +43,8 @@ fun ReminderScreen(
     setReminderHour: Int? = null,
     setReminderMinute: Int? = null,
 ) {
+    val uiState by viewModel.reminderUiState.collectAsState()
     val reminders by viewModel.reminders.collectAsState()
-    val uiState by rememberUpdatedState(viewModel.uiState)
 
     var hasConsumedArgs by rememberSaveable { mutableStateOf(false) }
 
@@ -68,7 +67,7 @@ fun ReminderScreen(
     }
 
     if (uiState.isDialogOpen) {
-        AddEditReminderDialog(
+        ReminderDetailsDialog(
             initial = uiState.editingReminder,
             onCancel = { viewModel.dismissDialog() },
             onConfirm = { viewModel.onSaveReminder(it) }
@@ -103,10 +102,10 @@ fun ReminderScreen(
             }
         }
         FloatingActionButton(
-            onClick = { viewModel.showDialog() },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(16.dp)
+                .padding(16.dp),
+            onClick = { viewModel.showDialog() }
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
