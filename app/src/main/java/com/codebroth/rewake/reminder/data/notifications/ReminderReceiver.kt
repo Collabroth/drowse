@@ -1,9 +1,9 @@
-package com.codebroth.rewake.reminder.notifications
+package com.codebroth.rewake.reminder.data.notifications
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.codebroth.rewake.reminder.notifications.ReminderNotificationService.Companion.EXTRA_REMINDER_ID
+import com.codebroth.rewake.reminder.data.notifications.ReminderNotificationService.Companion.EXTRA_REMINDER_ID
 
 class ReminderReceiver : BroadcastReceiver() {
 

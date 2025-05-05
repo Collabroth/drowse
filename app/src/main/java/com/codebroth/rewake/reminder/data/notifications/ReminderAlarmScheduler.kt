@@ -1,13 +1,18 @@
-package com.codebroth.rewake.reminder.notifications
+package com.codebroth.rewake.reminder.data.notifications
 
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import com.codebroth.rewake.reminder.data.ReminderRepository
 import com.codebroth.rewake.reminder.domain.model.Reminder
-import com.codebroth.rewake.reminder.notifications.ReminderNotificationService.Companion.EXTRA_REMINDER_ID
+import com.codebroth.rewake.reminder.data.notifications.ReminderNotificationService.Companion.EXTRA_REMINDER_ID
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.util.Calendar
 import javax.inject.Inject
@@ -15,6 +20,10 @@ import javax.inject.Inject
 class ReminderAlarmScheduler @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
+
+    @Inject
+    lateinit var repo: ReminderRepository
+
     private val alarmManager =
         context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -48,6 +57,16 @@ class ReminderAlarmScheduler @Inject constructor(
                 )
             } else {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, nextRun.timeInMillis, pendingIntent)
+            }
+        }
+    }
+
+    fun scheduleAllReminders() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val allReminders = repo.getAllReminders().first()
+
+            allReminders.forEach { reminder ->
+                scheduleReminder(reminder.id, reminder)
             }
         }
     }

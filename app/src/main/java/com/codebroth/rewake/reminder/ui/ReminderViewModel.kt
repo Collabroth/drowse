@@ -7,7 +7,7 @@ import com.codebroth.rewake.reminder.domain.usecase.AddReminderUseCase
 import com.codebroth.rewake.reminder.domain.usecase.DeleteReminderUseCase
 import com.codebroth.rewake.reminder.domain.usecase.GetAllRemindersUseCase
 import com.codebroth.rewake.reminder.domain.usecase.UpdateReminderUseCase
-import com.codebroth.rewake.reminder.notifications.ReminderAlarmScheduler
+import com.codebroth.rewake.reminder.data.notifications.ReminderAlarmScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
