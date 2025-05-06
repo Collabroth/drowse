@@ -2,12 +2,12 @@ package com.codebroth.rewake.reminder.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.codebroth.rewake.reminder.data.notification.ReminderSchedulerService
 import com.codebroth.rewake.reminder.domain.model.Reminder
 import com.codebroth.rewake.reminder.domain.usecase.AddReminderUseCase
 import com.codebroth.rewake.reminder.domain.usecase.DeleteReminderUseCase
 import com.codebroth.rewake.reminder.domain.usecase.GetAllRemindersUseCase
 import com.codebroth.rewake.reminder.domain.usecase.UpdateReminderUseCase
-import com.codebroth.rewake.reminder.data.notifications.ReminderAlarmScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -24,7 +24,7 @@ class ReminderViewModel @Inject constructor(
     private val addReminder: AddReminderUseCase,
     private val updateReminder: UpdateReminderUseCase,
     private val deleteReminder: DeleteReminderUseCase,
-    private val scheduler: ReminderAlarmScheduler
+    private val schedulerService: ReminderSchedulerService
 ) : ViewModel() {
     val reminders: StateFlow<List<Reminder>> =
         getAllReminders()
@@ -55,10 +55,10 @@ class ReminderViewModel @Inject constructor(
         viewModelScope.launch {
             if (reminder.id == 0) {
                 val newId = addReminder(reminder)
-                scheduler.scheduleReminder(newId, reminder)
+                schedulerService.schedule(reminder, newId)
             } else {
                 updateReminder(reminder)
-                scheduler.rescheduleReminder(reminder.id, reminder)
+                schedulerService.reschedule(reminder, reminder.id)
             }
             dismissDialog()
         }
@@ -67,7 +67,7 @@ class ReminderViewModel @Inject constructor(
     fun onDeleteReminder(reminder: Reminder) {
         viewModelScope.launch {
             deleteReminder(reminder)
-            scheduler.cancelReminder(reminder.id)
+            schedulerService.cancel(reminder.id)
         }
     }
 

@@ -1,4 +1,4 @@
-package com.codebroth.rewake.reminder.data.notifications
+package com.codebroth.rewake.reminder.data.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

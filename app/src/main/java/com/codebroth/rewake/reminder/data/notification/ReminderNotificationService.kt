@@ -1,4 +1,4 @@
-package com.codebroth.rewake.reminder.data.notifications
+package com.codebroth.rewake.reminder.data.notification
 
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -26,6 +26,7 @@ class ReminderNotificationService(
                     PendingIntent.FLAG_IMMUTABLE
                 else 0
     )
+
     fun showReminderNotification(reminderId: Int) {
         val notification = NotificationCompat.Builder(context, REMINDER_CHANNEL_ID)
             .setSmallIcon(R.drawable.baseline_notifications_24)
@@ -35,7 +36,7 @@ class ReminderNotificationService(
             .build()
 
         notificationManager.notify(
-            reminderId.toInt(),
+            reminderId,
             notification
         )
     }
@@ -47,6 +48,5 @@ class ReminderNotificationService(
     companion object {
         const val REMINDER_CHANNEL_ID = "reminder_channel"
         const val REMINDER_CHANNEL_NAME = "Reminder"
-        const val EXTRA_REMINDER_ID = "extra_reminder_id"
     }
 }

@@ -1,9 +1,8 @@
-package com.codebroth.rewake.reminder.data.notifications
+package com.codebroth.rewake.reminder.data.notification
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.codebroth.rewake.reminder.data.notifications.ReminderNotificationService.Companion.EXTRA_REMINDER_ID
 
 class ReminderReceiver : BroadcastReceiver() {
 
@@ -13,5 +12,9 @@ class ReminderReceiver : BroadcastReceiver() {
             ReminderNotificationService(context)
                 .showReminderNotification(reminderId)
         }
+    }
+
+    companion object {
+        const val EXTRA_REMINDER_ID = "extra_reminder_id"
     }
 }
