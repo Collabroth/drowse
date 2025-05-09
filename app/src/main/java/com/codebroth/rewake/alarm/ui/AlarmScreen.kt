@@ -71,8 +71,7 @@ fun AlarmScreen(
                 AlarmItem(
                     alarm = alarm,
                     onClick = { viewModel.showDialog(alarm) },
-                    onToggle = { enabled -> viewModel.onToggleAlarm(alarm, enabled) },
-                    onDelete = { viewModel.showDialog(alarm) }
+                    onToggle = { enabled -> viewModel.onToggleAlarm(alarm, enabled) }
                 )
             }
         }
@@ -95,7 +94,6 @@ private fun AlarmItem(
     alarm: Alarm,
     onClick: () -> Unit,
     onToggle: (Boolean) -> Unit,
-    onDelete: (Alarm) -> Unit
 ) {
     Card(
         modifier = Modifier

@@ -2,6 +2,7 @@ package com.codebroth.rewake.alarm.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.codebroth.rewake.alarm.data.AlarmSchedulerService
 import com.codebroth.rewake.alarm.domain.model.Alarm
 import com.codebroth.rewake.alarm.domain.usecase.AddAlarmUseCase
 import com.codebroth.rewake.alarm.domain.usecase.DeleteAlarmUseCase
@@ -23,6 +24,7 @@ class AlarmViewModel @Inject constructor(
     private val addAlarm: AddAlarmUseCase,
     private val updateAlarm: UpdateAlarmUseCase,
     private val deleteAlarm: DeleteAlarmUseCase,
+    private val schedulerService: AlarmSchedulerService
 ) : ViewModel() {
     val alarms: StateFlow<List<Alarm>> =
         getAllAlarms()
@@ -54,8 +56,10 @@ class AlarmViewModel @Inject constructor(
         viewModelScope.launch {
             if (alarm.id == 0) {
                 val newId = addAlarm(alarm)
+                schedulerService.schedule(alarm, newId)
             } else {
                 updateAlarm(alarm)
+                schedulerService.reschedule(alarm, alarm.id)
             }
             dismissDialog()
         }
@@ -64,6 +68,7 @@ class AlarmViewModel @Inject constructor(
     fun onDeleteAlarm(alarm: Alarm) {
         viewModelScope.launch {
             deleteAlarm(alarm)
+            schedulerService.cancel(alarm.id)
             dismissDialog()
         }
     }
@@ -71,6 +76,11 @@ class AlarmViewModel @Inject constructor(
     fun onToggleAlarm(alarm: Alarm, enabled: Boolean) {
         viewModelScope.launch {
             updateAlarm(alarm.copy(isEnabled = enabled))
+            if (enabled) {
+                schedulerService.schedule(alarm, alarm.id)
+            } else {
+                schedulerService.cancel(alarm.id)
+            }
         }
     }
 
