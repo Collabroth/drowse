@@ -14,9 +14,11 @@ class ReminderSchedulerService @Inject constructor(
     private val repo: ReminderRepository
 ) {
     suspend fun scheduleAll() {
-        repo.getAllReminders().first().forEach { reminder ->
-            schedule(reminder, reminder.id)
-        }
+        repo.getAllReminders()
+            .first()
+            .forEach { reminder ->
+                schedule(reminder, reminder.id)
+            }
     }
 
     fun schedule(reminder: Reminder, reminderId: Int) {

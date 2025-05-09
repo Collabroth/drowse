@@ -8,16 +8,16 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.codebroth.rewake.MainActivity
 import com.codebroth.rewake.R
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class ReminderNotificationService(
-    private val context: Context
+class ReminderNotificationService @Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val notificationManager: NotificationManager
 ) {
 
-    private val notificationManager =
-        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
     val activityIntent = Intent(context, MainActivity::class.java)
-    val activityPendingIntent = PendingIntent.getActivity(
+    val activityPendingIntent: PendingIntent = PendingIntent.getActivity(
         context,
         0,
         activityIntent,
@@ -39,10 +39,6 @@ class ReminderNotificationService(
             reminderId,
             notification
         )
-    }
-
-    fun showTestNotification() {
-        showReminderNotification(1)
     }
 
     companion object {

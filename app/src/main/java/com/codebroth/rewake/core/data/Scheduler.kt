@@ -13,8 +13,7 @@ import javax.inject.Singleton
 @Singleton
 class Scheduler @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val alarmManager: AlarmManager =
-        context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    private val alarmManager: AlarmManager
 ) {
 
     /**
