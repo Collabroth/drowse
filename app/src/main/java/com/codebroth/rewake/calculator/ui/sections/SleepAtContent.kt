@@ -23,6 +23,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import com.codebroth.rewake.R
 import com.codebroth.rewake.calculator.domain.model.SleepRecommendation
 import com.codebroth.rewake.calculator.domain.usecase.CalculateWakeTimesUseCase
@@ -30,11 +32,12 @@ import com.codebroth.rewake.calculator.ui.components.SuggestionCard
 import com.codebroth.rewake.calculator.ui.components.TimeInputButton
 import com.codebroth.rewake.calculator.ui.components.TimeInputDialog
 import com.codebroth.rewake.core.domain.util.TimeUtils
+import com.codebroth.rewake.core.navigation.AppDestination
 import java.time.LocalTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SleepAtContent() {
+fun SleepAtContent(navController: NavHostController) {
 
     var showDialog by remember { mutableStateOf(false) }
 
@@ -79,7 +82,12 @@ fun SleepAtContent() {
                     SuggestionCard(
                         rec,
                         onSchedule = { time ->
-                            println(time)
+                            navController.navigate(AppDestination.Alarms(time.hour, time.minute)) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop
+                            }
                         },
                         isWakeTimes = false
                     )

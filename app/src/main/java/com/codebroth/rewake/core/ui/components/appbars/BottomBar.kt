@@ -1,4 +1,4 @@
-package com.codebroth.rewake.core.ui.components
+package com.codebroth.rewake.core.ui.components.appbars
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Alarm
@@ -39,7 +39,7 @@ fun BottomBar(navController: NavHostController) {
         ),
         BottomNavigationItem(
             title = stringResource(R.string.title_alarms),
-            destination = Alarms,
+            destination = Alarms(),
             selectedIcon = Icons.Default.Alarm,
             unselectedIcon = Icons.Outlined.Alarm
         ),
@@ -66,6 +66,8 @@ fun BottomBar(navController: NavHostController) {
                 when(item.destination) {
                     is Reminders -> destination.route
                         ?.startsWith(Reminders::class.qualifiedName ?: "") == true
+                    is Alarms -> destination.route
+                        ?.startsWith(Alarms::class.qualifiedName ?: "") == true
                     else -> destination.route == item.destination::class.qualifiedName
                 }
             } == true

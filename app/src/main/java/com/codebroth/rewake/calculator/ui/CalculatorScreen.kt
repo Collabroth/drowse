@@ -98,7 +98,7 @@ fun CalculatorScreen(navController: NavHostController, modifier: Modifier = Modi
         ) { index ->
             when(index) {
                 0 -> WakeUpContent(navController)
-                1 -> SleepAtContent()
+                1 -> SleepAtContent(navController)
             }
         }
     }

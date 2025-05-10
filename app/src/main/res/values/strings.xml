@@ -25,4 +25,6 @@
     <string name="action_delete">Delete</string>
     <string name="title_activity_alarm">AlarmActivity</string>
     <string name="alarm_channel_description">This channel is used for displaying alarm notifications.</string>
+    <string name="action_add_alarm">Add Alarm</string>
+    <string name="action_edit_alarm">Edit Alarm</string>
 </resources>

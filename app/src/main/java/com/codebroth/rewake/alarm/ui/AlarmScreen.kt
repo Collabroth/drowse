@@ -19,8 +19,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -34,10 +38,33 @@ import com.codebroth.rewake.alarm.domain.model.formattedTime
 @Composable
 fun AlarmScreen(
     modifier: Modifier = Modifier,
-    viewModel: AlarmViewModel = hiltViewModel()
+    viewModel: AlarmViewModel = hiltViewModel(),
+    setAlarmHour: Int? = null,
+    setAlarmMinute: Int? = null
 ) {
     val uiState by viewModel.alarmUiState.collectAsState()
     val alarms by viewModel.alarms.collectAsState()
+
+    var hasConsumedArgs by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(setAlarmHour, setAlarmMinute) {
+        if (
+            !hasConsumedArgs
+            && setAlarmHour != null
+            && setAlarmMinute != null
+            ) {
+            viewModel.showDialog(
+                Alarm(
+                    id = 0,
+                    hour = setAlarmHour,
+                    minute = setAlarmMinute,
+                    daysOfWeek = emptySet(),
+                    label = null
+                )
+            )
+            hasConsumedArgs = true
+        }
+    }
 
     if (uiState.isDialogOpen) {
         AlarmDetailsDialog(

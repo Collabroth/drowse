@@ -1,4 +1,4 @@
-package com.codebroth.rewake.core.ui.components
+package com.codebroth.rewake.core.ui.components.appbars
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme

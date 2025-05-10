@@ -73,9 +73,9 @@ fun AlarmDetailsDialog(
             ) {
                 Text(
                     text = if (initial == null) {
-                        stringResource(R.string.action_add_reminder)
+                        stringResource(R.string.action_add_alarm)
                     } else {
-                        stringResource(R.string.action_edit_reminder)
+                        stringResource(R.string.action_edit_alarm)
                     },
                     style = MaterialTheme.typography.headlineSmall
                 )

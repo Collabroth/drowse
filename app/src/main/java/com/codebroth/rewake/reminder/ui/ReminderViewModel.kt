@@ -2,8 +2,11 @@ package com.codebroth.rewake.reminder.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.codebroth.rewake.core.ui.components.snackbar.SnackBarEvent
+import com.codebroth.rewake.core.ui.components.snackbar.SnackbarController
 import com.codebroth.rewake.reminder.data.notification.ReminderSchedulerService
 import com.codebroth.rewake.reminder.domain.model.Reminder
+import com.codebroth.rewake.reminder.domain.model.formattedTime
 import com.codebroth.rewake.reminder.domain.usecase.AddReminderUseCase
 import com.codebroth.rewake.reminder.domain.usecase.DeleteReminderUseCase
 import com.codebroth.rewake.reminder.domain.usecase.GetAllRemindersUseCase
@@ -60,6 +63,7 @@ class ReminderViewModel @Inject constructor(
                 updateReminder(reminder)
                 schedulerService.reschedule(reminder, reminder.id)
             }
+            showSnackbar("Reminder set for ${reminder.formattedTime()} on ${reminder.daysOfWeek.joinToString(", ") { it.name }}")
             dismissDialog()
         }
     }
@@ -68,6 +72,16 @@ class ReminderViewModel @Inject constructor(
         viewModelScope.launch {
             deleteReminder(reminder)
             schedulerService.cancel(reminder.id)
+        }
+    }
+
+    private fun showSnackbar(message: String) {
+        viewModelScope.launch {
+            SnackbarController.sendEvent(
+                event = SnackBarEvent(
+                    message = message
+                )
+            )
         }
     }
 

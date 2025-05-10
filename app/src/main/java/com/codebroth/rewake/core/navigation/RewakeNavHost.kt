@@ -22,7 +22,11 @@ fun RewakeNavHost(navController: NavHostController, modifier: Modifier = Modifie
             CalculatorScreen(navController)
         }
         composable<AppDestination.Alarms> {
-            AlarmScreen()
+            val args = it.toRoute<AppDestination.Alarms>()
+            AlarmScreen(
+                setAlarmHour = args.setAlarmHour,
+                setAlarmMinute = args.setAlarmMinutes
+            )
         }
         composable<AppDestination.Reminders> {
             val args = it.toRoute<AppDestination.Reminders>()

@@ -8,6 +8,8 @@ import com.codebroth.rewake.alarm.domain.usecase.AddAlarmUseCase
 import com.codebroth.rewake.alarm.domain.usecase.DeleteAlarmUseCase
 import com.codebroth.rewake.alarm.domain.usecase.GetAllAlarmUseCase
 import com.codebroth.rewake.alarm.domain.usecase.UpdateAlarmUseCase
+import com.codebroth.rewake.core.ui.components.snackbar.SnackBarEvent
+import com.codebroth.rewake.core.ui.components.snackbar.SnackbarController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,6 +18,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.Duration
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -61,6 +65,7 @@ class AlarmViewModel @Inject constructor(
                 updateAlarm(alarm)
                 schedulerService.reschedule(alarm, alarm.id)
             }
+            showSnackbar(computeOnAlarmSetMessage(alarm))
             dismissDialog()
         }
     }
@@ -82,6 +87,32 @@ class AlarmViewModel @Inject constructor(
                 schedulerService.cancel(alarm.id)
             }
         }
+    }
+
+    private fun showSnackbar(message: String) {
+        viewModelScope.launch {
+            SnackbarController.sendEvent(
+                event = SnackBarEvent(
+                    message = message
+                )
+            )
+        }
+    }
+
+    private fun computeOnAlarmSetMessage(alarm: Alarm): String {
+        val now = LocalDateTime.now()
+        var candidate = now
+            .withHour(alarm.hour)
+            .withMinute(alarm.minute)
+            .withSecond(0)
+            .withNano(0)
+        if (candidate.isBefore(now)) {
+            candidate = candidate.plusDays(1)
+        }
+        val duration = Duration.between(now, candidate)
+        val hours = duration.toHours()
+        val minutes = duration.toMinutes() % 60
+        return "Reminder set for ${hours}h and ${minutes}m from now"
     }
 
     data class AlarmUiState(
