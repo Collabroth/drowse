@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimeInput
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
@@ -67,6 +68,15 @@ fun SleepAtContent(navController: NavHostController) {
             timeText = TimeUtils.formatTime(selectedBedTime),
             onClick = { showDialog = true }
         )
+
+        TextButton(
+            onClick = {
+                selectedBedTime = LocalTime.now()
+                recommendations = useCase(selectedBedTime)
+            }
+        ) {
+            Text("Sleep Now ->")
+        }
 
         if (recommendations.isNotEmpty()) {
             Spacer(modifier = Modifier.height(4.dp))
