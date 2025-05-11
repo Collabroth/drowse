@@ -131,18 +131,20 @@ fun AlarmDetailsDialog(
                         TextButton(onClick = onCancel) {
                             Text(stringResource(R.string.action_dismiss))
                         }
-                        TextButton(onClick = {
-                            onConfirm(
-                                Alarm(
-                                    id = initial?.id ?: 0,
-                                    hour = hour,
-                                    minute = minute,
-                                    daysOfWeek = days,
-                                    label = label.ifBlank { null },
-                                    isEnabled = initial?.isEnabled == true
-                    )
-                            )
-                        }) {
+                        TextButton(
+                            onClick = {
+                                onConfirm(
+                                    Alarm(
+                                        id = initial?.id ?: 0,
+                                        hour = hour,
+                                        minute = minute,
+                                        daysOfWeek = days,
+                                        label = label.ifBlank { null },
+                                        isEnabled = initial?.isEnabled != false
+                                    )
+                                )
+                            }
+                        ) {
                             Text(stringResource(R.string.action_confirm))
                         }
                     }

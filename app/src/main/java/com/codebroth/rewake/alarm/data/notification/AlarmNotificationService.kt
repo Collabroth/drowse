@@ -7,6 +7,7 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.codebroth.rewake.R
 import com.codebroth.rewake.alarm.AlarmActivity
+import com.codebroth.rewake.alarm.data.AlarmReceiver.Companion.EXTRA_ALARM_ID
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -31,21 +32,15 @@ class AlarmNotificationService @Inject constructor(
     }
 
     fun showFullScreenAlarm(alarmId: Int) {
-//        val activityIntent = Intent(context, AlarmActivity::class.java).apply {
-//            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-//            putExtra(EXTRA_ALARM_ID, alarmId)
-//        }
-//        val fullScreenPendingIntent = PendingIntent.getActivity(
-//            context,
-//            alarmId,
-//            activityIntent,
-//            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-//        )
-        val fullScreenIntent = Intent(context, AlarmActivity::class.java)
+        val activityIntent = Intent(context, AlarmActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            putExtra(EXTRA_ALARM_ID, alarmId)
+        }
+
         val fullScreenPendingIntent = PendingIntent.getActivity(
             context,
             alarmId,
-            fullScreenIntent,
+            activityIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 

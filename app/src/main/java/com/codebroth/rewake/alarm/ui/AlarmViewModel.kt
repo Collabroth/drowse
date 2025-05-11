@@ -19,7 +19,10 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.Duration
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.temporal.TemporalAdjusters
 import javax.inject.Inject
 
 @HiltViewModel
@@ -101,17 +104,29 @@ class AlarmViewModel @Inject constructor(
 
     private fun computeOnAlarmSetMessage(alarm: Alarm): String {
         val now = LocalDateTime.now()
-        var candidate = now
-            .withHour(alarm.hour)
-            .withMinute(alarm.minute)
-            .withSecond(0)
-            .withNano(0)
-        if (candidate.isBefore(now)) {
-            candidate = candidate.plusDays(1)
+        val targetTime = LocalTime.of(alarm.hour, alarm.minute)
+        val days = alarm.daysOfWeek
+
+        val nextDate: LocalDate = if (days.isEmpty()) {
+            val today = now.toLocalDate()
+            if (now.toLocalTime() >= targetTime) today.plusDays(1) else today
+        } else {
+            days.minOf { dow ->
+                var d = now.toLocalDate()
+                    .with(TemporalAdjusters.nextOrSame(dow))
+                if (d == now.toLocalDate() && now.toLocalTime() >= targetTime) {
+                    d = d.plusWeeks(1)
+                }
+                d
+            }
         }
-        val duration = Duration.between(now, candidate)
+
+        val nextDateTime = LocalDateTime.of(nextDate, targetTime)
+
+        val duration = Duration.between(now, nextDateTime)
         val hours = duration.toHours()
         val minutes = duration.toMinutes() % 60
+
         return "Reminder set for ${hours}h and ${minutes}m from now"
     }
 

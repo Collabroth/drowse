@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun FullScreenAlarm(
+fun FullScreenAlarmNotification(
     onDismiss: () -> Unit = {},
     onSnooze: () -> Unit = {}
 ) {
@@ -37,5 +37,5 @@ fun FullScreenAlarm(
 @Preview
 @Composable
 fun FullScreenAlarmPreview() {
-    FullScreenAlarm()
+    FullScreenAlarmNotification()
 }
