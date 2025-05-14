@@ -7,9 +7,7 @@
     <string name="label_sleep_at_prompt">I want to sleep at …</string>
     <string name="title_recommended_wake_times">Recommended times to wake up:</string>
     <string name="action_dismiss">Dismiss</string>
-    <string name="action_confirm">OK</string>
-    <string name="recommendation_hours">%1$s hours</string>
-    <string name="recommendation_cycles">%1$s cycles</string>
+    <string name="action_confirm">Confirm</string>
     <string name="title_calculator">Calculator</string>
     <string name="title_reminders">Reminders</string>
     <string name="title_settings">Settings</string>
@@ -27,4 +25,8 @@
     <string name="alarm_channel_description">This channel is used for displaying alarm notifications.</string>
     <string name="action_add_alarm">Add Alarm</string>
     <string name="action_edit_alarm">Edit Alarm</string>
+    <string name="label_select_time">Select Time</string>
+    <string name="label_abbreviated_hour">%1$s hr</string>
+    <string name="label_cycles">%1$s cycles</string>
+    <string name="label_schedule">Schedule</string>
 </resources>
