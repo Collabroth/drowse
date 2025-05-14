@@ -32,6 +32,7 @@ import androidx.navigation.NavHostController
 import com.codebroth.rewake.R
 import com.codebroth.rewake.calculator.ui.components.CalculatorMode
 import com.codebroth.rewake.calculator.ui.components.RecommendationCard
+import com.codebroth.rewake.calculator.ui.components.TimePickerButton
 import com.codebroth.rewake.core.domain.util.TimeUtils
 import com.codebroth.rewake.core.ui.navigation.AppDestination
 import com.codebroth.rewake.core.ui.components.input.DialTimePickerDialog
@@ -63,9 +64,9 @@ fun CalculatorScreen(
     )
 
     val timePickerInitial = if (isWakeUpMode) {
-        LocalTime.now().plusHours(7).plusMinutes(45)
+        LocalTime.of(7, 30)
     } else {
-        LocalTime.now()
+        LocalTime.of(22, 0)
     }
 
     Column(
@@ -90,65 +91,50 @@ fun CalculatorScreen(
                 label = { Text(stringResource(R.string.sleep_at_tab_name)) }
             )
         }
+        if (uiState.recommendations.isEmpty()) {
+            Spacer(Modifier.weight(1f))
+        }
         Text(
             text = promptMessage,
-            style = MaterialTheme.typography.titleMedium)
-        Button(
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+        TimePickerButton(
             onClick = { viewModel.onShowTimePicker(true) },
-            modifier = Modifier
-                .height(56.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = TimeUtils.formatTime(
-                        if (isWakeUpMode) {
-                            uiState.selectedTime
-                        } else {
-                            LocalTime.of(22, 0)
-                        }
-                    ),
-                    style = MaterialTheme.typography.titleLarge
-                )
-                Spacer(Modifier.width(8.dp))
-                Icon(
-                    imageVector = Icons.Default.ChevronRight,
-                    contentDescription = stringResource(R.string.label_select_time)
-                )
-            }
-        }
-        if (!uiState.recommendations.isEmpty()) {
+            timeText = TimeUtils.formatTime(timePickerInitial)
+        )
+        if (uiState.recommendations.isNotEmpty()) {
             Text(
                 text = recommendationsTitle,
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
-        }
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            items(uiState.recommendations) { rec ->
-                RecommendationCard(
-                    rec = rec,
-                    onClick = { time ->
-                        navController.navigate(
-                            if (uiState.mode == CalculatorMode.BED_TIME)
-                                AppDestination.Reminders(time.hour, time.minute)
-                            else
-                                AppDestination.Alarms(time.hour, time.minute)
-                        ) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(uiState.recommendations) { rec ->
+                    RecommendationCard(
+                        rec = rec,
+                        onClick = { time ->
+                            navController.navigate(
+                                if (uiState.mode == CalculatorMode.BED_TIME)
+                                    AppDestination.Reminders(time.hour, time.minute)
+                                else
+                                    AppDestination.Alarms(time.hour, time.minute)
+                            ) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop
                             }
-                            launchSingleTop
                         }
-                    }
-                )
+                    )
+                }
             }
+        }
+        if (uiState.recommendations.isEmpty()) {
+            Spacer(Modifier.weight(1f))
         }
     }
     if (uiState.showTimePicker) {
