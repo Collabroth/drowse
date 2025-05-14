@@ -22,11 +22,11 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.codebroth.rewake.R
-import com.codebroth.rewake.core.navigation.AppDestination
-import com.codebroth.rewake.core.navigation.AppDestination.Alarms
-import com.codebroth.rewake.core.navigation.AppDestination.Calculator
-import com.codebroth.rewake.core.navigation.AppDestination.Reminders
-import com.codebroth.rewake.core.navigation.AppDestination.Settings
+import com.codebroth.rewake.core.ui.navigation.AppDestination
+import com.codebroth.rewake.core.ui.navigation.AppDestination.Alarms
+import com.codebroth.rewake.core.ui.navigation.AppDestination.Calculator
+import com.codebroth.rewake.core.ui.navigation.AppDestination.Reminders
+import com.codebroth.rewake.core.ui.navigation.AppDestination.Settings
 
 @Composable
 fun BottomBar(navController: NavHostController) {

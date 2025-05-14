@@ -45,7 +45,7 @@
             android:name=".alarm.data.AlarmReceiver"
             android:exported="false" />
         <receiver
-            android:name=".core.receiver.BootReceiver"
+            android:name=".core.data.receiver.BootReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

@@ -13,7 +13,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.codebroth.rewake.core.navigation.RewakeNavHost
+import com.codebroth.rewake.core.ui.navigation.RewakeNavHost
 import com.codebroth.rewake.core.ui.components.appbars.BottomBar
 import com.codebroth.rewake.core.ui.components.appbars.TopBar
 import com.codebroth.rewake.core.ui.components.snackbar.ObserveAsEvents

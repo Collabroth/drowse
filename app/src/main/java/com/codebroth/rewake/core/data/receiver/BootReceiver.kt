@@ -1,4 +1,4 @@
-package com.codebroth.rewake.core.receiver
+package com.codebroth.rewake.core.data.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context

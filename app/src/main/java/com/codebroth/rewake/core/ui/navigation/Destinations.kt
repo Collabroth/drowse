@@ -1,4 +1,4 @@
-package com.codebroth.rewake.core.navigation
+package com.codebroth.rewake.core.ui.navigation
 
 import kotlinx.serialization.Serializable
 
