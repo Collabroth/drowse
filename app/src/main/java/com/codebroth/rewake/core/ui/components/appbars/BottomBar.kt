@@ -26,7 +26,6 @@ import com.codebroth.rewake.core.ui.navigation.AppDestination
 import com.codebroth.rewake.core.ui.navigation.AppDestination.Alarms
 import com.codebroth.rewake.core.ui.navigation.AppDestination.Calculator
 import com.codebroth.rewake.core.ui.navigation.AppDestination.Reminders
-import com.codebroth.rewake.core.ui.navigation.AppDestination.Settings
 
 @Composable
 fun BottomBar(navController: NavHostController) {
@@ -49,12 +48,12 @@ fun BottomBar(navController: NavHostController) {
             selectedIcon = Icons.Default.Notifications,
             unselectedIcon = Icons.Outlined.Notifications
         ),
-        BottomNavigationItem(
-            title = stringResource(R.string.title_settings),
-            destination = Settings,
-            selectedIcon = Icons.Default.Settings,
-            unselectedIcon = Icons.Outlined.Settings
-        )
+//        BottomNavigationItem(
+//            title = stringResource(R.string.title_settings),
+//            destination = Settings,
+//            selectedIcon = Icons.Default.Settings,
+//            unselectedIcon = Icons.Outlined.Settings
+//        )
     )
 
     NavigationBar {

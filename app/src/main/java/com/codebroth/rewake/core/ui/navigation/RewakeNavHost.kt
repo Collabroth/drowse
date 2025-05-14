@@ -35,8 +35,8 @@ fun RewakeNavHost(navController: NavHostController, modifier: Modifier = Modifie
                 setReminderMinute = args.setReminderMinutes
             )
         }
-        composable<AppDestination.Settings> {
-            SettingsScreen()
-        }
+//        composable<AppDestination.Settings> {
+//            SettingsScreen()
+//        }
     }
 }
