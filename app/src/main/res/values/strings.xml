@@ -29,4 +29,6 @@
     <string name="label_abbreviated_hour">%1$s hr</string>
     <string name="label_cycles">%1$s cycles</string>
     <string name="label_schedule">Schedule</string>
+    <string name="description_action_delete_reminder">Delete reminder</string>
+    <string name="description_action_add_reminder">Add reminder</string>
 </resources>

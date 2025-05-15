@@ -29,12 +29,13 @@ class ReminderViewModel @Inject constructor(
     private val deleteReminder: DeleteReminderUseCase,
     private val schedulerService: ReminderSchedulerService
 ) : ViewModel() {
+
+    private val _reminderUiState = MutableStateFlow(ReminderUiState())
+    val reminderUiState: StateFlow<ReminderUiState> = _reminderUiState.asStateFlow()
+
     val reminders: StateFlow<List<Reminder>> =
         getAllReminders()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
-    
-    private val _reminderUiState = MutableStateFlow(ReminderUiState())
-    val reminderUiState: StateFlow<ReminderUiState> = _reminderUiState.asStateFlow()
 
     fun showDialog(editing: Reminder? = null) {
         _reminderUiState.update { currentState ->
@@ -63,7 +64,12 @@ class ReminderViewModel @Inject constructor(
                 updateReminder(reminder)
                 schedulerService.reschedule(reminder, reminder.id)
             }
-            showSnackbar("Reminder set for ${reminder.formattedTime()} on ${reminder.daysOfWeek.joinToString(", ") { it.name }}")
+            val message = if (reminder.daysOfWeek.isEmpty()) {
+                "Reminder set for ${reminder.formattedTime()}"
+            } else {
+                "Reminder set for ${reminder.formattedTime()} on ${reminder.daysOfWeek.joinToString(", ") { it.name }}"
+            }
+            showSnackbar(message)
             dismissDialog()
         }
     }

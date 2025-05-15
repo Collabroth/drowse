@@ -1,22 +1,15 @@
 package com.codebroth.rewake.reminder.ui
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.codebroth.rewake.R
 import com.codebroth.rewake.reminder.domain.model.Reminder
-import com.codebroth.rewake.reminder.domain.model.formattedTime
+import com.codebroth.rewake.reminder.ui.components.ReminderItem
 
 @Composable
 fun ReminderScreen(
@@ -65,19 +58,9 @@ fun ReminderScreen(
             hasConsumedArgs = true
         }
     }
-
-    if (uiState.isDialogOpen) {
-        ReminderDetailsDialog(
-            initial = uiState.editingReminder,
-            onCancel = { viewModel.dismissDialog() },
-            onConfirm = { viewModel.onSaveReminder(it) }
-        )
-    }
-
     Box(
         modifier = modifier.fillMaxSize()
     ) {
-
         if (reminders.isEmpty()) {
             Text(
                 text = stringResource(R.string.empty_reminders_description),
@@ -86,7 +69,6 @@ fun ReminderScreen(
                 textAlign = TextAlign.Center
             )
         }
-
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -109,54 +91,15 @@ fun ReminderScreen(
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
-                contentDescription = "Add Reminder"
+                contentDescription = stringResource(R.string.description_action_add_reminder)
             )
         }
     }
-}
-
-@Composable
-private fun ReminderItem(
-    reminder: Reminder,
-    onClick: () -> Unit,
-    onDelete: () -> Unit,
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column {
-                reminder.label?.let { lbl ->
-                    Text(
-                        text  = lbl,
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
-                Text(
-                    text = reminder.formattedTime(),
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-                Text(
-                    text = reminder.daysOfWeek.joinToString { it.name.take(3) },
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-            }
-            IconButton(onClick = onDelete) {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = "delete reminder"
-                )
-            }
-        }
+    if (uiState.isDialogOpen) {
+        ReminderDetailsDialog(
+            initial = uiState.editingReminder,
+            onCancel = { viewModel.dismissDialog() },
+            onConfirm = { viewModel.onSaveReminder(it) }
+        )
     }
 }
