@@ -59,7 +59,7 @@ class ReminderViewModel @Inject constructor(
         viewModelScope.launch {
             if (reminder.id == 0) {
                 val newId = addReminder(reminder)
-                schedulerService.schedule(reminder, newId)
+                schedulerService.scheduleNext(reminder, newId)
             } else {
                 updateReminder(reminder)
                 schedulerService.reschedule(reminder, reminder.id)

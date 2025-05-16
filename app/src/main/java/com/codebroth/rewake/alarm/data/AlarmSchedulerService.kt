@@ -2,7 +2,7 @@ package com.codebroth.rewake.alarm.data
 
 import com.codebroth.rewake.alarm.data.AlarmReceiver.Companion.EXTRA_ALARM_ID
 import com.codebroth.rewake.alarm.domain.model.Alarm
-import com.codebroth.rewake.core.data.Scheduler
+import com.codebroth.rewake.core.data.scheduling.Scheduler
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton

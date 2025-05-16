@@ -1,4 +1,4 @@
-package com.codebroth.rewake.core.data
+package com.codebroth.rewake.core.data.scheduling
 
 import android.annotation.SuppressLint
 import android.app.AlarmManager
@@ -26,6 +26,7 @@ class Scheduler @Inject constructor(
      * @param prepareIntent  lambda to put extras into that Intent before wrapping in a PendingIntent
      */
     @SuppressLint("MissingPermission")
+    @Deprecated("use scheduleAt()")
     fun schedule(
         id: Int,
         daysOfWeek: Set<DayOfWeek>,
@@ -74,6 +75,23 @@ class Scheduler @Inject constructor(
                 )
             }
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun scheduleAt(
+        id: Int,
+        triggerAtMillis: Long,
+        receiver: Class<*>,
+        prepare: Intent.() -> Unit = {}
+    ) {
+        val intent = Intent(context, receiver).apply { prepare() }
+        val pendingIntent = createPendingIntent(id, intent)
+
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            triggerAtMillis,
+            pendingIntent
+        )
     }
 
     fun cancel(id: Int, receiver: Class<*>) {
