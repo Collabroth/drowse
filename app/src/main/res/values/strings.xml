@@ -31,4 +31,7 @@
     <string name="label_schedule">Schedule</string>
     <string name="description_action_delete_reminder">Delete reminder</string>
     <string name="description_action_add_reminder">Add reminder</string>
+    <string name="label_repeat">Repeat</string>
+    <string name="description_action_collapse">Collapse</string>
+    <string name="description_action_expand">Expand</string>
 </resources>
