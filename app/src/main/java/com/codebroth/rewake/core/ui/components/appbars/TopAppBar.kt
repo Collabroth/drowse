@@ -14,7 +14,7 @@ import com.codebroth.rewake.R
 @Composable
 fun TopBar(modifier: Modifier = Modifier) {
     TopAppBar(
-        title ={ Text(stringResource(R.string.app_name)) },
+        title = { Text(stringResource(R.string.app_name)) },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),

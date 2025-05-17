@@ -9,7 +9,6 @@ import androidx.navigation.toRoute
 import com.codebroth.rewake.alarm.ui.AlarmScreen
 import com.codebroth.rewake.calculator.ui.CalculatorScreen
 import com.codebroth.rewake.reminder.ui.ReminderScreen
-import com.codebroth.rewake.settings.ui.SettingsScreen
 
 @Composable
 fun RewakeNavHost(navController: NavHostController, modifier: Modifier = Modifier) {

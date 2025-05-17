@@ -31,7 +31,7 @@ class CalculatorViewModel @Inject constructor(
     }
 
     fun onTimeSelected(time: LocalTime) {
-        _calculatorUiState.update { it.copy( selectedTime = time, showTimePicker = false) }
+        _calculatorUiState.update { it.copy(selectedTime = time, showTimePicker = false) }
         onCalculate()
     }
 

@@ -10,9 +10,11 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun SettingsScreen(modifier: Modifier = Modifier) {
-    Column(modifier = modifier,
+    Column(
+        modifier = modifier,
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally) {
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text("Settings")
     }
 }

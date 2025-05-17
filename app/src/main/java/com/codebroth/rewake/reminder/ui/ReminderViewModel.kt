@@ -67,7 +67,11 @@ class ReminderViewModel @Inject constructor(
             val message = if (reminder.daysOfWeek.isEmpty()) {
                 "Reminder set for ${reminder.formattedTime()}"
             } else {
-                "Reminder set for ${reminder.formattedTime()} on ${reminder.daysOfWeek.joinToString(", ") { it.name }}"
+                "Reminder set for ${reminder.formattedTime()} on ${
+                    reminder.daysOfWeek.joinToString(
+                        ", "
+                    ) { it.name }
+                }"
             }
             showSnackbar(message)
             dismissDialog()

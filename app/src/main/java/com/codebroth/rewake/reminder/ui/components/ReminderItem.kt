@@ -44,7 +44,7 @@ fun ReminderItem(
             Column {
                 reminder.label?.let { lbl ->
                     Text(
-                        text  = lbl,
+                        text = lbl,
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }

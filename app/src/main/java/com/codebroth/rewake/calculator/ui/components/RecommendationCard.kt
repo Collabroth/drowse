@@ -45,7 +45,10 @@ fun RecommendationCard(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Box {
-                Text(text = TimeUtils.formatTime(rec.time), style = MaterialTheme.typography.titleMedium)
+                Text(
+                    text = TimeUtils.formatTime(rec.time),
+                    style = MaterialTheme.typography.titleMedium
+                )
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(horizontalAlignment = Alignment.End) {

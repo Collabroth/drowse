@@ -1,6 +1,5 @@
 package com.codebroth.rewake.reminder.ui
 
-import android.R.style
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
@@ -22,7 +21,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -208,7 +206,10 @@ fun ReminderDetailsDialog(
                                     ) {
                                         Spacer(Modifier.size(8.dp))
                                         Text(
-                                            text = day.getDisplayName(TextStyle.FULL, Locale.getDefault()),
+                                            text = day.getDisplayName(
+                                                TextStyle.FULL,
+                                                Locale.getDefault()
+                                            ),
                                             style = MaterialTheme.typography.bodyMedium,
                                             modifier = Modifier.padding(start = 8.dp)
                                         )

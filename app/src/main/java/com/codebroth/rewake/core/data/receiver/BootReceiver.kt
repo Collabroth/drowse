@@ -25,7 +25,7 @@ class BootReceiver : BroadcastReceiver() {
 
         val pendingResult = goAsync()
 
-        CoroutineScope(Dispatchers.IO). launch {
+        CoroutineScope(Dispatchers.IO).launch {
             try {
                 reminderSchedulerService.scheduleAll()
                 alarmSchedulerService.scheduleAllActiveAlarms()

@@ -1,4 +1,5 @@
 package com.codebroth.rewake.core.ui.theme
+
 import androidx.compose.ui.graphics.Color
 
 val primaryLight = Color(0xFF246488)

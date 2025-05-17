@@ -4,11 +4,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -62,11 +60,13 @@ fun BottomBar(navController: NavHostController) {
 
         navigationBarItems.forEachIndexed { index, item ->
             val isSelected = currentDestination?.hierarchy?.any { destination ->
-                when(item.destination) {
+                when (item.destination) {
                     is Reminders -> destination.route
                         ?.startsWith(Reminders::class.qualifiedName ?: "") == true
+
                     is Alarms -> destination.route
                         ?.startsWith(Alarms::class.qualifiedName ?: "") == true
+
                     else -> destination.route == item.destination::class.qualifiedName
                 }
             } == true

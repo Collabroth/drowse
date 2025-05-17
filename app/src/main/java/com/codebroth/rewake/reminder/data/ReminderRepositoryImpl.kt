@@ -10,7 +10,7 @@ import javax.inject.Singleton
 @Singleton
 class ReminderRepositoryImpl @Inject constructor(
     private val dao: ReminderDao
-): ReminderRepository {
+) : ReminderRepository {
 
     override fun getAllReminders(): Flow<List<Reminder>> =
         dao.getAllReminders()

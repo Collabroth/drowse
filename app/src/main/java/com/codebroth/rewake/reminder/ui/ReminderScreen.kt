@@ -45,7 +45,7 @@ fun ReminderScreen(
         if (!hasConsumedArgs
             && setReminderHour != null
             && setReminderMinute != null
-            ) {
+        ) {
             viewModel.showDialog(
                 Reminder(
                     id = 0,
@@ -78,7 +78,7 @@ fun ReminderScreen(
             items(reminders, key = { it.id }) { reminder ->
                 ReminderItem(
                     reminder = reminder,
-                    onClick = { viewModel.showDialog(reminder)},
+                    onClick = { viewModel.showDialog(reminder) },
                     onDelete = { viewModel.onDeleteReminder(reminder) }
                 )
             }

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -64,7 +63,7 @@ fun DialTimePickerDialog(
                     color = MaterialTheme.colorScheme.surface
                 )
         ) {
-            Column (
+            Column(
                 modifier = Modifier.padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -78,9 +77,10 @@ fun DialTimePickerDialog(
                 TimePicker(
                     state = timePickerState
                 )
-                Row(modifier = Modifier
-                    .height(40.dp)
-                    .fillMaxWidth()
+                Row(
+                    modifier = Modifier
+                        .height(40.dp)
+                        .fillMaxWidth()
                 ) {
                     Spacer(modifier = Modifier.weight(1f))
                     TextButton(onClick = onDismissRequest) {

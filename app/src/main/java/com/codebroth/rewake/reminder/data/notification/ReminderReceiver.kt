@@ -16,9 +16,11 @@ import javax.inject.Inject
 class ReminderReceiver : BroadcastReceiver() {
 
     @Inject
-    lateinit var  reminderNotificationService: ReminderNotificationService
+    lateinit var reminderNotificationService: ReminderNotificationService
+
     @Inject
     lateinit var deleteReminderUseCase: DeleteReminderUseCase
+
     @Inject
     lateinit var reminderSchedulerService: ReminderSchedulerService
 

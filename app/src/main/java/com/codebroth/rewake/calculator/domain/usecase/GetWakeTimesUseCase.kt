@@ -21,7 +21,7 @@ class CalculateWakeTimesUseCase {
      * @return A list of sleep recommendations based on the provided wake up time.
      */
     operator fun invoke(wakeUpTime: LocalTime): List<SleepRecommendation> {
-        return (1..6).map {cycles ->
+        return (1..6).map { cycles ->
             val totalSleepMinutes = cycles * sleepCycleDurationMinutes + fallAsleepBufferMinutes
             val recommendedTime = wakeUpTime.plusMinutes(totalSleepMinutes.toLong())
             SleepRecommendation(cycles, cycles * 1.5, recommendedTime)

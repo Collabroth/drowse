@@ -22,7 +22,7 @@ class ReminderNotificationService @Inject constructor(
         0,
         activityIntent,
         PendingIntent.FLAG_UPDATE_CURRENT or
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                     PendingIntent.FLAG_IMMUTABLE
                 else 0
     )
