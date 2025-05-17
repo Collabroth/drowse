@@ -5,7 +5,7 @@ import com.codebroth.rewake.alarm.domain.model.Alarm
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
-class GetAllAlarmUseCase @Inject constructor(
+class GetAllAlarmsUseCase @Inject constructor(
     private val repo: AlarmRepository
 ) {
     operator fun invoke(): Flow<List<Alarm>> =

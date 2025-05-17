@@ -10,7 +10,7 @@ import javax.inject.Singleton
 @Singleton
 class AlarmRepositoryImpl @Inject constructor(
     private val dao: AlarmDao
-): AlarmRepository {
+) : AlarmRepository {
     override fun getAllAlarms(): Flow<List<Alarm>> {
         return dao.getAllAlarms()
             .map { list -> list.map { it.toDomainModel() } }

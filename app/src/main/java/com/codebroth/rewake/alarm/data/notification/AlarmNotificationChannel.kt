@@ -12,13 +12,14 @@ object AlarmNotificationChannel {
             AlarmNotificationService.ALARM_CHANNEL_ID,
             AlarmNotificationService.ALARM_CHANNEL_NAME,
             NotificationManager.IMPORTANCE_HIGH
-        ). apply {
+        ).apply {
             setSound(null, null)
             enableVibration(true)
         }
         channel.description = context.getString(R.string.alarm_channel_description)
 
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
     }
 }

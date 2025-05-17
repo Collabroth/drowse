@@ -6,7 +6,7 @@ import com.codebroth.rewake.alarm.data.AlarmSchedulerService
 import com.codebroth.rewake.alarm.domain.model.Alarm
 import com.codebroth.rewake.alarm.domain.usecase.AddAlarmUseCase
 import com.codebroth.rewake.alarm.domain.usecase.DeleteAlarmUseCase
-import com.codebroth.rewake.alarm.domain.usecase.GetAllAlarmUseCase
+import com.codebroth.rewake.alarm.domain.usecase.GetAllAlarmsUseCase
 import com.codebroth.rewake.alarm.domain.usecase.UpdateAlarmUseCase
 import com.codebroth.rewake.core.ui.components.snackbar.SnackBarEvent
 import com.codebroth.rewake.core.ui.components.snackbar.SnackbarController
@@ -27,19 +27,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AlarmViewModel @Inject constructor(
-    getAllAlarms: GetAllAlarmUseCase,
+    getAllAlarms: GetAllAlarmsUseCase,
     private val addAlarm: AddAlarmUseCase,
     private val updateAlarm: UpdateAlarmUseCase,
     private val deleteAlarm: DeleteAlarmUseCase,
     private val schedulerService: AlarmSchedulerService
 ) : ViewModel() {
-    val alarms: StateFlow<List<Alarm>> =
-        getAllAlarms()
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private val _alarmUiState = MutableStateFlow(AlarmUiState())
     val alarmUiState: StateFlow<AlarmUiState> = _alarmUiState.asStateFlow()
 
+    val alarms: StateFlow<List<Alarm>> =
+        getAllAlarms()
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     fun showDialog(editing: Alarm? = null) {
         _alarmUiState.update { currentState ->
@@ -63,7 +63,7 @@ class AlarmViewModel @Inject constructor(
         viewModelScope.launch {
             if (alarm.id == 0) {
                 val newId = addAlarm(alarm)
-                schedulerService.schedule(alarm, newId)
+                schedulerService.scheduleNext(alarm, newId)
             } else {
                 updateAlarm(alarm)
                 schedulerService.reschedule(alarm, alarm.id)
@@ -85,7 +85,7 @@ class AlarmViewModel @Inject constructor(
         viewModelScope.launch {
             updateAlarm(alarm.copy(isEnabled = enabled))
             if (enabled) {
-                schedulerService.schedule(alarm, alarm.id)
+                schedulerService.scheduleNext(alarm, alarm.id)
             } else {
                 schedulerService.cancel(alarm.id)
             }

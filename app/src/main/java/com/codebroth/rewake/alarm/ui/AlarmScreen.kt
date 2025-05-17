@@ -52,7 +52,7 @@ fun AlarmScreen(
             !hasConsumedArgs
             && setAlarmHour != null
             && setAlarmMinute != null
-            ) {
+        ) {
             viewModel.showDialog(
                 Alarm(
                     id = 0,
@@ -71,7 +71,7 @@ fun AlarmScreen(
             initial = uiState.editingAlarm,
             onCancel = { viewModel.dismissDialog() },
             onConfirm = { viewModel.onSaveAlarm(it) },
-            onDelete = { viewModel.onDeleteAlarm(it)}
+            onDelete = { viewModel.onDeleteAlarm(it) }
         )
     }
 
@@ -105,7 +105,7 @@ fun AlarmScreen(
         FloatingActionButton(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-            .padding(16.dp),
+                .padding(16.dp),
             onClick = { viewModel.showDialog() }
         ) {
             Icon(

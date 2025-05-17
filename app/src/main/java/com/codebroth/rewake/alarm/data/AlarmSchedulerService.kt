@@ -3,6 +3,8 @@ package com.codebroth.rewake.alarm.data
 import com.codebroth.rewake.alarm.data.AlarmReceiver.Companion.EXTRA_ALARM_ID
 import com.codebroth.rewake.alarm.domain.model.Alarm
 import com.codebroth.rewake.core.data.scheduling.Scheduler
+import com.codebroth.rewake.core.data.scheduling.Scheduler.Companion.EXTRA_ONE_SHOT
+import com.codebroth.rewake.core.data.scheduling.TriggerTimeCalculator
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,19 +18,35 @@ class AlarmSchedulerService @Inject constructor(
         repo.getAllAlarms()
             .first()
             .filter { it.isEnabled }
-            .forEach { schedule(it, it.id) }
+            .forEach { scheduleNext(it, it.id) }
     }
 
-    fun schedule(alarm: Alarm, alarmId: Int) {
-        scheduler.schedule(
-            id = alarmId,
+    fun scheduleNext(alarm: Alarm, alarmId: Int) {
+        val zonedDateTime = TriggerTimeCalculator.nextTrigger(
             daysOfWeek = alarm.daysOfWeek,
             hour = alarm.hour,
-            minute = alarm.minute,
+            minute = alarm.minute
+        )
+        scheduler.scheduleAt(
+            id = alarmId,
+            triggerAtMillis = zonedDateTime.toInstant().toEpochMilli(),
             receiver = AlarmReceiver::class.java
         ) {
             putExtra(EXTRA_ALARM_ID, alarmId)
+            putExtra(EXTRA_ONE_SHOT, alarm.daysOfWeek.isEmpty())
         }
+    }
+
+    suspend fun scheduleNext(alarmId: Int) {
+        /**
+         * Temporary Solution
+         */
+        val alarm = repo
+            .getAllAlarms()
+            .first()
+            .first { it.id == alarmId }
+
+        scheduleNext(alarm, alarmId)
     }
 
     fun cancel(alarmId: Int) {
@@ -37,6 +55,6 @@ class AlarmSchedulerService @Inject constructor(
 
     fun reschedule(alarm: Alarm, alarmId: Int) {
         cancel(alarmId)
-        schedule(alarm, alarmId)
+        scheduleNext(alarm, alarmId)
     }
 }

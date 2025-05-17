@@ -5,7 +5,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.icu.util.Calendar
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.time.DayOfWeek
 import javax.inject.Inject
@@ -16,67 +15,6 @@ class Scheduler @Inject constructor(
     @ApplicationContext private val context: Context,
     private val alarmManager: AlarmManager
 ) {
-    /**
-     * Schedule one exact alarm.
-     * @param id             unique identifier (used in requestCode)
-     * @param daysOfWeek     which days to repeat on (empty = one-shot)
-     * @param hour           time of day
-     * @param minute         time of day
-     * @param receiver       the BroadcastReceiver class to fire
-     * @param prepareIntent  lambda to put extras into that Intent before wrapping in a PendingIntent
-     */
-    @SuppressLint("MissingPermission")
-    @Deprecated("use scheduleAt()")
-    fun schedule(
-        id: Int,
-        daysOfWeek: Set<DayOfWeek>,
-        hour: Int,
-        minute: Int,
-        receiver: Class<*>,
-        prepareIntent: Intent.() -> Unit = {}
-    ) {
-        val now = System.currentTimeMillis()
-        val cal = Calendar.getInstance()
-
-        if (daysOfWeek.isEmpty()) {
-            cal.apply {
-                set(Calendar.HOUR_OF_DAY, hour)
-                set(Calendar.MINUTE, minute)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-                if (timeInMillis <= now) {
-                    add(Calendar.DAY_OF_YEAR, 1)
-                }
-                val intent = Intent(context, receiver).apply {
-                    prepareIntent()
-                    putExtra(EXTRA_ONE_SHOT, true)
-                }
-                val pendingIntent = createPendingIntent(id, intent)
-                alarmManager.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC_WAKEUP,
-                    cal.timeInMillis,
-                    pendingIntent
-                )
-            }
-        } else {
-            daysOfWeek.forEach  { day ->
-                val nextRun = getNextOccurrenceCalendar(cal, day, hour, minute, now)
-
-                val intent = Intent(context, receiver).apply {
-                    prepareIntent()
-                }
-                val requestCode = id * 10 + (day.ordinal)
-                val pendingIntent = createPendingIntent(requestCode, intent)
-
-                alarmManager.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC_WAKEUP,
-                    nextRun.timeInMillis,
-                    pendingIntent
-                )
-            }
-        }
-    }
-
     @SuppressLint("MissingPermission")
     fun scheduleAt(
         id: Int,
@@ -113,34 +51,6 @@ class Scheduler @Inject constructor(
         intent,
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
     )
-
-    private fun getNextOccurrenceCalendar(
-        cal: Calendar,
-        day: DayOfWeek,
-        hour: Int,
-        minute: Int,
-        now: Long
-    ): Calendar = cal.apply {
-        set(Calendar.DAY_OF_WEEK, day.toCalendarDay())
-        set(Calendar.HOUR_OF_DAY, hour)
-        set(Calendar.MINUTE, minute)
-        set(Calendar.SECOND, 0)
-        set(Calendar.MILLISECOND, 0)
-
-        if (timeInMillis <= now) {
-            add(Calendar.WEEK_OF_YEAR, 1)
-        }
-    }
-
-    private fun DayOfWeek.toCalendarDay(): Int = when (this) {
-        DayOfWeek.SUNDAY    -> java.util.Calendar.SUNDAY
-        DayOfWeek.MONDAY    -> java.util.Calendar.MONDAY
-        DayOfWeek.TUESDAY   -> java.util.Calendar.TUESDAY
-        DayOfWeek.WEDNESDAY -> java.util.Calendar.WEDNESDAY
-        DayOfWeek.THURSDAY  -> java.util.Calendar.THURSDAY
-        DayOfWeek.FRIDAY    -> java.util.Calendar.FRIDAY
-        DayOfWeek.SATURDAY  -> java.util.Calendar.SATURDAY
-    }
 
     companion object {
         const val EXTRA_ONE_SHOT = "extra_one_shot"
