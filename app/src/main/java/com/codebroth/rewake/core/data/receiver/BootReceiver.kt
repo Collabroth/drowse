@@ -3,8 +3,8 @@ package com.codebroth.rewake.core.data.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.codebroth.rewake.alarm.data.AlarmSchedulerService
-import com.codebroth.rewake.reminder.data.notification.ReminderSchedulerService
+import com.codebroth.rewake.alarm.data.scheduling.AlarmSchedulerService
+import com.codebroth.rewake.reminder.data.scheduling.ReminderSchedulerService
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

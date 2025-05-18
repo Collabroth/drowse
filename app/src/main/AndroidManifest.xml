@@ -39,10 +39,10 @@
         </activity>
 
         <receiver
-            android:name=".reminder.data.notification.ReminderReceiver"
+            android:name=".reminder.data.receiver.ReminderReceiver"
             android:exported="false" />
         <receiver
-            android:name=".alarm.data.AlarmReceiver"
+            android:name=".alarm.data.receiver.AlarmReceiver"
             android:exported="false" />
         <receiver
             android:name=".core.data.receiver.BootReceiver"

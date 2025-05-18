@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.codebroth.rewake.alarm.data.AlarmReceiver
 import com.codebroth.rewake.alarm.data.Constants.EXTRA_ALARM_ID
 import com.codebroth.rewake.alarm.data.Constants.EXTRA_ALARM_LABEL
 import com.codebroth.rewake.alarm.data.Constants.EXTRA_ALARM_TIME

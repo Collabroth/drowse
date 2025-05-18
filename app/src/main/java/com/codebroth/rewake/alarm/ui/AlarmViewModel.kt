@@ -2,14 +2,14 @@ package com.codebroth.rewake.alarm.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.codebroth.rewake.alarm.data.AlarmSchedulerService
+import com.codebroth.rewake.alarm.data.scheduling.AlarmSchedulerService
 import com.codebroth.rewake.alarm.domain.model.Alarm
 import com.codebroth.rewake.alarm.domain.usecase.AddAlarmUseCase
 import com.codebroth.rewake.alarm.domain.usecase.DeleteAlarmUseCase
 import com.codebroth.rewake.alarm.domain.usecase.GetAllAlarmsUseCase
 import com.codebroth.rewake.alarm.domain.usecase.UpdateAlarmUseCase
-import com.codebroth.rewake.core.ui.components.snackbar.SnackBarEvent
-import com.codebroth.rewake.core.ui.components.snackbar.SnackbarController
+import com.codebroth.rewake.core.ui.component.snackbar.SnackBarEvent
+import com.codebroth.rewake.core.ui.component.snackbar.SnackbarController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

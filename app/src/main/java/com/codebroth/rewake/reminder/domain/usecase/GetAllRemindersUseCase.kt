@@ -1,6 +1,6 @@
 package com.codebroth.rewake.reminder.domain.usecase
 
-import com.codebroth.rewake.reminder.data.ReminderRepository
+import com.codebroth.rewake.reminder.data.repository.ReminderRepository
 import com.codebroth.rewake.reminder.domain.model.Reminder
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

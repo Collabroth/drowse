@@ -25,11 +25,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.codebroth.rewake.R
-import com.codebroth.rewake.calculator.ui.components.CalculatorMode
-import com.codebroth.rewake.calculator.ui.components.RecommendationCard
-import com.codebroth.rewake.calculator.ui.components.TimePickerButton
+import com.codebroth.rewake.calculator.ui.component.CalculatorMode
+import com.codebroth.rewake.calculator.ui.component.RecommendationCard
+import com.codebroth.rewake.calculator.ui.component.TimePickerButton
 import com.codebroth.rewake.core.domain.util.TimeUtils
-import com.codebroth.rewake.core.ui.components.input.DialTimePickerDialog
+import com.codebroth.rewake.core.ui.component.input.DialTimePickerDialog
 import com.codebroth.rewake.core.ui.navigation.AppDestination
 import java.time.LocalTime
 
@@ -135,7 +135,12 @@ fun CalculatorScreen(
     if (uiState.showTimePicker) {
         DialTimePickerDialog(
             onConfirm = { timePickerState ->
-                viewModel.onTimeSelected(TimeUtils.getTimeFromPickerState(timePickerState))
+                viewModel.onTimeSelected(
+                    TimeUtils.getTimeFromHourMinute(
+                        timePickerState.hour,
+                        timePickerState.minute
+                    )
+                )
             },
             onDismissRequest = { viewModel.onShowTimePicker(false) },
             initialHour = timePickerInitial.hour,

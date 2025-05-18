@@ -4,13 +4,15 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import com.codebroth.rewake.R
+import com.codebroth.rewake.reminder.data.Constants.REMINDER_CHANNEL_NAME
+import com.codebroth.rewake.reminder.data.Constants.REMINDER_NOTIFICATION_CHANNEL_ID
 
 object ReminderNotificationChannel {
 
     fun createReminderNotificationChannel(context: Context) {
         val channel = NotificationChannel(
-            ReminderNotificationService.REMINDER_CHANNEL_ID,
-            ReminderNotificationService.REMINDER_CHANNEL_NAME,
+            REMINDER_NOTIFICATION_CHANNEL_ID,
+            REMINDER_CHANNEL_NAME,
             NotificationManager.IMPORTANCE_DEFAULT
         )
         channel.description = context.getString(R.string.reminder_channel_description)

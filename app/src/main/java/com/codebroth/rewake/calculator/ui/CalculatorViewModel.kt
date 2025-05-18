@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.codebroth.rewake.calculator.domain.model.SleepRecommendation
 import com.codebroth.rewake.calculator.domain.usecase.CalculateBedTimesUseCase
 import com.codebroth.rewake.calculator.domain.usecase.CalculateWakeTimesUseCase
-import com.codebroth.rewake.calculator.ui.components.CalculatorMode
+import com.codebroth.rewake.calculator.ui.component.CalculatorMode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow

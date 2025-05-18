@@ -1,7 +1,7 @@
 package com.codebroth.rewake.alarm.di
 
-import com.codebroth.rewake.alarm.data.AlarmRepository
-import com.codebroth.rewake.alarm.data.AlarmRepositoryImpl
+import com.codebroth.rewake.alarm.data.repository.AlarmRepository
+import com.codebroth.rewake.alarm.data.repository.AlarmRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

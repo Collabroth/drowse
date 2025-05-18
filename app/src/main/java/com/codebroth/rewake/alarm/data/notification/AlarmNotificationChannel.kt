@@ -4,8 +4,8 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import com.codebroth.rewake.R
-import com.codebroth.rewake.alarm.data.Constants.ALARM_NOTIFICATION_CHANNEL_ID
 import com.codebroth.rewake.alarm.data.Constants.ALARM_CHANNEL_NAME
+import com.codebroth.rewake.alarm.data.Constants.ALARM_NOTIFICATION_CHANNEL_ID
 
 object AlarmNotificationChannel {
 

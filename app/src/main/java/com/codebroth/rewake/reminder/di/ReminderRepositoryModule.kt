@@ -1,7 +1,7 @@
 package com.codebroth.rewake.reminder.di
 
-import com.codebroth.rewake.reminder.data.ReminderRepository
-import com.codebroth.rewake.reminder.data.ReminderRepositoryImpl
+import com.codebroth.rewake.reminder.data.repository.ReminderRepository
+import com.codebroth.rewake.reminder.data.repository.ReminderRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

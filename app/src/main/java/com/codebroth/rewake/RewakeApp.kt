@@ -13,10 +13,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.codebroth.rewake.core.ui.components.appbars.BottomBar
-import com.codebroth.rewake.core.ui.components.appbars.TopBar
-import com.codebroth.rewake.core.ui.components.snackbar.ObserveAsEvents
-import com.codebroth.rewake.core.ui.components.snackbar.SnackbarController
+import com.codebroth.rewake.core.ui.component.appbar.BottomBar
+import com.codebroth.rewake.core.ui.component.appbar.TopBar
+import com.codebroth.rewake.core.ui.component.snackbar.ObserveAsEvents
+import com.codebroth.rewake.core.ui.component.snackbar.SnackbarController
 import com.codebroth.rewake.core.ui.navigation.RewakeNavHost
 import com.codebroth.rewake.core.ui.theme.RewakeTheme
 import kotlinx.coroutines.launch

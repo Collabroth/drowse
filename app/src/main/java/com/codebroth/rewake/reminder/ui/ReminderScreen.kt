@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.codebroth.rewake.R
 import com.codebroth.rewake.reminder.domain.model.Reminder
-import com.codebroth.rewake.reminder.ui.components.ReminderDetailsDialog
-import com.codebroth.rewake.reminder.ui.components.ReminderItem
+import com.codebroth.rewake.reminder.ui.component.ReminderDetailsDialog
+import com.codebroth.rewake.reminder.ui.component.ReminderItem
 
 @Composable
 fun ReminderScreen(

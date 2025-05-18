@@ -1,7 +1,7 @@
 package com.codebroth.rewake.reminder.domain.model
 
-import com.codebroth.rewake.core.data.toBitmask
-import com.codebroth.rewake.reminder.data.ReminderEntity
+import com.codebroth.rewake.core.domain.util.toBitmask
+import com.codebroth.rewake.reminder.data.local.ReminderEntity
 import java.time.DayOfWeek
 
 data class Reminder(

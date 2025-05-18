@@ -2,8 +2,8 @@ package com.codebroth.rewake.core.di
 
 import android.content.Context
 import androidx.room.Room
-import com.codebroth.rewake.core.data.RewakeDatabase
-import com.codebroth.rewake.reminder.data.ReminderDao
+import com.codebroth.rewake.core.data.local.RewakeDatabase
+import com.codebroth.rewake.reminder.data.local.ReminderDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

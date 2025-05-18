@@ -34,7 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.codebroth.rewake.R
 import com.codebroth.rewake.alarm.domain.model.Alarm
 import com.codebroth.rewake.alarm.domain.model.formattedTime
-import com.codebroth.rewake.alarm.ui.components.AlarmDetailsDialog
+import com.codebroth.rewake.alarm.ui.component.AlarmDetailsDialog
 
 @Composable
 fun AlarmScreen(

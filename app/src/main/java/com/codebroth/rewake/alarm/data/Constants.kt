@@ -5,6 +5,7 @@ object Constants {
      * Unique ID for the alarm notification channel.
      */
     const val ALARM_NOTIFICATION_CHANNEL_ID = "alarm_channel"
+
     /**
      * Name of the alarm notification channel.
      */

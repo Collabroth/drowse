@@ -2,9 +2,9 @@ package com.codebroth.rewake.reminder.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.codebroth.rewake.core.ui.components.snackbar.SnackBarEvent
-import com.codebroth.rewake.core.ui.components.snackbar.SnackbarController
-import com.codebroth.rewake.reminder.data.notification.ReminderSchedulerService
+import com.codebroth.rewake.core.ui.component.snackbar.SnackBarEvent
+import com.codebroth.rewake.core.ui.component.snackbar.SnackbarController
+import com.codebroth.rewake.reminder.data.scheduling.ReminderSchedulerService
 import com.codebroth.rewake.reminder.domain.model.Reminder
 import com.codebroth.rewake.reminder.domain.model.formattedTime
 import com.codebroth.rewake.reminder.domain.usecase.AddReminderUseCase

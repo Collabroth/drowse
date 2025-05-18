@@ -1,7 +1,5 @@
 package com.codebroth.rewake.core.domain.util
 
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.TimePickerState
 import java.time.DayOfWeek
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -26,11 +24,10 @@ object TimeUtils {
         return time.format(formatter)
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
-    fun getTimeFromPickerState(timePickerState: TimePickerState): LocalTime {
+    fun getTimeFromHourMinute(hour: Int, minute: Int): LocalTime {
         return LocalTime.of(
-            timePickerState.hour,
-            timePickerState.minute
+            hour,
+            minute
         )
     }
 

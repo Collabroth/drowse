@@ -1,7 +1,7 @@
 package com.codebroth.rewake.alarm.domain.model
 
-import com.codebroth.rewake.alarm.data.AlarmEntity
-import com.codebroth.rewake.core.data.toBitmask
+import com.codebroth.rewake.alarm.data.local.AlarmEntity
+import com.codebroth.rewake.core.domain.util.toBitmask
 import java.time.DayOfWeek
 
 data class Alarm(
