@@ -1,4 +1,4 @@
-package com.codebroth.rewake.reminder.ui
+package com.codebroth.rewake.alarm.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -14,13 +14,15 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Schedule
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -43,11 +45,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.codebroth.rewake.R
+import com.codebroth.rewake.alarm.domain.model.Alarm
 import com.codebroth.rewake.core.domain.util.TimeUtils
 import com.codebroth.rewake.core.domain.util.TimeUtils.summarizeSelectedDaysOfWeek
 import com.codebroth.rewake.core.ui.components.input.DialTimePickerDialog
-import com.codebroth.rewake.reminder.domain.model.Reminder
 import java.time.DayOfWeek
 import java.time.LocalTime
 import java.time.format.TextStyle
@@ -55,12 +58,12 @@ import java.util.Locale
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun ReminderDetailsDialog(
-    initial: Reminder?,
+fun AlarmDetailsDialog(
+    initial: Alarm?,
     onCancel: () -> Unit,
-    onConfirm: (Reminder) -> Unit
+    onConfirm: (Alarm) -> Unit,
+    onDelete: (Alarm) -> Unit
 ) {
-
     var label by rememberSaveable { mutableStateOf(initial?.label.orEmpty()) }
     var days by rememberSaveable { mutableStateOf(initial?.daysOfWeek.orEmpty()) }
     var hour by rememberSaveable { mutableIntStateOf(initial?.hour ?: 21) }
@@ -70,19 +73,27 @@ fun ReminderDetailsDialog(
 
     var expanded by rememberSaveable { mutableStateOf(false) }
 
-    AlertDialog(
+    Dialog(
         onDismissRequest = onCancel,
-        title = {
-            Text(
-                if (initial == null) {
-                    stringResource(R.string.action_add_reminder)
-                } else {
-                    stringResource(R.string.action_edit_reminder)
-                }
-            )
-        },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    ) {
+        Surface(
+            shape = MaterialTheme.shapes.medium,
+            tonalElevation = 6.dp
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(24.dp)
+                    .fillMaxWidth(),
+            ) {
+                Text(
+                    text = if (initial == null) {
+                        stringResource(R.string.action_add_alarm)
+                    } else {
+                        stringResource(R.string.action_edit_alarm)
+                    },
+                    style = MaterialTheme.typography.headlineSmall
+                )
+                Spacer(Modifier.height(16.dp))
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(8.dp),
@@ -91,6 +102,7 @@ fun ReminderDetailsDialog(
                     value = label,
                     onValueChange = { label = it },
                 )
+                Spacer(Modifier.height(16.dp))
                 OutlinedCard(
                     onClick = { showPicker = true },
                     modifier = Modifier.fillMaxWidth(),
@@ -126,6 +138,7 @@ fun ReminderDetailsDialog(
                         }
                     }
                 }
+                Spacer(Modifier.height(16.dp))
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
@@ -224,29 +237,49 @@ fun ReminderDetailsDialog(
                         }
                     }
                 }
-            }
-        },
-        confirmButton = {
-            TextButton(onClick = {
-                onConfirm(
-                    Reminder(
-                        id = initial?.id ?: 0,
-                        hour = hour,
-                        minute = minute,
-                        daysOfWeek = days,
-                        label = label.ifBlank { null }
-                    )
-                )
-            }) {
-                Text(stringResource(R.string.action_confirm))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onCancel) {
-                Text(stringResource(R.string.action_dismiss))
+                Spacer(Modifier.height(24.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    if (initial != null) {
+                        TextButton(
+                            onClick = { onDelete(initial) },
+                            colors = ButtonDefaults.textButtonColors(
+                                contentColor = MaterialTheme.colorScheme.error
+                            )
+                        ) {
+                            Text(stringResource(R.string.action_delete))
+                        }
+                    } else {
+                        Spacer(Modifier.width(8.dp))
+                    }
+
+                    Row {
+                        TextButton(onClick = onCancel) {
+                            Text(stringResource(R.string.action_dismiss))
+                        }
+                        TextButton(
+                            onClick = {
+                                onConfirm(
+                                    Alarm(
+                                        id = initial?.id ?: 0,
+                                        hour = hour,
+                                        minute = minute,
+                                        daysOfWeek = days,
+                                        label = label.ifBlank { null },
+                                        isEnabled = true
+                                    )
+                                )
+                            }
+                        ) {
+                            Text(stringResource(R.string.action_confirm))
+                        }
+                    }
+                }
             }
         }
-    )
+    }
     if (showPicker) {
         DialTimePickerDialog(
             initialHour = hour,

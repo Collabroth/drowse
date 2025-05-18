@@ -1,6 +1,8 @@
 package com.codebroth.rewake.alarm.data
 
-import com.codebroth.rewake.alarm.data.AlarmReceiver.Companion.EXTRA_ALARM_ID
+import com.codebroth.rewake.alarm.data.Constants.EXTRA_ALARM_ID
+import com.codebroth.rewake.alarm.data.Constants.EXTRA_ALARM_LABEL
+import com.codebroth.rewake.alarm.data.Constants.EXTRA_ALARM_TIME
 import com.codebroth.rewake.alarm.domain.model.Alarm
 import com.codebroth.rewake.core.data.scheduling.Scheduler
 import com.codebroth.rewake.core.data.scheduling.Scheduler.Companion.EXTRA_ONE_SHOT
@@ -22,17 +24,21 @@ class AlarmSchedulerService @Inject constructor(
     }
 
     fun scheduleNext(alarm: Alarm, alarmId: Int) {
-        val zonedDateTime = TriggerTimeCalculator.nextTrigger(
+        val triggerAtMillis = TriggerTimeCalculator.nextTrigger(
             daysOfWeek = alarm.daysOfWeek,
             hour = alarm.hour,
             minute = alarm.minute
         )
+            .toInstant()
+            .toEpochMilli()
         scheduler.scheduleAt(
             id = alarmId,
-            triggerAtMillis = zonedDateTime.toInstant().toEpochMilli(),
+            triggerAtMillis = triggerAtMillis,
             receiver = AlarmReceiver::class.java
         ) {
             putExtra(EXTRA_ALARM_ID, alarmId)
+            putExtra(EXTRA_ALARM_TIME, triggerAtMillis)
+            putExtra(EXTRA_ALARM_LABEL, alarm.label.orEmpty())
             putExtra(EXTRA_ONE_SHOT, alarm.daysOfWeek.isEmpty())
         }
     }

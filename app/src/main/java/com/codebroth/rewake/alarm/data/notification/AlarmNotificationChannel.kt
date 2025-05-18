@@ -4,13 +4,15 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import com.codebroth.rewake.R
+import com.codebroth.rewake.alarm.data.Constants.ALARM_NOTIFICATION_CHANNEL_ID
+import com.codebroth.rewake.alarm.data.Constants.ALARM_CHANNEL_NAME
 
 object AlarmNotificationChannel {
 
     fun createAlarmNotificationChannel(context: Context) {
         val channel = NotificationChannel(
-            AlarmNotificationService.ALARM_CHANNEL_ID,
-            AlarmNotificationService.ALARM_CHANNEL_NAME,
+            ALARM_NOTIFICATION_CHANNEL_ID,
+            ALARM_CHANNEL_NAME,
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
             setSound(null, null)

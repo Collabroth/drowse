@@ -7,7 +7,10 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.codebroth.rewake.R
 import com.codebroth.rewake.alarm.AlarmActivity
-import com.codebroth.rewake.alarm.data.AlarmReceiver.Companion.EXTRA_ALARM_ID
+import com.codebroth.rewake.alarm.data.Constants.ALARM_NOTIFICATION_CHANNEL_ID
+import com.codebroth.rewake.alarm.data.Constants.EXTRA_ALARM_ID
+import com.codebroth.rewake.alarm.data.Constants.EXTRA_ALARM_LABEL
+import com.codebroth.rewake.alarm.data.Constants.EXTRA_ALARM_TIME
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -17,7 +20,7 @@ class AlarmNotificationService @Inject constructor(
 ) {
 
     fun showAlarmNotification(alarmId: Int) {
-        val notification = NotificationCompat.Builder(context, ALARM_CHANNEL_ID)
+        val notification = NotificationCompat.Builder(context, ALARM_NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.baseline_alarm_24)
             .setContentTitle("Rewake")
             .setContentText("Placeholder")
@@ -31,10 +34,12 @@ class AlarmNotificationService @Inject constructor(
         )
     }
 
-    fun showFullScreenAlarm(alarmId: Int) {
+    fun showFullScreenAlarm(alarmId: Int, timeInMillis: Long, label: String) {
         val activityIntent = Intent(context, AlarmActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             putExtra(EXTRA_ALARM_ID, alarmId)
+            putExtra(EXTRA_ALARM_TIME, timeInMillis)
+            putExtra(EXTRA_ALARM_LABEL, label)
         }
 
         val fullScreenPendingIntent = PendingIntent.getActivity(
@@ -44,7 +49,7 @@ class AlarmNotificationService @Inject constructor(
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val notification = NotificationCompat.Builder(context, ALARM_CHANNEL_ID)
+        val notification = NotificationCompat.Builder(context, ALARM_NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.baseline_alarm_24)
             .setContentTitle("Alarm")
             .setContentText("Swipe to dismiss")
@@ -55,10 +60,5 @@ class AlarmNotificationService @Inject constructor(
             .build()
 
         notificationManager.notify(alarmId, notification)
-    }
-
-    companion object {
-        const val ALARM_CHANNEL_ID = "alarm_channel"
-        const val ALARM_CHANNEL_NAME = "Alarm"
     }
 }

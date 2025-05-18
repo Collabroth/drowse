@@ -10,8 +10,14 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.codebroth.rewake.alarm.data.AlarmReceiver
+import com.codebroth.rewake.alarm.data.Constants.EXTRA_ALARM_ID
+import com.codebroth.rewake.alarm.data.Constants.EXTRA_ALARM_LABEL
+import com.codebroth.rewake.alarm.data.Constants.EXTRA_ALARM_TIME
 import com.codebroth.rewake.alarm.ui.FullScreenAlarmNotification
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 private const val DEBUG_TAG = "AlarmActivity"
@@ -28,7 +34,13 @@ class AlarmActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        alarmId = intent.getIntExtra(AlarmReceiver.EXTRA_ALARM_ID, -1)
+        alarmId = intent.getIntExtra(EXTRA_ALARM_ID, -1)
+
+        val timeInMillis = intent.getLongExtra(EXTRA_ALARM_TIME, System.currentTimeMillis())
+        val alarmLabel = intent.getStringExtra(EXTRA_ALARM_LABEL).orEmpty()
+
+        val alarmTime = SimpleDateFormat("hh:mm a", Locale.getDefault())
+            .format(Date(timeInMillis))
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true)
@@ -53,8 +65,10 @@ class AlarmActivity : ComponentActivity() {
 
         setContent {
             FullScreenAlarmNotification(
+                alarmTime = alarmTime,
                 onDismiss = { dismissAlarm() },
-                onSnooze = { snoozeAlarm() }
+                onSnooze = { snoozeAlarm() },
+                alarmLabel = if (alarmLabel.isNotBlank()) alarmLabel else null
             )
         }
     }
