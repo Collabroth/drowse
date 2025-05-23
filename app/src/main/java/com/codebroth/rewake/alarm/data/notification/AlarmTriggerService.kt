@@ -31,7 +31,7 @@ class AlarmTriggerService : Service() {
         val label = intent.getStringExtra(EXTRA_ALARM_LABEL).orEmpty()
 
         val fullScreenIntent = Intent(this, AlarmActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
             putExtra(EXTRA_ALARM_ID, alarmId)
             putExtra(EXTRA_ALARM_TIME, timeInMillis)
             putExtra(EXTRA_ALARM_LABEL, label)

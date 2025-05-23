@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
-
     <application
         android:name=".RewakeApplication"
         android:allowBackup="true"
@@ -23,6 +22,9 @@
         <activity
             android:name=".alarm.AlarmActivity"
             android:exported="true"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:taskAffinity=":alarm"
             android:showForAllUsers="true"
             android:turnScreenOn="true"
             android:launchMode="singleInstance"
@@ -35,11 +37,9 @@
             android:theme="@style/Theme.Rewake">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <service
             android:name=".alarm.data.notification.AlarmTriggerService"
             android:foregroundServiceType="specialUse"
@@ -48,7 +48,6 @@
                 android:name="android:foregroundServiceType"
                 android:value="specialUse" />
         </service>
-
         <receiver
             android:name=".reminder.data.receiver.ReminderReceiver"
             android:exported="false" />

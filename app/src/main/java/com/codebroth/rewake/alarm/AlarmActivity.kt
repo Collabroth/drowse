@@ -22,13 +22,9 @@ import javax.inject.Inject
 
 private const val DEBUG_TAG = "AlarmActivity"
 
-@AndroidEntryPoint
 class AlarmActivity : ComponentActivity() {
 
     private var alarmId: Int = -1
-
-    @Inject
-    lateinit var notificationManager: NotificationManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +37,7 @@ class AlarmActivity : ComponentActivity() {
         val alarmTime = SimpleDateFormat("hh:mm a", Locale.getDefault())
             .format(Date(timeInMillis))
 
-        //setWindowFlags()
+        setWindowFlags()
 
         setContent {
             FullScreenAlarmNotification(
@@ -72,7 +68,6 @@ class AlarmActivity : ComponentActivity() {
         Intent(this, AlarmTriggerService::class.java)
             .apply { action = INTENT_ACTION_DISMISS }
             .let(::startService)
-        notificationManager.cancel(alarmId)
         finish()
     }
 
