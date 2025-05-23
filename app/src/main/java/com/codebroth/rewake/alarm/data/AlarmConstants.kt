@@ -1,15 +1,15 @@
 package com.codebroth.rewake.alarm.data
 
-object Constants {
+object AlarmConstants {
     /**
      * Unique ID for the alarm notification channel.
      */
-    const val ALARM_NOTIFICATION_CHANNEL_ID = "alarm_channel"
+    const val CHANNEL_ID = "alarm_channel"
 
     /**
      * Name of the alarm notification channel.
      */
-    const val ALARM_CHANNEL_NAME = "Alarm"
+    const val CHANNEL_NAME = "Alarm"
 
     /**
      * Name of ID extra data.
@@ -25,4 +25,9 @@ object Constants {
      * Name of Alarm Label extra data.
      */
     const val EXTRA_ALARM_LABEL = "extra_alarm_label"
+
+    /**
+     * Name of the action to dismiss the alarm.
+     */
+    const val INTENT_ACTION_DISMISS = "Dismiss"
 }

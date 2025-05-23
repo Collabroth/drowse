@@ -34,4 +34,6 @@
     <string name="label_repeat">Repeat</string>
     <string name="description_action_collapse">Collapse</string>
     <string name="description_action_expand">Expand</string>
+    <string name="title_alarm">Alarm</string>
+    <string name="notification_text_swipe_to_dismiss">Swipe to dismiss</string>
 </resources>

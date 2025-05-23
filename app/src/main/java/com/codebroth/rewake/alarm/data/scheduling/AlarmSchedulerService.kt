@@ -1,6 +1,6 @@
 package com.codebroth.rewake.alarm.data.scheduling
 
-import com.codebroth.rewake.alarm.data.Constants
+import com.codebroth.rewake.alarm.data.AlarmConstants
 import com.codebroth.rewake.alarm.data.receiver.AlarmReceiver
 import com.codebroth.rewake.alarm.data.repository.AlarmRepository
 import com.codebroth.rewake.alarm.domain.model.Alarm
@@ -35,9 +35,9 @@ class AlarmSchedulerService @Inject constructor(
             triggerAtMillis = triggerAtMillis,
             receiver = AlarmReceiver::class.java
         ) {
-            putExtra(Constants.EXTRA_ALARM_ID, alarmId)
-            putExtra(Constants.EXTRA_ALARM_TIME, triggerAtMillis)
-            putExtra(Constants.EXTRA_ALARM_LABEL, alarm.label.orEmpty())
+            putExtra(AlarmConstants.EXTRA_ALARM_ID, alarmId)
+            putExtra(AlarmConstants.EXTRA_ALARM_TIME, triggerAtMillis)
+            putExtra(AlarmConstants.EXTRA_ALARM_LABEL, alarm.label.orEmpty())
             putExtra(Scheduler.Companion.EXTRA_ONE_SHOT, alarm.daysOfWeek.isEmpty())
         }
     }
@@ -45,6 +45,7 @@ class AlarmSchedulerService @Inject constructor(
     suspend fun scheduleNext(alarmId: Int) {
         /**
          * Temporary Solution
+         * TODO: find by ID
          */
         val alarm = repo
             .getAllAlarms()

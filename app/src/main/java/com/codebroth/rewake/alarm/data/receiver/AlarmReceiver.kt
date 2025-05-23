@@ -3,8 +3,8 @@ package com.codebroth.rewake.alarm.data.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.codebroth.rewake.alarm.data.Constants
-import com.codebroth.rewake.alarm.data.notification.AlarmNotificationService
+import com.codebroth.rewake.alarm.data.AlarmConstants
+import com.codebroth.rewake.alarm.data.notification.AlarmTriggerService
 import com.codebroth.rewake.alarm.data.scheduling.AlarmSchedulerService
 import com.codebroth.rewake.alarm.domain.model.Alarm
 import com.codebroth.rewake.alarm.domain.usecase.GetAllAlarmsUseCase
@@ -18,11 +18,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * TODO: Write a getAlarmByIdUseCase
+ */
 @AndroidEntryPoint
 class AlarmReceiver : BroadcastReceiver() {
-
-    @Inject
-    lateinit var alarmNotificationService: AlarmNotificationService
 
     @Inject
     lateinit var getAllAlarmsUseCase: GetAllAlarmsUseCase
@@ -34,14 +34,17 @@ class AlarmReceiver : BroadcastReceiver() {
     lateinit var alarmSchedulerService: AlarmSchedulerService
 
     override fun onReceive(context: Context, intent: Intent?) {
-        val alarmId = intent?.getIntExtra(Constants.EXTRA_ALARM_ID, -1) ?: return
-        val timeInMillis =
-            intent.getLongExtra(Constants.EXTRA_ALARM_TIME, System.currentTimeMillis())
-        val label = intent.getStringExtra(Constants.EXTRA_ALARM_LABEL).orEmpty()
 
-        if (alarmId != -1) {
-            alarmNotificationService
-                .showFullScreenAlarm(alarmId, timeInMillis, label)
+        val alarmId = intent?.getIntExtra(AlarmConstants.EXTRA_ALARM_ID, -1) ?: return
+        val timeInMillis =
+            intent.getLongExtra(AlarmConstants.EXTRA_ALARM_TIME, System.currentTimeMillis())
+        val label = intent.getStringExtra(AlarmConstants.EXTRA_ALARM_LABEL).orEmpty()
+
+        Intent(context, AlarmTriggerService::class.java).also {
+            it.putExtra(AlarmConstants.EXTRA_ALARM_ID, alarmId)
+            it.putExtra(AlarmConstants.EXTRA_ALARM_TIME, timeInMillis)
+            it.putExtra(AlarmConstants.EXTRA_ALARM_LABEL, label)
+            context.startForegroundService(it)
         }
         val oneShot = intent.getBooleanExtra(Scheduler.Companion.EXTRA_ONE_SHOT, false)
         if (oneShot) {
