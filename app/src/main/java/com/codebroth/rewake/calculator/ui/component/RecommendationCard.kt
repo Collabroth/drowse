@@ -29,7 +29,8 @@ import java.time.LocalTime
 @Composable
 fun RecommendationCard(
     rec: SleepRecommendation,
-    onClick: (LocalTime) -> Unit
+    onClick: (LocalTime) -> Unit,
+    is24Hour: Boolean = false,
 ) {
     Card(
         modifier = Modifier
@@ -46,7 +47,7 @@ fun RecommendationCard(
         ) {
             Box {
                 Text(
-                    text = TimeUtils.formatTime(rec.time),
+                    text = TimeUtils.formatTime(rec.time, is24Hour),
                     style = MaterialTheme.typography.titleMedium
                 )
             }

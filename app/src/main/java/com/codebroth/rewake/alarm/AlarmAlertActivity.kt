@@ -1,6 +1,5 @@
 package com.codebroth.rewake.alarm
 
-import android.app.NotificationManager
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -13,16 +12,15 @@ import com.codebroth.rewake.alarm.data.AlarmConstants.EXTRA_ALARM_LABEL
 import com.codebroth.rewake.alarm.data.AlarmConstants.EXTRA_ALARM_TIME
 import com.codebroth.rewake.alarm.data.AlarmConstants.INTENT_ACTION_DISMISS
 import com.codebroth.rewake.alarm.data.notification.AlarmTriggerService
-import com.codebroth.rewake.alarm.ui.FullScreenAlarmNotification
+import com.codebroth.rewake.alarm.ui.AlarmAlertContent
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-import javax.inject.Inject
+import java.time.Instant
+import java.time.ZoneId
 
 private const val DEBUG_TAG = "AlarmActivity"
 
-class AlarmActivity : ComponentActivity() {
+@AndroidEntryPoint
+class AlarmAlertActivity : ComponentActivity() {
 
     private var alarmId: Int = -1
 
@@ -33,17 +31,18 @@ class AlarmActivity : ComponentActivity() {
 
         val timeInMillis = intent.getLongExtra(EXTRA_ALARM_TIME, System.currentTimeMillis())
         val alarmLabel = intent.getStringExtra(EXTRA_ALARM_LABEL).orEmpty()
-
-        val alarmTime = SimpleDateFormat("hh:mm a", Locale.getDefault())
-            .format(Date(timeInMillis))
+        val localTime = Instant
+            .ofEpochMilli(timeInMillis)
+            .atZone(ZoneId.systemDefault())
+            .toLocalTime()
 
         setWindowFlags()
 
         setContent {
-            FullScreenAlarmNotification(
-                alarmTime = alarmTime,
+            AlarmAlertContent(
                 onDismiss = { dismissAlarm() },
                 onSnooze = { snoozeAlarm() },
+                alarmTime = localTime,
                 alarmLabel = if (alarmLabel.isNotBlank()) alarmLabel else null
             )
         }

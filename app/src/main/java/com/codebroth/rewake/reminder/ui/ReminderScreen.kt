@@ -37,7 +37,7 @@ fun ReminderScreen(
     setReminderHour: Int? = null,
     setReminderMinute: Int? = null,
 ) {
-    val uiState by viewModel.reminderUiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
     val reminders by viewModel.reminders.collectAsState()
 
     var hasConsumedArgs by rememberSaveable { mutableStateOf(false) }
@@ -80,7 +80,8 @@ fun ReminderScreen(
                 ReminderItem(
                     reminder = reminder,
                     onClick = { viewModel.showDialog(reminder) },
-                    onDelete = { viewModel.onDeleteReminder(reminder) }
+                    onDelete = { viewModel.onDeleteReminder(reminder) },
+                    is24Hour = uiState.is24HourFormat,
                 )
             }
         }
@@ -100,7 +101,8 @@ fun ReminderScreen(
         ReminderDetailsDialog(
             initial = uiState.editingReminder,
             onCancel = { viewModel.dismissDialog() },
-            onConfirm = { viewModel.onSaveReminder(it) }
+            onConfirm = { viewModel.onSaveReminder(it) },
+            is24Hour = uiState.is24HourFormat
         )
     }
 }

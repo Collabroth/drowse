@@ -8,13 +8,14 @@ import com.codebroth.rewake.alarm.domain.usecase.AddAlarmUseCase
 import com.codebroth.rewake.alarm.domain.usecase.DeleteAlarmUseCase
 import com.codebroth.rewake.alarm.domain.usecase.GetAllAlarmsUseCase
 import com.codebroth.rewake.alarm.domain.usecase.UpdateAlarmUseCase
+import com.codebroth.rewake.core.data.local.UserPreferencesRepository
 import com.codebroth.rewake.core.ui.component.snackbar.SnackBarEvent
 import com.codebroth.rewake.core.ui.component.snackbar.SnackbarController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -31,18 +32,30 @@ class AlarmViewModel @Inject constructor(
     private val addAlarm: AddAlarmUseCase,
     private val updateAlarm: UpdateAlarmUseCase,
     private val deleteAlarm: DeleteAlarmUseCase,
-    private val schedulerService: AlarmSchedulerService
+    private val schedulerService: AlarmSchedulerService,
+    private val preferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
-    private val _alarmUiState = MutableStateFlow(AlarmUiState())
-    val alarmUiState: StateFlow<AlarmUiState> = _alarmUiState.asStateFlow()
+    private val _uiState = MutableStateFlow(AlarmUiState())
+    val uiState: StateFlow<AlarmUiState> =
+        combine(
+            _uiState,
+            preferencesRepository.userPreferencesFlow
+        ) { state, userPreferences ->
+            state.copy(is24HourFormat = userPreferences.is24HourFormat)
+        }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = _uiState.value.copy(is24HourFormat = false)
+            )
 
     val alarms: StateFlow<List<Alarm>> =
         getAllAlarms()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     fun showDialog(editing: Alarm? = null) {
-        _alarmUiState.update { currentState ->
+        _uiState.update { currentState ->
             currentState.copy(
                 isDialogOpen = true,
                 editingAlarm = editing
@@ -51,7 +64,7 @@ class AlarmViewModel @Inject constructor(
     }
 
     fun dismissDialog() {
-        _alarmUiState.update { currentState ->
+        _uiState.update { currentState ->
             currentState.copy(
                 isDialogOpen = false,
                 editingAlarm = null
@@ -132,6 +145,7 @@ class AlarmViewModel @Inject constructor(
 
     data class AlarmUiState(
         val isDialogOpen: Boolean = false,
-        val editingAlarm: Alarm? = null
+        val editingAlarm: Alarm? = null,
+        val is24HourFormat: Boolean = false,
     )
 }

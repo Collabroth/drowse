@@ -2,6 +2,7 @@ package com.codebroth.rewake.reminder.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.codebroth.rewake.core.data.local.UserPreferencesRepository
 import com.codebroth.rewake.core.ui.component.snackbar.SnackBarEvent
 import com.codebroth.rewake.core.ui.component.snackbar.SnackbarController
 import com.codebroth.rewake.reminder.data.scheduling.ReminderSchedulerService
@@ -15,7 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -27,18 +28,30 @@ class ReminderViewModel @Inject constructor(
     private val addReminder: AddReminderUseCase,
     private val updateReminder: UpdateReminderUseCase,
     private val deleteReminder: DeleteReminderUseCase,
-    private val schedulerService: ReminderSchedulerService
+    private val schedulerService: ReminderSchedulerService,
+    private val preferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
-    private val _reminderUiState = MutableStateFlow(ReminderUiState())
-    val reminderUiState: StateFlow<ReminderUiState> = _reminderUiState.asStateFlow()
+    private val _uiState = MutableStateFlow(ReminderUiState())
+    val uiState: StateFlow<ReminderUiState> =
+        combine(
+            _uiState,
+            preferencesRepository.userPreferencesFlow
+        ) { state, userPreferences ->
+            state.copy(is24HourFormat = userPreferences.is24HourFormat)
+        }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = _uiState.value.copy(is24HourFormat = false)
+            )
 
     val reminders: StateFlow<List<Reminder>> =
         getAllReminders()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     fun showDialog(editing: Reminder? = null) {
-        _reminderUiState.update { currentState ->
+        _uiState.update { currentState ->
             currentState.copy(
                 isDialogOpen = true,
                 editingReminder = editing
@@ -47,7 +60,7 @@ class ReminderViewModel @Inject constructor(
     }
 
     fun dismissDialog() {
-        _reminderUiState.update { currentState ->
+        _uiState.update { currentState ->
             currentState.copy(
                 isDialogOpen = false,
                 editingReminder = null
@@ -97,6 +110,7 @@ class ReminderViewModel @Inject constructor(
 
     data class ReminderUiState(
         val isDialogOpen: Boolean = false,
-        val editingReminder: Reminder? = null
+        val editingReminder: Reminder? = null,
+        val is24HourFormat: Boolean = false,
     )
 }

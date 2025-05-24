@@ -62,7 +62,8 @@ fun AlarmDetailsDialog(
     initial: Alarm?,
     onCancel: () -> Unit,
     onConfirm: (Alarm) -> Unit,
-    onDelete: (Alarm) -> Unit
+    onDelete: (Alarm) -> Unit,
+    is24Hour: Boolean = false,
 ) {
     var label by rememberSaveable { mutableStateOf(initial?.label.orEmpty()) }
     var days by rememberSaveable { mutableStateOf(initial?.daysOfWeek.orEmpty()) }
@@ -120,18 +121,18 @@ fun AlarmDetailsDialog(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Schedule,
-                            contentDescription = "Select Time",
+                            contentDescription = stringResource(R.string.label_select_time),
                             tint = MaterialTheme.colorScheme.primary
                         )
                         Spacer(modifier = Modifier.size(12.dp))
                         Column {
                             Text(
-                                text = "Time",
+                                text = stringResource(R.string.label_time),
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
-                                text = TimeUtils.formatTime(LocalTime.of(hour, minute)),
+                                text = TimeUtils.formatTime(LocalTime.of(hour, minute), is24Hour),
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
@@ -282,14 +283,15 @@ fun AlarmDetailsDialog(
     }
     if (showPicker) {
         DialTimePickerDialog(
-            initialHour = hour,
-            initialMinute = minute,
             onConfirm = { state ->
                 hour = state.hour
                 minute = state.minute
                 showPicker = false
             },
-            onDismissRequest = { showPicker = false }
+            onDismissRequest = { showPicker = false },
+            is24Hour = is24Hour,
+            initialHour = hour,
+            initialMinute = minute,
         )
     }
 }

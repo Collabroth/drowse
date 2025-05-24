@@ -6,7 +6,7 @@ import android.content.Intent
 import android.media.Ringtone
 import android.media.RingtoneManager
 import android.os.Build
-import com.codebroth.rewake.alarm.AlarmActivity
+import com.codebroth.rewake.alarm.AlarmAlertActivity
 import com.codebroth.rewake.alarm.data.AlarmConstants.EXTRA_ALARM_ID
 import com.codebroth.rewake.alarm.data.AlarmConstants.EXTRA_ALARM_LABEL
 import com.codebroth.rewake.alarm.data.AlarmConstants.EXTRA_ALARM_TIME
@@ -30,7 +30,7 @@ class AlarmTriggerService : Service() {
         val timeInMillis = intent.getLongExtra(EXTRA_ALARM_TIME, System.currentTimeMillis())
         val label = intent.getStringExtra(EXTRA_ALARM_LABEL).orEmpty()
 
-        val fullScreenIntent = Intent(this, AlarmActivity::class.java).apply {
+        val fullScreenIntent = Intent(this, AlarmAlertActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
             putExtra(EXTRA_ALARM_ID, alarmId)
             putExtra(EXTRA_ALARM_TIME, timeInMillis)

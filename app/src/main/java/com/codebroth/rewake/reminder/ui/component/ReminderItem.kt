@@ -28,6 +28,7 @@ fun ReminderItem(
     reminder: Reminder,
     onClick: () -> Unit,
     onDelete: () -> Unit,
+    is24Hour: Boolean = false,
 ) {
     Card(
         modifier = Modifier
@@ -49,7 +50,7 @@ fun ReminderItem(
                     )
                 }
                 Text(
-                    text = reminder.formattedTime(),
+                    text = reminder.formattedTime(is24Hour),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(top = 4.dp)
                 )

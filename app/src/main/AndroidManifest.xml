@@ -20,7 +20,7 @@
         android:theme="@style/Theme.Rewake"
         tools:targetApi="31">
         <activity
-            android:name=".alarm.AlarmActivity"
+            android:name=".alarm.AlarmAlertActivity"
             android:exported="true"
             android:excludeFromRecents="true"
             android:noHistory="true"

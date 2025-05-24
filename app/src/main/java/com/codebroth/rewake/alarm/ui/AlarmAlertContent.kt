@@ -23,21 +23,29 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.codebroth.rewake.core.domain.util.TimeUtils
+import java.time.LocalTime
 
 @Composable
-fun FullScreenAlarmNotification(
-    alarmTime: String,
+fun AlarmAlertContent(
     onDismiss: () -> Unit = {},
     onSnooze: () -> Unit = {},
+    alarmTime: LocalTime,
     alarmLabel: String?,
+    viewModel: AlarmAlertViewModel = hiltViewModel()
 ) {
+
+    val is24Hour by viewModel.is24HourFormat.collectAsState()
+
     val pulse = rememberInfiniteTransition()
         .animateFloat(
             initialValue = 0.9f,
@@ -72,7 +80,7 @@ fun FullScreenAlarmNotification(
                 tint = MaterialTheme.colorScheme.primary
             )
             Text(
-                text = alarmTime,
+                text = TimeUtils.formatTime(alarmTime, is24Hour),
                 style = MaterialTheme.typography.displayLarge,
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center
@@ -111,15 +119,4 @@ fun FullScreenAlarmNotification(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun FullScreenAlarmPreview() {
-    FullScreenAlarmNotification(
-        alarmTime = "9:00 AM",
-        onDismiss = {},
-        onSnooze = {},
-        alarmLabel = "Wake Up"
-    )
 }

@@ -39,7 +39,7 @@ fun CalculatorScreen(
     navController: NavHostController,
     viewModel: CalculatorViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.calculatorUiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
     val isWakeUpMode = uiState.mode == CalculatorMode.WAKE_UP_TIME
 
     val promptMessage = stringResource(
@@ -96,7 +96,7 @@ fun CalculatorScreen(
         )
         TimePickerButton(
             onClick = { viewModel.onShowTimePicker(true) },
-            timeText = TimeUtils.formatTime(timePickerInitial)
+            timeText = TimeUtils.formatTime(timePickerInitial, uiState.is24HourFormat)
         )
         if (uiState.recommendations.isNotEmpty()) {
             Text(
@@ -123,7 +123,8 @@ fun CalculatorScreen(
                                 }
                                 launchSingleTop
                             }
-                        }
+                        },
+                        is24Hour = uiState.is24HourFormat
                     )
                 }
             }
@@ -143,6 +144,7 @@ fun CalculatorScreen(
                 )
             },
             onDismissRequest = { viewModel.onShowTimePicker(false) },
+            is24Hour = uiState.is24HourFormat,
             initialHour = timePickerInitial.hour,
             initialMinute = timePickerInitial.minute,
         )

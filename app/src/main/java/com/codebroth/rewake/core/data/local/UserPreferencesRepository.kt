@@ -34,17 +34,6 @@ class UserPreferencesRepository(
             )
         }
 
-    val is24HourFormat: Flow<Boolean> = dataStore.data
-        .catch {
-            if (it is IOException) {
-                Log.e(TAG, "Error reading preferences", it)
-                emit(emptyPreferences())
-            } else {
-                throw it
-            }
-        }
-        .map { preferences -> preferences[IS_24_HOUR_FORMAT] == true }
-
     suspend fun set24HourFormat(enabled: Boolean) {
         dataStore.edit { preferences ->
             preferences[IS_24_HOUR_FORMAT] = enabled

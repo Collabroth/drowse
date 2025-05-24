@@ -35,6 +35,7 @@ fun DialTimePickerDialog(
     onConfirm: (TimePickerState) -> Unit,
     onDismissRequest: () -> Unit,
     title: String = stringResource(R.string.label_select_time),
+    is24Hour: Boolean = false,
     initialHour: Int? = null,
     initialMinute: Int? = null,
 ) {
@@ -43,7 +44,7 @@ fun DialTimePickerDialog(
     val timePickerState = rememberTimePickerState(
         initialHour = initialHour ?: currentTime.get(Calendar.HOUR_OF_DAY),
         initialMinute = initialMinute ?: currentTime.get(Calendar.MINUTE),
-        is24Hour = false
+        is24Hour = is24Hour
     )
 
     Dialog(

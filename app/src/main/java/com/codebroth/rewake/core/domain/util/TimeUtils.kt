@@ -9,8 +9,6 @@ import java.time.format.DateTimeFormatter
  */
 object TimeUtils {
 
-    private val formatter = DateTimeFormatter.ofPattern("h:mm a")
-
     private val WEEKEND = setOf(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY)
     private val WEEKDAYS = DayOfWeek.entries.toSet() - WEEKEND
 
@@ -20,8 +18,9 @@ object TimeUtils {
      * @param time The LocalTime object to format.
      * @return The formatted time string.
      */
-    fun formatTime(time: LocalTime): String {
-        return time.format(formatter)
+    fun formatTime(time: LocalTime, is24Hour: Boolean = false): String {
+        val pattern = if (is24Hour) "HH:mm" else "h:mm a"
+        return time.format(DateTimeFormatter.ofPattern(pattern))
     }
 
     fun getTimeFromHourMinute(hour: Int, minute: Int): LocalTime {
