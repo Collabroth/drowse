@@ -1,7 +1,10 @@
 package com.codebroth.rewake.alarm.ui
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.codebroth.rewake.alarm.data.scheduling.AlarmAlertHandler
 import com.codebroth.rewake.core.data.local.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -12,8 +15,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AlarmAlertViewModel @Inject constructor(
+    private val alarmHandler: AlarmAlertHandler,
     private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
+
+    private val _shouldFinish = MutableLiveData<Boolean>(false)
+    val shouldFinish: LiveData<Boolean> = _shouldFinish
 
     val is24HourFormat: StateFlow<Boolean> =
         userPreferencesRepository.userPreferencesFlow
@@ -23,4 +30,14 @@ class AlarmAlertViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = false
             )
+
+    fun onDismiss() {
+        alarmHandler.dismissAlarm()
+        _shouldFinish.value = true
+    }
+
+    fun onSnooze() {
+        alarmHandler.snoozeAlarm()
+        _shouldFinish.value = true
+    }
 }

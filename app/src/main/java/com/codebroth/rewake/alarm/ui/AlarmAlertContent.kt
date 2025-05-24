@@ -37,8 +37,6 @@ import java.time.LocalTime
 
 @Composable
 fun AlarmAlertContent(
-    onDismiss: () -> Unit = {},
-    onSnooze: () -> Unit = {},
     alarmTime: LocalTime,
     alarmLabel: String?,
     viewModel: AlarmAlertViewModel = hiltViewModel()
@@ -100,7 +98,7 @@ fun AlarmAlertContent(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Button(
-                onClick = onDismiss,
+                onClick = { viewModel.onDismiss()},
                 modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Red,
@@ -111,7 +109,7 @@ fun AlarmAlertContent(
                 Text("Dismiss")
             }
             OutlinedButton(
-                onClick = onSnooze,
+                onClick = { viewModel.onSnooze()},
                 modifier = Modifier.weight(1f),
                 shape = MaterialTheme.shapes.extraLarge
             ) {
