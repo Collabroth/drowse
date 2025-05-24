@@ -35,6 +35,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.codebroth.rewake.core.domain.util.TimeUtils
 import java.time.LocalTime
 
+/**
+ * Alarm alert screen content.
+ *
+ * @param alarmTime The time of the alarm.
+ * @param alarmLabel The label of the alarm.
+ * @param viewModel The [AlarmAlertViewModel] instance.
+ */
 @Composable
 fun AlarmAlertContent(
     alarmTime: LocalTime,
@@ -98,7 +105,7 @@ fun AlarmAlertContent(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Button(
-                onClick = { viewModel.onDismiss()},
+                onClick = { viewModel.onDismiss() },
                 modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Red,
@@ -109,7 +116,7 @@ fun AlarmAlertContent(
                 Text("Dismiss")
             }
             OutlinedButton(
-                onClick = { viewModel.onSnooze()},
+                onClick = { viewModel.onSnooze() },
                 modifier = Modifier.weight(1f),
                 shape = MaterialTheme.shapes.extraLarge
             ) {

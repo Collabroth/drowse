@@ -1,6 +1,5 @@
 package com.codebroth.rewake.alarm
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -11,8 +10,6 @@ import androidx.activity.viewModels
 import com.codebroth.rewake.alarm.data.AlarmConstants.EXTRA_ALARM_ID
 import com.codebroth.rewake.alarm.data.AlarmConstants.EXTRA_ALARM_LABEL
 import com.codebroth.rewake.alarm.data.AlarmConstants.EXTRA_ALARM_TIME
-import com.codebroth.rewake.alarm.data.AlarmConstants.INTENT_ACTION_DISMISS
-import com.codebroth.rewake.alarm.data.notification.AlarmTriggerService
 import com.codebroth.rewake.alarm.ui.AlarmAlertContent
 import com.codebroth.rewake.alarm.ui.AlarmAlertViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,6 +18,12 @@ import java.time.ZoneId
 
 private const val DEBUG_TAG = "AlarmActivity"
 
+/**
+ * The activity that shows the alarm alert screen when an alarm goes off.
+ *
+ * This activity is launched by the AlarmTriggerService when an alarm goes off.
+ * It shows the alarm time and label, and allows the user to dismiss or snooze the alarm.
+ */
 @AndroidEntryPoint
 class AlarmAlertActivity : ComponentActivity() {
 
@@ -54,6 +57,9 @@ class AlarmAlertActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * Set the window flags to show the alarm alert screen over the lock screen and turn on the screen.
+     */
     private fun setWindowFlags() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true)
