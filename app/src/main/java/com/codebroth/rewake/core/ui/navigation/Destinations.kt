@@ -19,7 +19,7 @@ sealed class AppDestination() {
         val setAlarmMinutes: Int? = null
     ) : AppDestination()
 
-//    @Serializable
-//    object Settings : AppDestination()
+    @Serializable
+    object Settings : AppDestination()
 }
 

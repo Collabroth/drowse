@@ -4,9 +4,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -24,6 +26,7 @@ import com.codebroth.rewake.core.ui.navigation.AppDestination
 import com.codebroth.rewake.core.ui.navigation.AppDestination.Alarms
 import com.codebroth.rewake.core.ui.navigation.AppDestination.Calculator
 import com.codebroth.rewake.core.ui.navigation.AppDestination.Reminders
+import com.codebroth.rewake.core.ui.navigation.AppDestination.Settings
 
 @Composable
 fun BottomBar(navController: NavHostController) {
@@ -46,12 +49,12 @@ fun BottomBar(navController: NavHostController) {
             selectedIcon = Icons.Default.Notifications,
             unselectedIcon = Icons.Outlined.Notifications
         ),
-//        BottomNavigationItem(
-//            title = stringResource(R.string.title_settings),
-//            destination = Settings,
-//            selectedIcon = Icons.Default.Settings,
-//            unselectedIcon = Icons.Outlined.Settings
-//        )
+        BottomNavigationItem(
+            title = stringResource(R.string.title_settings),
+            destination = Settings,
+            selectedIcon = Icons.Default.Settings,
+            unselectedIcon = Icons.Outlined.Settings
+        )
     )
 
     NavigationBar {
