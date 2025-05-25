@@ -15,30 +15,13 @@
  *    limitations under the License.
  */
 
-package com.codebroth.rewake.alarm.data.local
+package com.codebroth.rewake.alarm.domain.usecase
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
-import kotlinx.coroutines.flow.Flow
+import com.codebroth.rewake.alarm.data.repository.AlarmRepository
+import javax.inject.Inject
 
-@Dao
-interface AlarmDao {
-
-    @Query("SELECT * FROM alarms ORDER BY hour, minute")
-    fun getAllAlarms(): Flow<List<AlarmEntity>>
-
-    @Query("SELECT * FROM alarms WHERE id = :id")
-    fun getAlarmById(id: Int): Flow<AlarmEntity>
-
-    @Insert
-    suspend fun insert(alarm: AlarmEntity): Long
-
-    @Update
-    suspend fun update(alarm: AlarmEntity)
-
-    @Delete
-    suspend fun delete(alarm: AlarmEntity)
+class GetAlarmByIdUseCase @Inject constructor(
+    private val repo: AlarmRepository
+) {
+    operator fun invoke(id: Int) = repo.getAlarmById(id)
 }

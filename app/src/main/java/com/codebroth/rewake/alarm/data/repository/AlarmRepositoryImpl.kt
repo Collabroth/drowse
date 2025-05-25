@@ -35,6 +35,11 @@ class AlarmRepositoryImpl @Inject constructor(
             .map { list -> list.map { it.toDomainModel() } }
     }
 
+    override fun getAlarmById(id: Int): Flow<Alarm?> {
+        return dao.getAlarmById(id)
+            .map { it.toDomainModel() }
+    }
+
     override suspend fun insertAlarm(alarm: Alarm): Int {
         val rowId = dao.insert(alarm.fromDomainModel())
         return rowId.toInt()

@@ -28,18 +28,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.codebroth.rewake.core.data.local.UserPreferencesRepository
 import com.codebroth.rewake.core.ui.component.appbar.BottomBar
 import com.codebroth.rewake.core.ui.component.appbar.TopBar
 import com.codebroth.rewake.core.ui.component.snackbar.ObserveAsEvents
 import com.codebroth.rewake.core.ui.component.snackbar.SnackbarController
 import com.codebroth.rewake.core.ui.navigation.RewakeNavHost
-import com.codebroth.rewake.core.ui.theme.RewakeTheme
 import kotlinx.coroutines.launch
 
 @Composable
-fun RewakeApp() {
+fun RewakeApp(userPreferencesRepository: UserPreferencesRepository) {
 
     val navController = rememberNavController()
 
@@ -71,7 +70,10 @@ fun RewakeApp() {
             TopBar()
         },
         bottomBar = {
-            BottomBar(navController)
+            BottomBar(
+                navController = navController,
+                userPreferencesFlow = userPreferencesRepository.userPreferencesFlow
+            )
         },
         snackbarHost = {
             SnackbarHost(snackBarHostState)
@@ -83,13 +85,5 @@ fun RewakeApp() {
                 .fillMaxSize()
                 .padding(innerPadding)
         )
-    }
-}
-
-@Preview
-@Composable
-fun RewakeAppPreview() {
-    RewakeTheme {
-        RewakeApp()
     }
 }

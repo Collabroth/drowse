@@ -24,6 +24,8 @@ interface AlarmRepository {
 
     fun getAllAlarms(): Flow<List<Alarm>>
 
+    fun getAlarmById(id: Int): Flow<Alarm?>
+
     suspend fun insertAlarm(alarm: Alarm): Int
 
     suspend fun updateAlarm(alarm: Alarm)

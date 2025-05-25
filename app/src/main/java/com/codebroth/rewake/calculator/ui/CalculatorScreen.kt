@@ -129,16 +129,21 @@ fun CalculatorScreen(
                     RecommendationCard(
                         rec = rec,
                         onClick = { time ->
-                            navController.navigate(
-                                if (uiState.mode == CalculatorMode.WAKE_UP_TIME)
-                                    AppDestination.Reminders(time.hour, time.minute)
-                                else
-                                    AppDestination.Alarms(time.hour, time.minute)
-                            ) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
+                            if (uiState.useAlarmClockApi && !isWakeUpMode) {
+                                viewModel.sendAlarmClockIntent(time)
+                            } else {
+                                navController.navigate(
+                                    if (uiState.mode == CalculatorMode.WAKE_UP_TIME) {
+                                        AppDestination.Reminders(time.hour, time.minute)
+                                    } else {
+                                        AppDestination.Alarms(time.hour, time.minute)
+                                    }
+                                ) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop
                                 }
-                                launchSingleTop
                             }
                         },
                         is24Hour = uiState.is24HourFormat

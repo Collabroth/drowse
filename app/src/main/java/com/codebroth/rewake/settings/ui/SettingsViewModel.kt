@@ -19,6 +19,7 @@ package com.codebroth.rewake.settings.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.codebroth.rewake.alarm.data.scheduling.AlarmSchedulerService
 import com.codebroth.rewake.core.data.local.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -30,13 +31,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val userPreferencesRepository: UserPreferencesRepository
+    private val userPreferencesRepository: UserPreferencesRepository,
+    private val alarmSchedulerService: AlarmSchedulerService,
 ) : ViewModel() {
 
     val uiState: StateFlow<SettingsUiState> =
         userPreferencesRepository.userPreferencesFlow
             .map { userPreferences ->
-                SettingsUiState(is24HourFormat = userPreferences.is24HourFormat)
+                SettingsUiState(
+                    is24HourFormat = userPreferences.is24HourFormat,
+                    useAlarmClockApi = userPreferences.useAlarmClockApi
+                )
             }
             .stateIn(
                 scope = viewModelScope,
@@ -47,8 +52,14 @@ class SettingsViewModel @Inject constructor(
     fun onToggle24HourFormat(is24HourFormat: Boolean) = viewModelScope.launch {
         userPreferencesRepository.set24HourFormat(is24HourFormat)
     }
+
+    fun onToggleUseAlarmClockApi(useAlarmClockApi: Boolean) = viewModelScope.launch {
+        userPreferencesRepository.setUseAlarmClockApi(useAlarmClockApi)
+        alarmSchedulerService.cancelAllActive()
+    }
 }
 
 data class SettingsUiState(
     val is24HourFormat: Boolean = false,
+    val useAlarmClockApi: Boolean = false,
 )

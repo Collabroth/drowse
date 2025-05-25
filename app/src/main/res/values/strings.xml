@@ -36,6 +36,6 @@
     <string name="description_action_expand">Expand</string>
     <string name="title_alarm">Alarm</string>
     <string name="notification_text_swipe_to_dismiss">Swipe to dismiss</string>
-    <string name="label_time_format">24 - Hour Time:</string>
+    <string name="label_time_format">24 - hour time:</string>
     <string name="label_time">Time</string>
 </resources>

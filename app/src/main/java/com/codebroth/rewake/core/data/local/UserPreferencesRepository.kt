@@ -29,7 +29,8 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 
 data class UserPreferences(
-    val is24HourFormat: Boolean
+    val is24HourFormat: Boolean = false,
+    val useAlarmClockApi: Boolean = false,
 )
 
 class UserPreferencesRepository(
@@ -47,7 +48,8 @@ class UserPreferencesRepository(
         }
         .map { preferences ->
             UserPreferences(
-                is24HourFormat = preferences[IS_24_HOUR_FORMAT] == true
+                is24HourFormat = preferences[IS_24_HOUR_FORMAT] == true,
+                useAlarmClockApi = preferences[USE_ALARM_CLOCK_API] == true,
             )
         }
 
@@ -57,8 +59,16 @@ class UserPreferencesRepository(
         }
     }
 
+    suspend fun setUseAlarmClockApi(enabled: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[USE_ALARM_CLOCK_API] = enabled
+        }
+    }
+
     private companion object {
         val IS_24_HOUR_FORMAT = booleanPreferencesKey("is_24_hour_format")
+        val USE_ALARM_CLOCK_API = booleanPreferencesKey("use_alarm_clock_api")
+
         const val TAG = "UserPreferencesRepo"
     }
 }

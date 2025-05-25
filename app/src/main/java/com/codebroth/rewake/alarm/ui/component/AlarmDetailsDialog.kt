@@ -84,7 +84,7 @@ fun AlarmDetailsDialog(
 ) {
     var label by rememberSaveable { mutableStateOf(initial?.label.orEmpty()) }
     var days by rememberSaveable { mutableStateOf(initial?.daysOfWeek.orEmpty()) }
-    var hour by rememberSaveable { mutableIntStateOf(initial?.hour ?: 21) }
+    var hour by rememberSaveable { mutableIntStateOf(initial?.hour ?: 9) }
     var minute by rememberSaveable { mutableIntStateOf(initial?.minute ?: 0) }
 
     var showPicker by rememberSaveable { mutableStateOf(false) }

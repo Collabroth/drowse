@@ -54,5 +54,16 @@ fun SettingsScreen(
                 onCheckedChange = viewModel::onToggle24HourFormat,
             )
         }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text("Use system alarm app:")
+            Switch(
+                checked = state.useAlarmClockApi,
+                onCheckedChange = viewModel::onToggleUseAlarmClockApi,
+            )
+        }
     }
 }

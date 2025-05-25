@@ -60,20 +60,25 @@ class AlarmSchedulerService @Inject constructor(
     }
 
     suspend fun scheduleNext(alarmId: Int) {
-        /**
-         * Temporary Solution
-         * TODO: find by ID
-         */
-        val alarm = repo
-            .getAllAlarms()
-            .first()
-            .first { it.id == alarmId }
 
+        val alarm = repo.getAlarmById(alarmId).first()
+            ?: throw IllegalArgumentException("No alarm found with id=$alarmId")
         scheduleNext(alarm, alarmId)
     }
 
     fun cancel(alarmId: Int) {
         scheduler.cancel(alarmId, AlarmReceiver::class.java)
+    }
+
+    suspend fun cancelAllActive() {
+        val activeAlarms = repo.getAllAlarms()
+            .first()
+            .filter { it.isEnabled }
+
+        activeAlarms.forEach { alarm ->
+            cancel(alarm.id)
+            repo.updateAlarm(alarm.copy(isEnabled = false))
+        }
     }
 
     fun reschedule(alarm: Alarm, alarmId: Int) {

@@ -21,17 +21,23 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.codebroth.rewake.core.data.local.UserPreferencesRepository
 import com.codebroth.rewake.core.ui.theme.RewakeTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var userPreferencesRepository: UserPreferencesRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             RewakeTheme {
-                RewakeApp()
+                RewakeApp(userPreferencesRepository)
             }
         }
     }

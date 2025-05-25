@@ -19,11 +19,14 @@ package com.codebroth.rewake.calculator.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.codebroth.rewake.calculator.data.AlarmClockIntentLauncher
 import com.codebroth.rewake.calculator.domain.model.SleepRecommendation
 import com.codebroth.rewake.calculator.domain.usecase.CalculateBedTimesUseCase
 import com.codebroth.rewake.calculator.domain.usecase.CalculateWakeTimesUseCase
 import com.codebroth.rewake.calculator.ui.component.CalculatorMode
 import com.codebroth.rewake.core.data.local.UserPreferencesRepository
+import com.codebroth.rewake.core.ui.component.snackbar.SnackBarEvent
+import com.codebroth.rewake.core.ui.component.snackbar.SnackbarController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,6 +35,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.time.LocalTime
 
 @HiltViewModel
@@ -41,18 +45,27 @@ class CalculatorViewModel @Inject constructor(
     private val preferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
+    @Inject
+    lateinit var alarmClockLauncher: AlarmClockIntentLauncher
+
     private val _uiState = MutableStateFlow(CalculatorUiState())
     val uiState: StateFlow<CalculatorUiState> =
         combine(
             _uiState,
             preferencesRepository.userPreferencesFlow
         ) { state, userPreferences ->
-            state.copy(is24HourFormat = userPreferences.is24HourFormat)
+            state.copy(
+                is24HourFormat = userPreferences.is24HourFormat,
+                useAlarmClockApi = userPreferences.useAlarmClockApi,
+            )
         }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = _uiState.value.copy(is24HourFormat = false)
+                initialValue = _uiState.value.copy(
+                    is24HourFormat = false,
+                    useAlarmClockApi = false,
+                )
             )
 
     fun onModeChange(mode: CalculatorMode) {
@@ -77,11 +90,18 @@ class CalculatorViewModel @Inject constructor(
         _uiState.update { it.copy(recommendations = recs) }
     }
 
+    fun sendAlarmClockIntent(time: LocalTime) {
+        alarmClockLauncher.startAlarmSetAction(time.hour, time.minute)
+    }
+
     data class CalculatorUiState(
         val mode: CalculatorMode = CalculatorMode.WAKE_UP_TIME,
         val selectedTime: LocalTime = LocalTime.of(7, 30),
         val recommendations: List<SleepRecommendation> = emptyList(),
         val showTimePicker: Boolean = false,
-        val is24HourFormat: Boolean = false
+
+        // user preferences
+        val is24HourFormat: Boolean = false,
+        val useAlarmClockApi: Boolean = false,
     )
 }

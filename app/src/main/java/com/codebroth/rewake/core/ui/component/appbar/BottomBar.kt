@@ -31,6 +31,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -39,40 +40,54 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.codebroth.rewake.R
+import com.codebroth.rewake.core.data.local.UserPreferences
 import com.codebroth.rewake.core.ui.navigation.AppDestination
 import com.codebroth.rewake.core.ui.navigation.AppDestination.Alarms
 import com.codebroth.rewake.core.ui.navigation.AppDestination.Calculator
 import com.codebroth.rewake.core.ui.navigation.AppDestination.Reminders
 import com.codebroth.rewake.core.ui.navigation.AppDestination.Settings
+import kotlinx.coroutines.flow.Flow
 
 @Composable
-fun BottomBar(navController: NavHostController) {
-    val navigationBarItems = listOf(
-        BottomNavigationItem(
-            title = stringResource(R.string.title_calculator),
-            destination = Calculator,
-            selectedIcon = Icons.Default.Analytics,
-            unselectedIcon = Icons.Outlined.Analytics
-        ),
-        BottomNavigationItem(
-            title = stringResource(R.string.title_alarms),
-            destination = Alarms(),
-            selectedIcon = Icons.Default.Alarm,
-            unselectedIcon = Icons.Outlined.Alarm
-        ),
-        BottomNavigationItem(
-            title = stringResource(R.string.title_reminders),
-            destination = Reminders(),
-            selectedIcon = Icons.Default.Notifications,
-            unselectedIcon = Icons.Outlined.Notifications
-        ),
-        BottomNavigationItem(
-            title = stringResource(R.string.title_settings),
-            destination = Settings,
-            selectedIcon = Icons.Default.Settings,
-            unselectedIcon = Icons.Outlined.Settings
-        )
+private fun getNavbarItems() = listOf(
+    BottomNavigationItem(
+        title = stringResource(R.string.title_calculator),
+        destination = Calculator,
+        selectedIcon = Icons.Default.Analytics,
+        unselectedIcon = Icons.Outlined.Analytics
+    ),
+    BottomNavigationItem(
+        title = stringResource(R.string.title_alarms),
+        destination = Alarms(),
+        selectedIcon = Icons.Default.Alarm,
+        unselectedIcon = Icons.Outlined.Alarm
+    ),
+    BottomNavigationItem(
+        title = stringResource(R.string.title_reminders),
+        destination = Reminders(),
+        selectedIcon = Icons.Default.Notifications,
+        unselectedIcon = Icons.Outlined.Notifications
+    ),
+    BottomNavigationItem(
+        title = stringResource(R.string.title_settings),
+        destination = Settings,
+        selectedIcon = Icons.Default.Settings,
+        unselectedIcon = Icons.Outlined.Settings
     )
+)
+
+@Composable
+fun BottomBar(
+    navController: NavHostController,
+    userPreferencesFlow: Flow<UserPreferences>,
+) {
+    val userPreferences by userPreferencesFlow.collectAsState(initial = UserPreferences())
+
+    val navigationBarItems = if (userPreferences.useAlarmClockApi) {
+        getNavbarItems().filterNot { it.destination is Alarms }
+    } else {
+        getNavbarItems()
+    }
 
     NavigationBar {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
