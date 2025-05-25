@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <application
-        android:name=".RewakeApplication"
+        android:name=".DrowseApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -18,7 +18,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Rewake"
+        android:theme="@style/Theme.Drowse"
         tools:targetApi="31">
         <activity
             android:name=".alarm.AlarmAlertActivity"
@@ -30,11 +30,11 @@
             android:turnScreenOn="true"
             android:launchMode="singleInstance"
             android:label="@string/title_activity_alarm"
-            android:theme="@style/Theme.Rewake" />
+            android:theme="@style/Theme.Drowse" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Rewake">
+            android:theme="@style/Theme.Drowse">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

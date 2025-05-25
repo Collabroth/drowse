@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "rewake"
+rootProject.name = "drowse"
 include(":app")
  

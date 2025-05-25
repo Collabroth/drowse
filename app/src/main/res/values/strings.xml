@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Rewake</string>
+    <string name="app_name">Drowse</string>
     <string name="wake_up_tab_name">Wake Up At</string>
     <string name="sleep_at_tab_name">Sleep At</string>
     <string name="label_wake_up_prompt">I want to wake up at …</string>

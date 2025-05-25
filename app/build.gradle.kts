@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.codebroth.rewake"
+    namespace = "com.codebroth.drowse"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.codebroth.rewake"
+        applicationId = "com.codebroth.drowse"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
