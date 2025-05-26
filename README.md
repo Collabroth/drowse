@@ -1,7 +1,6 @@
 # Drowse
 
 Drowse is an open-source sleep cycle calculator app that helps you optimize your sleep by calculating the best times to go to bed or wake up. You can schedule alarms directly in-app or hand off to your device’s native clock application. Built with the Android Jetpack Compose library.
----
 
 ## Features
 
@@ -18,8 +17,6 @@ Drowse is an open-source sleep cycle calculator app that helps you optimize your
   * **Room** for alarm and reminder data
   * **DataStore** for user preferences
   * **Broadcast Receivers** to reschedule alarms on boot
-
----
 
 ## 💻 Usage
 
@@ -38,8 +35,6 @@ Drowse is an open-source sleep cycle calculator app that helps you optimize your
 
    * Toggle **24-hour format**
    * Toggle **Use system alarm app**
-
----
 
 ## 📄 License
 
