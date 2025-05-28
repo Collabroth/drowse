@@ -30,25 +30,29 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.codebroth.drowse.R
 import com.codebroth.drowse.alarm.domain.model.Alarm
 import com.codebroth.drowse.alarm.domain.model.formattedTime
+import java.time.DayOfWeek
 
 @Composable
 fun AlarmItem(
     alarm: Alarm,
     onClick: () -> Unit,
     onToggle: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
     is24Hour: Boolean = false,
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
     ) {
         Row(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(dimensionResource(R.dimen.padding_medium))
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -63,19 +67,36 @@ fun AlarmItem(
                 Text(
                     text = alarm.formattedTime(is24Hour),
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(top = 4.dp)
+                    modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_xsmall))
                 )
                 Text(
                     text = alarm.daysOfWeek.joinToString { it.name.take(3) },
                     style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(top = 4.dp)
+                    modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_xsmall))
                 )
             }
             Switch(
                 checked = alarm.isEnabled,
                 onCheckedChange = { onToggle(it) },
-                modifier = Modifier.padding(start = 8.dp)
+                modifier = Modifier.padding(start = dimensionResource(R.dimen.padding_small))
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun AlarmItemPreview() {
+    AlarmItem(
+        alarm = Alarm(
+            id = 1,
+            hour = 7,
+            minute = 30,
+            daysOfWeek = setOf(DayOfWeek.MONDAY, DayOfWeek.TUESDAY),
+            label = "Morning Alarm",
+            isEnabled = true
+        ),
+        onClick = {},
+        onToggle = {}
+    )
 }

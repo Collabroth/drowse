@@ -36,8 +36,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -56,6 +56,7 @@ import com.codebroth.drowse.core.ui.navigation.AppDestination
 @Composable
 fun CalculatorScreen(
     navController: NavHostController,
+    modifier: Modifier = Modifier,
     viewModel: CalculatorViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -78,10 +79,10 @@ fun CalculatorScreen(
     )
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+            .padding(dimensionResource(R.dimen.padding_medium)),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium))
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -92,7 +93,7 @@ fun CalculatorScreen(
                 onClick = { viewModel.onModeChange(CalculatorMode.WAKE_UP_TIME) },
                 label = { Text(stringResource(R.string.wake_up_tab_name)) }
             )
-            Spacer(Modifier.width(8.dp))
+            Spacer(Modifier.width(dimensionResource(R.dimen.spacer_small)))
             FilterChip(
                 selected = uiState.mode == CalculatorMode.BED_TIME,
                 onClick = { viewModel.onModeChange(CalculatorMode.BED_TIME) },
@@ -118,7 +119,7 @@ fun CalculatorScreen(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small)),
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(uiState.recommendations) { rec ->

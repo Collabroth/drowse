@@ -60,8 +60,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import com.codebroth.drowse.R
 import com.codebroth.drowse.alarm.domain.model.Alarm
@@ -80,6 +81,7 @@ fun AlarmDetailsDialog(
     onCancel: () -> Unit,
     onConfirm: (Alarm) -> Unit,
     onDelete: (Alarm) -> Unit,
+    modifier: Modifier = Modifier,
     is24Hour: Boolean = false,
 ) {
     var label by rememberSaveable { mutableStateOf(initial?.label.orEmpty()) }
@@ -95,12 +97,13 @@ fun AlarmDetailsDialog(
         onDismissRequest = onCancel,
     ) {
         Surface(
+            modifier = modifier,
             shape = MaterialTheme.shapes.medium,
-            tonalElevation = 6.dp
+            tonalElevation = dimensionResource(R.dimen.surface_tonal_elevation)
         ) {
             Column(
                 modifier = Modifier
-                    .padding(24.dp)
+                    .padding(dimensionResource(R.dimen.padding_large))
                     .fillMaxWidth(),
             ) {
                 Text(
@@ -111,29 +114,29 @@ fun AlarmDetailsDialog(
                     },
                     style = MaterialTheme.typography.headlineSmall
                 )
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(dimensionResource(R.dimen.height_medium)))
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_size_small)),
                     singleLine = true,
                     label = { Text(stringResource(R.string.details_dialog_label_field)) },
                     value = label,
                     onValueChange = { label = it },
                 )
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(dimensionResource(R.dimen.height_medium)))
                 OutlinedCard(
                     onClick = { showPicker = true },
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_size_small)),
                     border = BorderStroke(
-                        width = 1.dp,
+                        width = dimensionResource(R.dimen.border_width),
                         color = MaterialTheme.colorScheme.outlineVariant
                     )
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
+                            .padding(dimensionResource(R.dimen.padding_medium)),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
@@ -141,7 +144,7 @@ fun AlarmDetailsDialog(
                             contentDescription = stringResource(R.string.label_select_time),
                             tint = MaterialTheme.colorScheme.primary
                         )
-                        Spacer(modifier = Modifier.size(12.dp))
+                        Spacer(modifier = Modifier.size(dimensionResource(R.dimen.spacer_medium)))
                         Column {
                             Text(
                                 text = stringResource(R.string.label_time),
@@ -156,17 +159,17 @@ fun AlarmDetailsDialog(
                         }
                     }
                 }
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(dimensionResource(R.dimen.height_medium)))
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.surfaceVariant
                     ),
                     border = BorderStroke(
-                        width = 1.dp,
+                        width = dimensionResource(R.dimen.border_width),
                         color = MaterialTheme.colorScheme.outlineVariant
                     ),
-                    shape = RoundedCornerShape(8.dp)
+                    shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_size_small))
                 ) {
                     Column(modifier = Modifier.fillMaxWidth()) {
                         Surface(
@@ -176,7 +179,7 @@ fun AlarmDetailsDialog(
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                                    .padding(dimensionResource(R.dimen.padding_medium)),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
@@ -191,13 +194,13 @@ fun AlarmDetailsDialog(
                                 Icon(
                                     imageVector = Icons.Default.KeyboardArrowDown,
                                     contentDescription = if (expanded) {
-                                        stringResource(R.string.description_action_collapse)
+                                        stringResource(R.string.action_collapse_content_description)
                                     } else {
-                                        stringResource(R.string.description_action_expand)
+                                        stringResource(R.string.action_expand_content_description)
                                     },
                                     modifier = Modifier
-                                        .padding(start = 8.dp)
-                                        .size(20.dp)
+                                        .padding(start = dimensionResource(R.dimen.padding_small))
+                                        .size(dimensionResource(R.dimen.icon_size))
                                         .rotate(if (expanded) 180f else 0f),
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -219,7 +222,7 @@ fun AlarmDetailsDialog(
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 8.dp, vertical = 8.dp)
+                                    .padding(dimensionResource(R.dimen.padding_small))
                             ) {
                                 DayOfWeek.entries.forEach { day ->
                                     Row(
@@ -232,17 +235,22 @@ fun AlarmDetailsDialog(
                                                     days + day
                                                 }
                                             }
-                                            .padding(vertical = 2.dp, horizontal = 8.dp),
+                                            .padding(
+                                                vertical = dimensionResource(R.dimen.padding_xsmall),
+                                                horizontal = dimensionResource(R.dimen.padding_small)
+                                            ),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        Spacer(Modifier.size(8.dp))
+                                        Spacer(Modifier.size(dimensionResource(R.dimen.spacer_small)))
                                         Text(
                                             text = day.getDisplayName(
                                                 TextStyle.FULL,
                                                 Locale.getDefault()
                                             ),
                                             style = MaterialTheme.typography.bodyMedium,
-                                            modifier = Modifier.padding(start = 8.dp)
+                                            modifier = Modifier.padding(
+                                                start = dimensionResource(R.dimen.padding_small)
+                                            )
                                         )
                                         Spacer(Modifier.weight(1f))
                                         Checkbox(
@@ -255,7 +263,7 @@ fun AlarmDetailsDialog(
                         }
                     }
                 }
-                Spacer(Modifier.height(24.dp))
+                Spacer(Modifier.height(dimensionResource(R.dimen.height_large)))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
@@ -270,12 +278,11 @@ fun AlarmDetailsDialog(
                             Text(stringResource(R.string.action_delete))
                         }
                     } else {
-                        Spacer(Modifier.width(8.dp))
+                        Spacer(Modifier.width(dimensionResource(R.dimen.spacer_small)))
                     }
-
                     Row {
                         TextButton(onClick = onCancel) {
-                            Text(stringResource(R.string.action_dismiss))
+                            Text(stringResource(R.string.action_cancel))
                         }
                         TextButton(
                             onClick = {
@@ -291,7 +298,7 @@ fun AlarmDetailsDialog(
                                 )
                             }
                         ) {
-                            Text(stringResource(R.string.action_confirm))
+                            Text(stringResource(R.string.action_ok))
                         }
                     }
                 }
@@ -311,4 +318,23 @@ fun AlarmDetailsDialog(
             initialMinute = minute,
         )
     }
+}
+
+@Preview
+@Composable
+fun AlarmDetailsDialogPreview() {
+    AlarmDetailsDialog(
+        initial = Alarm(
+            id = 1,
+            hour = 7,
+            minute = 30,
+            daysOfWeek = setOf(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY),
+            label = "Morning Alarm",
+            isEnabled = true
+        ),
+        onCancel = {},
+        onConfirm = {},
+        onDelete = {},
+        is24Hour = true
+    )
 }

@@ -18,6 +18,7 @@
 package com.codebroth.drowse.settings.ui.component
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.codebroth.drowse.R
 
@@ -29,8 +30,10 @@ fun SleepBufferDialog(
     onDismiss: () -> Unit,
     onConfirm: (Int) -> Unit,
     currentValue: Int,
+    modifier: Modifier = Modifier,
 ) {
     NumberPickerDialog(
+        modifier = modifier,
         onDismissRequest = onDismiss,
         onConfirmRequest = onConfirm,
         title = stringResource(R.string.title_set_fall_asleep_buffer),

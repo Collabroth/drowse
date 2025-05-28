@@ -39,8 +39,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.codebroth.drowse.R
 import com.codebroth.drowse.settings.ui.component.PreferenceRow
@@ -64,6 +64,7 @@ private enum class ActiveDialog { Buffer, CycleLength }
  */
 @Composable
 fun SettingsScreen(
+    modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -71,11 +72,11 @@ fun SettingsScreen(
     var activeDialog by rememberSaveable { mutableStateOf<ActiveDialog?>(null) }
 
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(24.dp),
-        contentPadding = PaddingValues(vertical = 16.dp)
+            .padding(horizontal = dimensionResource(R.dimen.padding_medium)),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_large)),
+        contentPadding = PaddingValues(vertical = dimensionResource(R.dimen.padding_medium))
     ) {
         item {
             SettingsSection(stringResource(R.string.title_preferences)) {
@@ -128,7 +129,7 @@ fun SettingsScreen(
                 PreferenceRow(
                     icon = Icons.Default.ChatBubble,
                     label = stringResource(R.string.label_send_feedback),
-                    description = stringResource(R.string.description_email_the_developer),
+                    description = stringResource(R.string.send_feedback_description),
                     onClick = { },
                     trailingContent = {
                         Icon(
@@ -140,7 +141,7 @@ fun SettingsScreen(
                 PreferenceRow(
                     icon = Icons.Default.Code,
                     label = stringResource(R.string.label_github),
-                    description = stringResource(R.string.description_view_source_code),
+                    description = stringResource(R.string.github_description),
                     onClick = { },
                     trailingContent = {
                         Icon(

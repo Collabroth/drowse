@@ -39,12 +39,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.codebroth.drowse.R
 
@@ -75,18 +75,20 @@ fun NumberPickerDialog(
         Card(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp),
-            shape = RoundedCornerShape(24.dp),
+                .padding(horizontal = dimensionResource(R.dimen.padding_large)),
+            shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_size_large)),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surface
             ),
-            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = dimensionResource(R.dimen.card_elevation)
+            )
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp),
-                verticalArrangement = Arrangement.spacedBy(20.dp)
+                    .padding(dimensionResource(R.dimen.padding_large)),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_large))
             ) {
                 Text(
                     text = title,
@@ -142,7 +144,7 @@ fun NumberPickerDialog(
                     Spacer(Modifier.weight(1f))
                     TextButton(
                         onClick = onDismissRequest,
-                    ) { Text(stringResource(R.string.action_dismiss)) }
+                    ) { Text(stringResource(R.string.action_cancel)) }
                     TextButton(
                         onClick = {
                             if (isValidValue) {
@@ -151,7 +153,7 @@ fun NumberPickerDialog(
                                 isError = true
                             }
                         },
-                    ) { Text(stringResource(R.string.action_confirm)) }
+                    ) { Text(stringResource(R.string.action_ok)) }
                 }
 
             }

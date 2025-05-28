@@ -32,19 +32,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 import com.codebroth.drowse.R
 
 @Composable
 fun TimePickerButton(
     timeText: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Button(
         onClick = onClick,
-        modifier = Modifier
-            .height(48.dp)
+        modifier = modifier
+            .height(dimensionResource(R.dimen.time_picker_button_height))
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -55,11 +57,20 @@ fun TimePickerButton(
                 text = timeText,
                 style = MaterialTheme.typography.titleLarge
             )
-            Spacer(Modifier.width(8.dp))
+            Spacer(Modifier.width(dimensionResource(R.dimen.spacer_small)))
             Icon(
                 imageVector = Icons.Default.ChevronRight,
                 contentDescription = stringResource(R.string.label_select_time)
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun TimePickerButtonPreview() {
+    TimePickerButton(
+        timeText = "08:00 AM",
+        onClick = {}
+    )
 }

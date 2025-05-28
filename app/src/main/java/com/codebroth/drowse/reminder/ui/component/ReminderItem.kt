@@ -33,9 +33,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.codebroth.drowse.R
 import com.codebroth.drowse.reminder.domain.model.Reminder
 import com.codebroth.drowse.reminder.domain.model.formattedTime
@@ -45,17 +45,18 @@ fun ReminderItem(
     reminder: Reminder,
     onClick: () -> Unit,
     onDelete: () -> Unit,
+    modifier: Modifier = Modifier,
     is24Hour: Boolean = false,
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(dimensionResource(R.dimen.padding_medium)),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -69,12 +70,12 @@ fun ReminderItem(
                 Text(
                     text = reminder.formattedTime(is24Hour),
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(top = 4.dp)
+                    modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_xsmall))
                 )
                 Text(
                     text = reminder.daysOfWeek.joinToString { it.name.take(3) },
                     style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(top = 4.dp)
+                    modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_xsmall))
                 )
             }
             IconButton(onClick = onDelete) {

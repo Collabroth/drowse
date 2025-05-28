@@ -38,9 +38,9 @@ import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.codebroth.drowse.R
@@ -51,6 +51,7 @@ import com.codebroth.drowse.R
 fun DialTimePickerDialog(
     onConfirm: (TimePickerState) -> Unit,
     onDismissRequest: () -> Unit,
+    modifier: Modifier = Modifier,
     title: String = stringResource(R.string.label_select_time),
     is24Hour: Boolean = false,
     initialHour: Int? = null,
@@ -71,24 +72,24 @@ fun DialTimePickerDialog(
         )
     ) {
         Surface(
-            shape = MaterialTheme.shapes.extraLarge,
-            tonalElevation = 8.dp,
-            modifier = Modifier
+            modifier = modifier
                 .width(IntrinsicSize.Min)
                 .height(IntrinsicSize.Min)
                 .background(
                     shape = MaterialTheme.shapes.extraLarge,
                     color = MaterialTheme.colorScheme.surface
-                )
+                ),
+            shape = MaterialTheme.shapes.extraLarge,
+            tonalElevation = dimensionResource(R.dimen.surface_tonal_elevation),
         ) {
             Column(
-                modifier = Modifier.padding(24.dp),
+                modifier = Modifier.padding(dimensionResource(R.dimen.padding_large)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 20.dp),
+                        .padding(bottom = dimensionResource(R.dimen.padding_large)),
                     text = title,
                     style = MaterialTheme.typography.labelMedium
                 )
@@ -97,22 +98,20 @@ fun DialTimePickerDialog(
                 )
                 Row(
                     modifier = Modifier
-                        .height(40.dp)
+                        .height(dimensionResource(R.dimen.dialog_button_row_height))
                         .fillMaxWidth()
                 ) {
                     Spacer(modifier = Modifier.weight(1f))
                     TextButton(onClick = onDismissRequest) {
-                        Text(stringResource(R.string.action_dismiss))
+                        Text(stringResource(R.string.action_cancel))
                     }
                     TextButton(onClick = { onConfirm(timePickerState) }) {
-                        Text(stringResource(R.string.action_confirm))
+                        Text(stringResource(R.string.action_ok))
                     }
                 }
             }
         }
     }
-
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

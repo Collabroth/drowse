@@ -31,10 +31,10 @@ import com.codebroth.drowse.R
 @Composable
 fun TopBar(modifier: Modifier = Modifier) {
     TopAppBar(
+        modifier = modifier,
         title = { Text(stringResource(R.string.app_name)) },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
-        modifier = modifier
     )
 }

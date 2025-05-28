@@ -36,9 +36,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.codebroth.drowse.R
 import com.codebroth.drowse.calculator.domain.model.SleepRecommendation
 import com.codebroth.drowse.core.domain.util.TimeUtils
@@ -48,18 +48,19 @@ import java.time.LocalTime
 fun RecommendationCard(
     rec: SleepRecommendation,
     onClick: (LocalTime) -> Unit,
+    modifier: Modifier = Modifier,
     is24Hour: Boolean = false,
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable { onClick(rec.time) },
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = dimensionResource(R.dimen.card_elevation))
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp),
+                .padding(dimensionResource(R.dimen.padding_medium)),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -84,7 +85,7 @@ fun RecommendationCard(
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
-                Spacer(Modifier.width(8.dp))
+                Spacer(Modifier.width(dimensionResource(R.dimen.spacer_small)))
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
                     contentDescription = stringResource(R.string.label_schedule)

@@ -33,6 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -80,6 +81,7 @@ private fun getNavbarItems() = listOf(
 fun BottomBar(
     navController: NavHostController,
     userPreferencesFlow: Flow<UserPreferences>,
+    modifier: Modifier = Modifier,
 ) {
     val userPreferences by userPreferencesFlow.collectAsState(initial = UserPreferences())
 
@@ -89,7 +91,7 @@ fun BottomBar(
         getNavbarItems()
     }
 
-    NavigationBar {
+    NavigationBar(modifier = modifier) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
 

@@ -18,6 +18,7 @@
 package com.codebroth.drowse.settings.ui.component
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.codebroth.drowse.R
 
@@ -29,12 +30,14 @@ fun SleepCycleLengthDialog(
     onDismiss: () -> Unit,
     onConfirm: (Int) -> Unit,
     currentValue: Int,
+    modifier: Modifier = Modifier,
 ) {
     NumberPickerDialog(
+        modifier = modifier,
         onDismissRequest = onDismiss,
         onConfirmRequest = onConfirm,
         title = stringResource(R.string.title_set_sleep_cycle_length),
-        description = stringResource(R.string.description_set_sleep_cycle_length),
+        description = stringResource(R.string.set_sleep_cycle_length_description),
         currentValue = currentValue,
         defaultValue = 90,
         minValue = 70,

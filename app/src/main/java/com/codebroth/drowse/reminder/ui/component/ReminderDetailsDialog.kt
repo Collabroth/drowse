@@ -58,8 +58,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 import com.codebroth.drowse.R
 import com.codebroth.drowse.core.domain.util.TimeUtils
 import com.codebroth.drowse.core.domain.util.TimeUtils.summarizeSelectedDaysOfWeek
@@ -76,6 +77,7 @@ fun ReminderDetailsDialog(
     initial: Reminder?,
     onCancel: () -> Unit,
     onConfirm: (Reminder) -> Unit,
+    modifier: Modifier = Modifier,
     is24Hour: Boolean = false,
 ) {
 
@@ -89,6 +91,7 @@ fun ReminderDetailsDialog(
     var expanded by rememberSaveable { mutableStateOf(false) }
 
     AlertDialog(
+        modifier = modifier,
         onDismissRequest = onCancel,
         title = {
             Text(
@@ -100,10 +103,10 @@ fun ReminderDetailsDialog(
             )
         },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium))) {
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_size_small)),
                     singleLine = true,
                     label = { Text(stringResource(R.string.details_dialog_label_field)) },
                     value = label,
@@ -112,16 +115,16 @@ fun ReminderDetailsDialog(
                 OutlinedCard(
                     onClick = { showPicker = true },
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_size_small)),
                     border = BorderStroke(
-                        width = 1.dp,
+                        width = dimensionResource(R.dimen.border_width),
                         color = MaterialTheme.colorScheme.outlineVariant
                     )
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
+                            .padding(dimensionResource(R.dimen.padding_medium)),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
@@ -129,7 +132,7 @@ fun ReminderDetailsDialog(
                             contentDescription = stringResource(R.string.label_select_time),
                             tint = MaterialTheme.colorScheme.primary
                         )
-                        Spacer(modifier = Modifier.size(12.dp))
+                        Spacer(modifier = Modifier.size(dimensionResource(R.dimen.spacer_medium)))
                         Column {
                             Text(
                                 text = stringResource(R.string.label_time),
@@ -150,10 +153,10 @@ fun ReminderDetailsDialog(
                         containerColor = MaterialTheme.colorScheme.surfaceVariant
                     ),
                     border = BorderStroke(
-                        width = 1.dp,
+                        width = dimensionResource(R.dimen.border_width),
                         color = MaterialTheme.colorScheme.outlineVariant
                     ),
-                    shape = RoundedCornerShape(8.dp)
+                    shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_size_small))
                 ) {
                     Column(modifier = Modifier.fillMaxWidth()) {
                         Surface(
@@ -163,7 +166,7 @@ fun ReminderDetailsDialog(
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                                    .padding(dimensionResource(R.dimen.padding_medium)),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
@@ -178,13 +181,13 @@ fun ReminderDetailsDialog(
                                 Icon(
                                     imageVector = Icons.Default.KeyboardArrowDown,
                                     contentDescription = if (expanded) {
-                                        stringResource(R.string.description_action_collapse)
+                                        stringResource(R.string.action_collapse_content_description)
                                     } else {
-                                        stringResource(R.string.description_action_expand)
+                                        stringResource(R.string.action_expand_content_description)
                                     },
                                     modifier = Modifier
-                                        .padding(start = 8.dp)
-                                        .size(20.dp)
+                                        .padding(start = dimensionResource(R.dimen.padding_small))
+                                        .size(dimensionResource(R.dimen.icon_size))
                                         .rotate(if (expanded) 180f else 0f),
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -206,7 +209,7 @@ fun ReminderDetailsDialog(
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 8.dp, vertical = 8.dp)
+                                    .padding(dimensionResource(R.dimen.padding_small))
                             ) {
                                 DayOfWeek.entries.forEach { day ->
                                     Row(
@@ -219,17 +222,20 @@ fun ReminderDetailsDialog(
                                                     days + day
                                                 }
                                             }
-                                            .padding(vertical = 2.dp, horizontal = 8.dp),
+                                            .padding(
+                                                vertical = dimensionResource(R.dimen.padding_xsmall),
+                                                horizontal = dimensionResource(R.dimen.padding_small)
+                                            ),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        Spacer(Modifier.size(8.dp))
+                                        Spacer(Modifier.size(dimensionResource(R.dimen.spacer_small)))
                                         Text(
                                             text = day.getDisplayName(
                                                 TextStyle.FULL,
                                                 Locale.getDefault()
                                             ),
                                             style = MaterialTheme.typography.bodyMedium,
-                                            modifier = Modifier.padding(start = 8.dp)
+                                            modifier = Modifier.padding(start = dimensionResource(R.dimen.spacer_small))
                                         )
                                         Spacer(Modifier.weight(1f))
                                         Checkbox(
@@ -256,12 +262,12 @@ fun ReminderDetailsDialog(
                     )
                 )
             }) {
-                Text(stringResource(R.string.action_confirm))
+                Text(stringResource(R.string.action_ok))
             }
         },
         dismissButton = {
             TextButton(onClick = onCancel) {
-                Text(stringResource(R.string.action_dismiss))
+                Text(stringResource(R.string.action_cancel))
             }
         }
     )
@@ -278,4 +284,14 @@ fun ReminderDetailsDialog(
             initialMinute = minute,
         )
     }
+}
+
+@Preview
+@Composable
+fun ReminderDetailsDialogPreview() {
+    ReminderDetailsDialog(
+        initial = null,
+        onCancel = {},
+        onConfirm = {}
+    )
 }

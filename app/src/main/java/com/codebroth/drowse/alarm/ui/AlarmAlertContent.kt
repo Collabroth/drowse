@@ -46,9 +46,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.codebroth.drowse.R
 import com.codebroth.drowse.core.domain.util.TimeUtils
 import java.time.LocalTime
 
@@ -63,6 +65,7 @@ import java.time.LocalTime
 fun AlarmAlertContent(
     alarmTime: LocalTime,
     alarmLabel: String?,
+    modifier: Modifier = Modifier,
     viewModel: AlarmAlertViewModel = hiltViewModel()
 ) {
 
@@ -82,22 +85,25 @@ fun AlarmAlertContent(
         )
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = 24.dp, vertical = 32.dp),
+            .padding(
+                horizontal = dimensionResource(R.dimen.padding_large),
+                vertical = dimensionResource(R.dimen.padding_xlarge)
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium))
         ) {
             Icon(
                 imageVector = Icons.Default.Alarm,
-                contentDescription = "Alarm Icon",
+                contentDescription = stringResource(R.string.alarm_icon_content_description),
                 modifier = Modifier
-                    .size(100.dp)
+                    .size(dimensionResource(R.dimen.alarm_alert_icon_size))
                     .scale(pulse.value),
                 tint = MaterialTheme.colorScheme.primary
             )
@@ -119,7 +125,7 @@ fun AlarmAlertContent(
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium)),
         ) {
             Button(
                 onClick = { viewModel.onDismiss() },
@@ -130,14 +136,14 @@ fun AlarmAlertContent(
                 ),
                 shape = MaterialTheme.shapes.extraLarge
             ) {
-                Text("Dismiss")
+                Text(stringResource(R.string.action_dismiss))
             }
             OutlinedButton(
                 onClick = { viewModel.onSnooze() },
                 modifier = Modifier.weight(1f),
                 shape = MaterialTheme.shapes.extraLarge
             ) {
-                Text("Snooze")
+                Text(stringResource(R.string.action_snooze))
             }
         }
     }

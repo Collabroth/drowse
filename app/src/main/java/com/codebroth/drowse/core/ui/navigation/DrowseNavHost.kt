@@ -28,8 +28,18 @@ import com.codebroth.drowse.calculator.ui.CalculatorScreen
 import com.codebroth.drowse.reminder.ui.ReminderScreen
 import com.codebroth.drowse.settings.ui.SettingsScreen
 
+/**
+ * Navigation host for the Drowse app.
+ * Defines the navigation graph and composable destinations.
+ *
+ * @param navController The NavHostController to manage navigation.
+ * @param modifier Optional modifier for the NavHost.
+ */
 @Composable
-fun DrowseNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
+fun DrowseNavHost(
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
     NavHost(
         navController = navController,
         startDestination = AppDestination.Calculator,

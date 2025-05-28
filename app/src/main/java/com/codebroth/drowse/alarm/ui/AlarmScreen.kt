@@ -39,15 +39,18 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.codebroth.drowse.R
 import com.codebroth.drowse.alarm.domain.model.Alarm
 import com.codebroth.drowse.alarm.ui.component.AlarmDetailsDialog
 import com.codebroth.drowse.alarm.ui.component.AlarmItem
 
+/**
+ * The screen for managing alarms in the Drowse app.
+ */
 @Composable
 fun AlarmScreen(
     modifier: Modifier = Modifier,
@@ -105,9 +108,9 @@ fun AlarmScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(bottom = 64.dp)
+                .padding(dimensionResource(R.dimen.padding_medium)),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small)),
+            contentPadding = PaddingValues(bottom = dimensionResource(R.dimen.list_bottom_padding))
         ) {
             items(alarms, key = { it.id }) { alarm ->
                 AlarmItem(
@@ -121,7 +124,7 @@ fun AlarmScreen(
         FloatingActionButton(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(16.dp),
+                .padding(dimensionResource(R.dimen.padding_medium)),
             onClick = { viewModel.showDialog() }
         ) {
             Icon(
