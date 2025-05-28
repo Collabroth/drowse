@@ -48,8 +48,10 @@ import com.codebroth.drowse.calculator.ui.component.TimePickerButton
 import com.codebroth.drowse.core.domain.util.TimeUtils
 import com.codebroth.drowse.core.ui.component.input.DialTimePickerDialog
 import com.codebroth.drowse.core.ui.navigation.AppDestination
-import java.time.LocalTime
 
+/**
+ * The main screen for the calculator feature, allowing users to calculate sleep and wake times.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalculatorScreen(
@@ -74,12 +76,6 @@ fun CalculatorScreen(
             R.string.title_recommended_wake_times
         }
     )
-
-    val timePickerInitial = if (isWakeUpMode) {
-        LocalTime.of(7, 30)
-    } else {
-        LocalTime.of(22, 0)
-    }
 
     Column(
         modifier = Modifier
@@ -113,7 +109,7 @@ fun CalculatorScreen(
         )
         TimePickerButton(
             onClick = { viewModel.onShowTimePicker(true) },
-            timeText = TimeUtils.formatTime(timePickerInitial, uiState.is24HourFormat)
+            timeText = TimeUtils.formatTime(uiState.selectedTime, uiState.is24HourFormat)
         )
         if (uiState.recommendations.isNotEmpty()) {
             Text(
@@ -167,8 +163,8 @@ fun CalculatorScreen(
             },
             onDismissRequest = { viewModel.onShowTimePicker(false) },
             is24Hour = uiState.is24HourFormat,
-            initialHour = timePickerInitial.hour,
-            initialMinute = timePickerInitial.minute,
+            initialHour = uiState.selectedTime.hour,
+            initialMinute = uiState.selectedTime.minute,
         )
     }
 }

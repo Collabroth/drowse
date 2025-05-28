@@ -22,31 +22,40 @@ import androidx.lifecycle.viewModelScope
 import com.codebroth.drowse.alarm.data.scheduling.AlarmSchedulerService
 import com.codebroth.drowse.core.data.local.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for managing settings in the application.
+ */
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val userPreferencesRepository: UserPreferencesRepository,
     private val alarmSchedulerService: AlarmSchedulerService,
 ) : ViewModel() {
 
+    private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> =
-        userPreferencesRepository.userPreferencesFlow
-            .map { userPreferences ->
-                SettingsUiState(
-                    is24HourFormat = userPreferences.is24HourFormat,
-                    useAlarmClockApi = userPreferences.useAlarmClockApi
-                )
-            }
+        combine(
+            _uiState,
+            userPreferencesRepository.userPreferencesFlow
+        ) { state, userPreferences ->
+            state.copy(
+                is24HourFormat = userPreferences.is24HourFormat,
+                useAlarmClockApi = userPreferences.useAlarmClockApi,
+                fallAsleepBuffer = userPreferences.fallAsleepBuffer,
+                sleepCycleLength = userPreferences.sleepCycleLengthMinutes
+            )
+        }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = SettingsUiState()
+                initialValue = _uiState.value
             )
 
     fun onToggle24HourFormat(is24HourFormat: Boolean) = viewModelScope.launch {
@@ -57,9 +66,19 @@ class SettingsViewModel @Inject constructor(
         userPreferencesRepository.setUseAlarmClockApi(useAlarmClockApi)
         alarmSchedulerService.cancelAllActive()
     }
+
+    fun onFallAsleepBufferChanged(minutes: Int) = viewModelScope.launch {
+        userPreferencesRepository.setFallAsleepBuffer(minutes)
+    }
+
+    fun onSleepCycleLengthChanged(minutes: Int) = viewModelScope.launch {
+        userPreferencesRepository.setSleepCycleLength(minutes)
+    }
 }
 
 data class SettingsUiState(
     val is24HourFormat: Boolean = false,
     val useAlarmClockApi: Boolean = false,
+    val fallAsleepBuffer: Int = 15,
+    val sleepCycleLength: Int = 90,
 )

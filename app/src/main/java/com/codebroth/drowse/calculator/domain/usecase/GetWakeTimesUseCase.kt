@@ -22,26 +22,25 @@ import java.time.LocalTime
 
 /**
  * Use case to calculate recommended wake up times based on sleep cycles.
- *
- * @property sleepCycleDurationMinutes Duration of a single sleep cycle in minutes.
- * @property fallAsleepBufferMinutes Buffer time to fall asleep in minutes.
  */
 class CalculateWakeTimesUseCase {
-
-    private val sleepCycleDurationMinutes = 90
-    private val fallAsleepBufferMinutes = 15 //can be changed by user in future
-
     /**
      * Invokes the use case to calculate recommended wake up times.
      *
-     * @param wakeUpTime The time the user wants to wake up.
-     * @return A list of sleep recommendations based on the provided wake up time.
+     * @param bedtime The time the user wants to go to bed.
+     * @param sleepCycleDurationMinutes The duration of a single sleep cycle in minutes.
+     * @param fallAsleepBufferMinutes The buffer time to fall asleep in minutes.
+     * @return A list of [SleepRecommendation] containing the number of cycles, hours of sleep, and recommended wake up time.
      */
-    operator fun invoke(wakeUpTime: LocalTime): List<SleepRecommendation> {
+    operator fun invoke(
+        bedtime: LocalTime,
+        sleepCycleDurationMinutes: Int = 90,
+        fallAsleepBufferMinutes: Int = 15,
+    ): List<SleepRecommendation> {
         return (1..6).map { cycles ->
             val totalSleepMinutes = cycles * sleepCycleDurationMinutes + fallAsleepBufferMinutes
-            val recommendedTime = wakeUpTime.plusMinutes(totalSleepMinutes.toLong())
-            SleepRecommendation(cycles, cycles * 1.5, recommendedTime)
+            val recommendedTime = bedtime.plusMinutes(totalSleepMinutes.toLong())
+            SleepRecommendation(cycles, totalSleepMinutes, recommendedTime)
         }
     }
 }

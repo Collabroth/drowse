@@ -37,6 +37,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.codebroth.drowse.R
 import com.codebroth.drowse.calculator.domain.model.SleepRecommendation
@@ -71,7 +72,11 @@ fun RecommendationCard(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        text = stringResource(R.string.label_abbreviated_hour, rec.hours),
+                        text = stringResource(
+                            R.string.label_abbreviated_hour,
+                            rec.minutes / 60,
+                            rec.minutes % 60
+                        ),
                         style = MaterialTheme.typography.bodySmall
                     )
                     Text(
@@ -87,6 +92,20 @@ fun RecommendationCard(
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun RecommendationCardPreview() {
+    RecommendationCard(
+        rec = SleepRecommendation(
+            time = LocalTime.of(22, 30),
+            minutes = 7,
+            cycles = 5
+        ),
+        onClick = {},
+        is24Hour = true
+    )
 }
 
 

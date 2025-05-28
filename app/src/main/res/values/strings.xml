@@ -1,3 +1,20 @@
+<!--
+  ~
+  ~    Copyright 2025 Jayman Rana
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
 <resources>
     <string name="app_name">Drowse</string>
     <string name="wake_up_tab_name">Wake Up At</string>
@@ -6,8 +23,8 @@
     <string name="title_recommended_bed_times">Recommended bed times:</string>
     <string name="label_sleep_at_prompt">I want to sleep at …</string>
     <string name="title_recommended_wake_times">Recommended times to wake up:</string>
-    <string name="action_dismiss">Dismiss</string>
-    <string name="action_confirm">Confirm</string>
+    <string name="action_dismiss">Cancel</string>
+    <string name="action_confirm">OK</string>
     <string name="title_calculator">Calculator</string>
     <string name="title_reminders">Reminders</string>
     <string name="title_settings">Settings</string>
@@ -26,7 +43,7 @@
     <string name="action_add_alarm">Add Alarm</string>
     <string name="action_edit_alarm">Edit Alarm</string>
     <string name="label_select_time">Select Time</string>
-    <string name="label_abbreviated_hour">%1$s hr</string>
+    <string name="label_abbreviated_hour">%1$s hr %2$s min</string>
     <string name="label_cycles">%1$s cycles</string>
     <string name="label_schedule">Schedule</string>
     <string name="description_action_delete_reminder">Delete reminder</string>
@@ -36,6 +53,24 @@
     <string name="description_action_expand">Expand</string>
     <string name="title_alarm">Alarm</string>
     <string name="notification_text_swipe_to_dismiss">Swipe to dismiss</string>
-    <string name="label_time_format">24 - hour time:</string>
+    <string name="label_time_format">24 - hour time</string>
     <string name="label_time">Time</string>
+    <string name="action_reset">Reset</string>
+    <string name="label_value_minutes">Value (minutes)</string>
+    <string name="error_range_description">Enter a value between %1$s and %2$s</string>
+    <string name="title_set_fall_asleep_buffer">Set Fall Asleep Buffer</string>
+    <string name="description_sleep_buffer">Time it takes to fall asleep</string>
+    <string name="title_set_sleep_cycle_length">Set Sleep Cycle Length</string>
+    <string name="description_set_sleep_cycle_length">length of one sleep cycle</string>
+    <string name="title_preferences">Preferences</string>
+    <string name="label_use_system_alarm_app">Use system alarm app</string>
+    <string name="title_sleep">Sleep</string>
+    <string name="label_fall_asleep_buffer">Fall asleep Buffer</string>
+    <string name="label_sleep_cycle_length">Sleep cycle length</string>
+    <string name="parameter_value_minutes">%1$s minutes</string>
+    <string name="title_contact">Contact</string>
+    <string name="label_send_feedback">Send Feedback</string>
+    <string name="description_email_the_developer">email the developer</string>
+    <string name="label_github">GitHub</string>
+    <string name="description_view_source_code">view source code</string>
 </resources>

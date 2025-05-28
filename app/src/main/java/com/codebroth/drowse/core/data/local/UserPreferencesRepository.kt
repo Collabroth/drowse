@@ -24,15 +24,29 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.intPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 
+/**
+ * Data class representing user preferences.
+ *
+ * @property is24HourFormat Whether to use 24-hour time format.
+ * @property useAlarmClockApi Whether to use the Alarm Clock API.
+ * @property fallAsleepBuffer The buffer time in minutes before sleep.
+ * @property sleepCycleLengthMinutes The length of a sleep cycle in minutes.
+ */
 data class UserPreferences(
     val is24HourFormat: Boolean = false,
     val useAlarmClockApi: Boolean = false,
+    val fallAsleepBuffer: Int = 15,
+    val sleepCycleLengthMinutes: Int = 90,
 )
 
+/**
+ * Repository for managing user preferences using DataStore.
+ */
 class UserPreferencesRepository(
     private val dataStore: DataStore<Preferences>
 ) {
@@ -49,7 +63,9 @@ class UserPreferencesRepository(
         .map { preferences ->
             UserPreferences(
                 is24HourFormat = preferences[IS_24_HOUR_FORMAT] == true,
-                useAlarmClockApi = preferences[USE_ALARM_CLOCK_API] == true,
+                useAlarmClockApi = preferences[USE_ALARM_CLOCK_API] != false,
+                fallAsleepBuffer = preferences[FALL_ASLEEP_BUFFER] ?: 15,
+                sleepCycleLengthMinutes = preferences[SLEEP_CYCLE_LENGTH_MINUTES] ?: 90,
             )
         }
 
@@ -65,9 +81,23 @@ class UserPreferencesRepository(
         }
     }
 
+    suspend fun setFallAsleepBuffer(minutes: Int) {
+        dataStore.edit { preferences ->
+            preferences[FALL_ASLEEP_BUFFER] = minutes
+        }
+    }
+
+    suspend fun setSleepCycleLength(minutes: Int) {
+        dataStore.edit { preferences ->
+            preferences[SLEEP_CYCLE_LENGTH_MINUTES] = minutes
+        }
+    }
+
     private companion object {
         val IS_24_HOUR_FORMAT = booleanPreferencesKey("is_24_hour_format")
         val USE_ALARM_CLOCK_API = booleanPreferencesKey("use_alarm_clock_api")
+        val FALL_ASLEEP_BUFFER = intPreferencesKey("fall_asleep_buffer")
+        val SLEEP_CYCLE_LENGTH_MINUTES = intPreferencesKey("sleep_cycle_length_minutes")
 
         const val TAG = "UserPreferencesRepo"
     }

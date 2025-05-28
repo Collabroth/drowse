@@ -18,52 +18,159 @@
 package com.codebroth.drowse.settings.ui
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessTime
+import androidx.compose.material.icons.filled.Alarm
+import androidx.compose.material.icons.filled.Bedtime
+import androidx.compose.material.icons.filled.ChatBubble
+import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.Loop
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.codebroth.drowse.R
+import com.codebroth.drowse.settings.ui.component.PreferenceRow
+import com.codebroth.drowse.settings.ui.component.SettingsSection
+import com.codebroth.drowse.settings.ui.component.SleepBufferDialog
+import com.codebroth.drowse.settings.ui.component.SleepCycleLengthDialog
 
+/**
+ * Enum class to represent the active dialog in the settings screen.
+ * This is used to manage which dialog is currently displayed to the user.
+ */
+private enum class ActiveDialog { Buffer, CycleLength }
+
+/**
+ * The main settings screen for the application.
+ *
+ * This screen allows users to configure preferences related to the app's functionality,
+ * such as time format, sleep settings, and displays developer contact options or link to the source code.
+ *
+ * @param viewModel The ViewModel that provides the UI state and handles user interactions.
+ */
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
-    val state by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
-    Column(
-        modifier = Modifier.padding(16.dp),
+    var activeDialog by rememberSaveable { mutableStateOf<ActiveDialog?>(null) }
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp),
+        contentPadding = PaddingValues(vertical = 16.dp)
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(stringResource(R.string.label_time_format))
-            Switch(
-                checked = state.is24HourFormat,
-                onCheckedChange = viewModel::onToggle24HourFormat,
-            )
+        item {
+            SettingsSection(stringResource(R.string.title_preferences)) {
+                PreferenceRow(
+                    icon = Icons.Default.AccessTime,
+                    label = stringResource(R.string.label_time_format),
+                    trailingContent = {
+                        Switch(
+                            checked = uiState.is24HourFormat,
+                            onCheckedChange = viewModel::onToggle24HourFormat
+                        )
+                    },
+                )
+                PreferenceRow(
+                    icon = Icons.Default.Alarm,
+                    label = stringResource(R.string.label_use_system_alarm_app),
+                    trailingContent = {
+                        Switch(
+                            checked = uiState.useAlarmClockApi,
+                            onCheckedChange = viewModel::onToggleUseAlarmClockApi
+                        )
+                    }
+                )
+            }
         }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text("Use system alarm app:")
-            Switch(
-                checked = state.useAlarmClockApi,
-                onCheckedChange = viewModel::onToggleUseAlarmClockApi,
-            )
+        item {
+            SettingsSection(stringResource(R.string.title_sleep)) {
+                PreferenceRow(
+                    icon = Icons.Default.Bedtime,
+                    label = stringResource(R.string.label_fall_asleep_buffer),
+                    description = stringResource(
+                        R.string.parameter_value_minutes,
+                        uiState.fallAsleepBuffer
+                    ),
+                    onClick = { activeDialog = ActiveDialog.Buffer },
+                )
+                PreferenceRow(
+                    icon = Icons.Default.Loop,
+                    label = stringResource(R.string.label_sleep_cycle_length),
+                    description = stringResource(
+                        R.string.parameter_value_minutes,
+                        uiState.sleepCycleLength
+                    ),
+                    onClick = { activeDialog = ActiveDialog.CycleLength },
+                )
+            }
         }
+        item {
+            SettingsSection(stringResource(R.string.title_contact)) {
+                PreferenceRow(
+                    icon = Icons.Default.ChatBubble,
+                    label = stringResource(R.string.label_send_feedback),
+                    description = stringResource(R.string.description_email_the_developer),
+                    onClick = { },
+                    trailingContent = {
+                        Icon(
+                            imageVector = Icons.Default.ChevronRight,
+                            contentDescription = null,
+                        )
+                    }
+                )
+                PreferenceRow(
+                    icon = Icons.Default.Code,
+                    label = stringResource(R.string.label_github),
+                    description = stringResource(R.string.description_view_source_code),
+                    onClick = { },
+                    trailingContent = {
+                        Icon(
+                            imageVector = Icons.Default.ChevronRight,
+                            contentDescription = null,
+                        )
+                    }
+                )
+            }
+        }
+    }
+    when (activeDialog) {
+        ActiveDialog.Buffer -> SleepBufferDialog(
+            onDismiss = { activeDialog = null },
+            onConfirm = { minutes ->
+                viewModel.onFallAsleepBufferChanged(minutes)
+                activeDialog = null
+            },
+            currentValue = uiState.fallAsleepBuffer
+        )
+
+        ActiveDialog.CycleLength -> SleepCycleLengthDialog(
+            onDismiss = { activeDialog = null },
+            onConfirm = { minutes ->
+                viewModel.onSleepCycleLengthChanged(minutes)
+                activeDialog = null
+            },
+            currentValue = uiState.sleepCycleLength
+        )
+
+        null -> {}
     }
 }

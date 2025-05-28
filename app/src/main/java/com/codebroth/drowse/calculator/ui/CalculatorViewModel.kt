@@ -28,45 +28,55 @@ import com.codebroth.drowse.core.data.local.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.time.LocalTime
 
+/**
+ * ViewModel for the sleep calculator screen, managing the state and interactions.
+ *
+ * @property preferencesRepository Repository for user preferences.
+ * @property wakeTimesUseCase Use case for calculating wake times.
+ * @property bedTimesUseCase Use case for calculating bed times.
+ */
 @HiltViewModel
 class CalculatorViewModel @Inject constructor(
+    private val preferencesRepository: UserPreferencesRepository,
     private val wakeTimesUseCase: CalculateWakeTimesUseCase,
     private val bedTimesUseCase: CalculateBedTimesUseCase,
-    private val preferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
     @Inject
     lateinit var alarmClockLauncher: AlarmClockIntentLauncher
 
     private val _uiState = MutableStateFlow(CalculatorUiState())
-    val uiState: StateFlow<CalculatorUiState> =
-        combine(
-            _uiState,
-            preferencesRepository.userPreferencesFlow
-        ) { state, userPreferences ->
-            state.copy(
-                is24HourFormat = userPreferences.is24HourFormat,
-                useAlarmClockApi = userPreferences.useAlarmClockApi,
-            )
+    val uiState: StateFlow<CalculatorUiState> = _uiState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            preferencesRepository.userPreferencesFlow.collect { preferences ->
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        is24HourFormat = preferences.is24HourFormat,
+                        useAlarmClockApi = preferences.useAlarmClockApi,
+                        fallAsleepBuffer = preferences.fallAsleepBuffer,
+                        sleepCycleLength = preferences.sleepCycleLengthMinutes
+                    )
+                }
+            }
         }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = _uiState.value.copy(
-                    is24HourFormat = false,
-                    useAlarmClockApi = false,
-                )
-            )
+    }
 
     fun onModeChange(mode: CalculatorMode) {
-        _uiState.update { it.copy(mode = mode, recommendations = emptyList()) }
+        _uiState.update {
+            it.copy(
+                mode = mode,
+                selectedTime = getDefaultTimeForMode(mode),
+                recommendations = emptyList()
+            )
+        }
     }
 
     fun onShowTimePicker(show: Boolean) {
@@ -79,10 +89,20 @@ class CalculatorViewModel @Inject constructor(
     }
 
     fun onCalculate() {
-        val st = _uiState.value
-        val recs = when (st.mode) {
-            CalculatorMode.WAKE_UP_TIME -> bedTimesUseCase(st.selectedTime)
-            CalculatorMode.BED_TIME -> wakeTimesUseCase(st.selectedTime)
+        val state = _uiState.value
+        val recs = when (state.mode) {
+            CalculatorMode.WAKE_UP_TIME -> bedTimesUseCase(
+                wakeUpTime = state.selectedTime,
+                sleepCycleDurationMinutes = state.sleepCycleLength,
+                fallAsleepBufferMinutes = state.fallAsleepBuffer
+            )
+
+            CalculatorMode.BED_TIME -> wakeTimesUseCase(
+                bedtime = state.selectedTime,
+                sleepCycleDurationMinutes = state.sleepCycleLength,
+                fallAsleepBufferMinutes = state.fallAsleepBuffer,
+
+                )
         }
         _uiState.update { it.copy(recommendations = recs) }
     }
@@ -91,14 +111,30 @@ class CalculatorViewModel @Inject constructor(
         alarmClockLauncher.startAlarmSetAction(time.hour, time.minute)
     }
 
+    private fun getDefaultTimeForMode(mode: CalculatorMode): LocalTime {
+        return when (mode) {
+            CalculatorMode.WAKE_UP_TIME -> LocalTime.of(9, 0)
+            CalculatorMode.BED_TIME -> LocalTime.of(23, 0)
+        }
+    }
+
+    /**
+     * Data class representing the UI state for the calculator screen.
+     */
     data class CalculatorUiState(
         val mode: CalculatorMode = CalculatorMode.WAKE_UP_TIME,
-        val selectedTime: LocalTime = LocalTime.of(7, 30),
+        val selectedTime: LocalTime = if (mode == CalculatorMode.WAKE_UP_TIME) {
+            LocalTime.of(9, 0)
+        } else {
+            LocalTime.of(23, 0)
+        },
         val recommendations: List<SleepRecommendation> = emptyList(),
         val showTimePicker: Boolean = false,
 
         // user preferences
         val is24HourFormat: Boolean = false,
         val useAlarmClockApi: Boolean = false,
+        val fallAsleepBuffer: Int = 15,
+        val sleepCycleLength: Int = 90
     )
 }
