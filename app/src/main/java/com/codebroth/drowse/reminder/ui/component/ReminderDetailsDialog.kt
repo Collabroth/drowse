@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Schedule
@@ -65,6 +64,7 @@ import com.codebroth.drowse.R
 import com.codebroth.drowse.core.domain.util.TimeUtils
 import com.codebroth.drowse.core.domain.util.TimeUtils.summarizeSelectedDaysOfWeek
 import com.codebroth.drowse.core.ui.component.input.DialTimePickerDialog
+import com.codebroth.drowse.core.ui.theme.DrowseTheme
 import com.codebroth.drowse.reminder.domain.model.Reminder
 import java.time.DayOfWeek
 import java.time.LocalTime
@@ -93,6 +93,9 @@ fun ReminderDetailsDialog(
     AlertDialog(
         modifier = modifier,
         onDismissRequest = onCancel,
+        containerColor = MaterialTheme.colorScheme.surface,
+        tonalElevation = dimensionResource(R.dimen.surface_tonal_elevation),
+        shape = MaterialTheme.shapes.medium,
         title = {
             Text(
                 if (initial == null) {
@@ -106,7 +109,7 @@ fun ReminderDetailsDialog(
             Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium))) {
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_size_small)),
+                    shape = MaterialTheme.shapes.small,
                     singleLine = true,
                     label = { Text(stringResource(R.string.details_dialog_label_field)) },
                     value = label,
@@ -115,7 +118,7 @@ fun ReminderDetailsDialog(
                 OutlinedCard(
                     onClick = { showPicker = true },
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_size_small)),
+                    shape = MaterialTheme.shapes.small,
                     border = BorderStroke(
                         width = dimensionResource(R.dimen.border_width),
                         color = MaterialTheme.colorScheme.outlineVariant
@@ -150,18 +153,19 @@ fun ReminderDetailsDialog(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer
                     ),
                     border = BorderStroke(
                         width = dimensionResource(R.dimen.border_width),
                         color = MaterialTheme.colorScheme.outlineVariant
                     ),
-                    shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_size_small))
+                    shape = MaterialTheme.shapes.small
                 ) {
                     Column(modifier = Modifier.fillMaxWidth()) {
                         Surface(
                             onClick = { expanded = !expanded },
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
+                            color = MaterialTheme.colorScheme.surface
                         ) {
                             Row(
                                 modifier = Modifier
@@ -206,42 +210,48 @@ fun ReminderDetailsDialog(
                                 animationSpec = tween(durationMillis = 200)
                             )
                         ) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(dimensionResource(R.dimen.padding_small))
-                            ) {
-                                DayOfWeek.entries.forEach { day ->
-                                    Row(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .clickable {
-                                                days = if (day in days) {
-                                                    days - day
-                                                } else {
-                                                    days + day
+                            Surface {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(dimensionResource(R.dimen.padding_small))
+                                ) {
+                                    DayOfWeek.entries.forEach { day ->
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .clickable {
+                                                    days = if (day in days) {
+                                                        days - day
+                                                    } else {
+                                                        days + day
+                                                    }
                                                 }
-                                            }
-                                            .padding(
-                                                vertical = dimensionResource(R.dimen.padding_xsmall),
-                                                horizontal = dimensionResource(R.dimen.padding_small)
-                                            ),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Spacer(Modifier.size(dimensionResource(R.dimen.spacer_small)))
-                                        Text(
-                                            text = day.getDisplayName(
-                                                TextStyle.FULL,
-                                                Locale.getDefault()
-                                            ),
-                                            style = MaterialTheme.typography.bodyMedium,
-                                            modifier = Modifier.padding(start = dimensionResource(R.dimen.spacer_small))
-                                        )
-                                        Spacer(Modifier.weight(1f))
-                                        Checkbox(
-                                            checked = day in days,
-                                            onCheckedChange = null
-                                        )
+                                                .padding(
+                                                    vertical = dimensionResource(R.dimen.padding_xsmall),
+                                                    horizontal = dimensionResource(R.dimen.padding_small)
+                                                ),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Spacer(Modifier.size(dimensionResource(R.dimen.spacer_small)))
+                                            Text(
+                                                text = day.getDisplayName(
+                                                    TextStyle.FULL,
+                                                    Locale.getDefault()
+                                                ),
+                                                style = MaterialTheme.typography.bodyMedium,
+                                                modifier = Modifier.padding(
+                                                    start = dimensionResource(
+                                                        R.dimen.spacer_small
+                                                    )
+                                                )
+                                            )
+                                            Spacer(Modifier.weight(1f))
+                                            Checkbox(
+                                                checked = day in days,
+                                                onCheckedChange = null
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -289,9 +299,23 @@ fun ReminderDetailsDialog(
 @Preview
 @Composable
 fun ReminderDetailsDialogPreview() {
-    ReminderDetailsDialog(
-        initial = null,
-        onCancel = {},
-        onConfirm = {}
-    )
+    DrowseTheme {
+        ReminderDetailsDialog(
+            initial = null,
+            onCancel = {},
+            onConfirm = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun ReminderDetailsDialogDarkThemePreview() {
+    DrowseTheme(darkTheme = true) {
+        ReminderDetailsDialog(
+            initial = null,
+            onCancel = {},
+            onConfirm = {}
+        )
+    }
 }

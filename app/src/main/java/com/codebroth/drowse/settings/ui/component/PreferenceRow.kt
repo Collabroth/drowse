@@ -32,6 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
+import com.codebroth.drowse.core.ui.theme.DrowseTheme
 
 /**
  * A customizable row component that can include an icon, label, with optional description and trailing content.
@@ -67,59 +68,128 @@ fun PreferenceRow(
                 )
             }
         },
-        trailingContent = trailingContent?.let { trailingContent }
+        trailingContent = trailingContent?.let { trailingContent },
     )
 }
 
 @Preview
 @Composable
 fun DefaultPreferenceRowPreview() {
-    PreferenceRow(
-        icon = Icons.Default.Home,
-        label = "Preference Label",
-        onClick = {},
-    )
+    DrowseTheme {
+        PreferenceRow(
+            icon = Icons.Default.Home,
+            label = "Preference Label",
+            onClick = {},
+        )
+    }
 }
 
 @Preview
 @Composable
 fun PreferenceRowWithDescriptionPreview() {
-    PreferenceRow(
-        icon = Icons.Default.Home,
-        label = "Home",
-        description = "This is a description.",
-        onClick = {},
-    )
+    DrowseTheme {
+        PreferenceRow(
+            icon = Icons.Default.Home,
+            label = "Home",
+            description = "This is a description.",
+            onClick = {},
+        )
+    }
 }
 
 @Preview
 @Composable
 fun PreferenceRowWithChevronPreview() {
-    PreferenceRow(
-        icon = Icons.Default.Home,
-        label = "Home",
-        onClick = {},
-        trailingContent = {
-            Icon(
-                imageVector = Icons.Default.ChevronRight,
-                contentDescription = null
-            )
-        },
-    )
+    DrowseTheme {
+        PreferenceRow(
+            icon = Icons.Default.Home,
+            label = "Home",
+            onClick = {},
+            trailingContent = {
+                Icon(
+                    imageVector = Icons.Default.ChevronRight,
+                    contentDescription = null
+                )
+            },
+        )
+    }
 }
 
 @Preview
 @Composable
 fun PreferenceRowWithSwitchPreview() {
-    PreferenceRow(
-        icon = Icons.Default.Home,
-        label = "Home",
-        onClick = {},
-        trailingContent = {
-            Switch(
-                checked = true,
-                onCheckedChange = null,
-            )
-        }
-    )
+    DrowseTheme {
+        PreferenceRow(
+            icon = Icons.Default.Home,
+            label = "Home",
+            onClick = {},
+            trailingContent = {
+                Switch(
+                    checked = true,
+                    onCheckedChange = null,
+                )
+            }
+        )
+    }
+}
+
+@Preview
+@Composable
+fun DefaultPreferenceRowDarkThemePreview() {
+    DrowseTheme(darkTheme = true) {
+        PreferenceRow(
+            icon = Icons.Default.Home,
+            label = "Preference Label",
+            onClick = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreferenceRowWithDescriptionDarkThemePreview() {
+    DrowseTheme(darkTheme = true) {
+        PreferenceRow(
+            icon = Icons.Default.Home,
+            label = "Home",
+            description = "This is a description.",
+            onClick = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreferenceRowWithChevronDarkThemePreview() {
+    DrowseTheme(darkTheme = true) {
+        PreferenceRow(
+            icon = Icons.Default.Home,
+            label = "Home",
+            onClick = {},
+            trailingContent = {
+                Icon(
+                    imageVector = Icons.Default.ChevronRight,
+                    contentDescription = null
+                )
+            },
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreferenceRowWithSwitchDarkThemePreview() {
+    DrowseTheme(darkTheme = true) {
+        PreferenceRow(
+            icon = Icons.Default.Home,
+            label = "Home",
+            onClick = {},
+            trailingContent = {
+                Switch(
+                    checked = true,
+                    onCheckedChange = null,
+                )
+            }
+        )
+    }
 }

@@ -35,7 +35,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Schedule
@@ -69,11 +68,15 @@ import com.codebroth.drowse.alarm.domain.model.Alarm
 import com.codebroth.drowse.core.domain.util.TimeUtils
 import com.codebroth.drowse.core.domain.util.TimeUtils.summarizeSelectedDaysOfWeek
 import com.codebroth.drowse.core.ui.component.input.DialTimePickerDialog
+import com.codebroth.drowse.core.ui.theme.DrowseTheme
 import java.time.DayOfWeek
 import java.time.LocalTime
 import java.time.format.TextStyle
 import java.util.Locale
 
+/**
+ * Dialog to edit or add an alarm.
+ */
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AlarmDetailsDialog(
@@ -98,8 +101,9 @@ fun AlarmDetailsDialog(
     ) {
         Surface(
             modifier = modifier,
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = dimensionResource(R.dimen.surface_tonal_elevation),
             shape = MaterialTheme.shapes.medium,
-            tonalElevation = dimensionResource(R.dimen.surface_tonal_elevation)
         ) {
             Column(
                 modifier = Modifier
@@ -117,7 +121,7 @@ fun AlarmDetailsDialog(
                 Spacer(Modifier.height(dimensionResource(R.dimen.height_medium)))
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_size_small)),
+                    shape = MaterialTheme.shapes.small,
                     singleLine = true,
                     label = { Text(stringResource(R.string.details_dialog_label_field)) },
                     value = label,
@@ -127,7 +131,7 @@ fun AlarmDetailsDialog(
                 OutlinedCard(
                     onClick = { showPicker = true },
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_size_small)),
+                    shape = MaterialTheme.shapes.small,
                     border = BorderStroke(
                         width = dimensionResource(R.dimen.border_width),
                         color = MaterialTheme.colorScheme.outlineVariant
@@ -163,18 +167,19 @@ fun AlarmDetailsDialog(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer
                     ),
                     border = BorderStroke(
                         width = dimensionResource(R.dimen.border_width),
                         color = MaterialTheme.colorScheme.outlineVariant
                     ),
-                    shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_size_small))
+                    shape = MaterialTheme.shapes.small
                 ) {
                     Column(modifier = Modifier.fillMaxWidth()) {
                         Surface(
                             onClick = { expanded = !expanded },
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
+                            color = MaterialTheme.colorScheme.surface
                         ) {
                             Row(
                                 modifier = Modifier
@@ -323,18 +328,41 @@ fun AlarmDetailsDialog(
 @Preview
 @Composable
 fun AlarmDetailsDialogPreview() {
-    AlarmDetailsDialog(
-        initial = Alarm(
-            id = 1,
-            hour = 7,
-            minute = 30,
-            daysOfWeek = setOf(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY),
-            label = "Morning Alarm",
-            isEnabled = true
-        ),
-        onCancel = {},
-        onConfirm = {},
-        onDelete = {},
-        is24Hour = true
-    )
+    DrowseTheme {
+        AlarmDetailsDialog(
+            initial = Alarm(
+                id = 1,
+                hour = 7,
+                minute = 30,
+                daysOfWeek = setOf(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY),
+                label = "Morning Alarm",
+                isEnabled = true
+            ),
+            onCancel = {},
+            onConfirm = {},
+            onDelete = {},
+            is24Hour = true
+        )
+    }
+}
+
+@Preview
+@Composable
+fun AlarmDetailsDialogDarkThemePreview() {
+    DrowseTheme(darkTheme = true) {
+        AlarmDetailsDialog(
+            initial = Alarm(
+                id = 1,
+                hour = 7,
+                minute = 30,
+                daysOfWeek = setOf(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY),
+                label = "Morning Alarm",
+                isEnabled = true
+            ),
+            onCancel = {},
+            onConfirm = {},
+            onDelete = {},
+            is24Hour = true
+        )
+    }
 }

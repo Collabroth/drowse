@@ -42,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.codebroth.drowse.R
 import com.codebroth.drowse.calculator.domain.model.SleepRecommendation
 import com.codebroth.drowse.core.domain.util.TimeUtils
+import com.codebroth.drowse.core.ui.theme.DrowseTheme
 import java.time.LocalTime
 
 @Composable
@@ -52,10 +53,14 @@ fun RecommendationCard(
     is24Hour: Boolean = false,
 ) {
     Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        ),
+        shape = MaterialTheme.shapes.medium,
+        elevation = CardDefaults.cardElevation(defaultElevation = dimensionResource(R.dimen.card_elevation)),
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClick(rec.time) },
-        elevation = CardDefaults.cardElevation(defaultElevation = dimensionResource(R.dimen.card_elevation))
     ) {
         Row(
             modifier = Modifier
@@ -98,15 +103,33 @@ fun RecommendationCard(
 @Preview
 @Composable
 fun RecommendationCardPreview() {
-    RecommendationCard(
-        rec = SleepRecommendation(
-            time = LocalTime.of(22, 30),
-            minutes = 7,
-            cycles = 5
-        ),
-        onClick = {},
-        is24Hour = true
-    )
+    DrowseTheme {
+        RecommendationCard(
+            rec = SleepRecommendation(
+                time = LocalTime.of(22, 30),
+                minutes = 7,
+                cycles = 5
+            ),
+            onClick = {},
+            is24Hour = true
+        )
+    }
+}
+
+@Preview
+@Composable
+fun RecommendationCardDarkThemePreview() {
+    DrowseTheme(darkTheme = true) {
+        RecommendationCard(
+            rec = SleepRecommendation(
+                time = LocalTime.of(22, 30),
+                minutes = 7,
+                cycles = 5
+            ),
+            onClick = {},
+            is24Hour = true
+        )
+    }
 }
 
 

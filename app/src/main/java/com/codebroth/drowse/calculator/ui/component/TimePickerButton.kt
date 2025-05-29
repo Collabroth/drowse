@@ -20,12 +20,13 @@ package com.codebroth.drowse.calculator.ui.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -36,6 +37,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.codebroth.drowse.R
+import com.codebroth.drowse.core.ui.theme.DrowseTheme
 
 @Composable
 fun TimePickerButton(
@@ -47,9 +49,14 @@ fun TimePickerButton(
         onClick = onClick,
         modifier = modifier
             .height(dimensionResource(R.dimen.time_picker_button_height))
+            .widthIn(dimensionResource(R.dimen.time_picker_button_max_width)),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+        ),
+        shape = MaterialTheme.shapes.small
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
@@ -69,8 +76,21 @@ fun TimePickerButton(
 @Preview
 @Composable
 fun TimePickerButtonPreview() {
-    TimePickerButton(
-        timeText = "08:00 AM",
-        onClick = {}
-    )
+    DrowseTheme {
+        TimePickerButton(
+            timeText = "08:00 AM",
+            onClick = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun TimePickerButtonDarkThemePreview() {
+    DrowseTheme(darkTheme = true) {
+        TimePickerButton(
+            timeText = "08:00 AM",
+            onClick = {}
+        )
+    }
 }

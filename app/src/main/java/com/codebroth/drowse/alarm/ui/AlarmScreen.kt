@@ -125,7 +125,9 @@ fun AlarmScreen(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(dimensionResource(R.dimen.padding_medium)),
-            onClick = { viewModel.showDialog() }
+            onClick = { viewModel.showDialog() },
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
         ) {
             Icon(
                 imageVector = Icons.Default.Add,

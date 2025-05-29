@@ -77,7 +77,6 @@ fun CalculatorScreen(
             R.string.title_recommended_wake_times
         }
     )
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -110,7 +109,8 @@ fun CalculatorScreen(
         )
         TimePickerButton(
             onClick = { viewModel.onShowTimePicker(true) },
-            timeText = TimeUtils.formatTime(uiState.selectedTime, uiState.is24HourFormat)
+            timeText = TimeUtils.formatTime(uiState.selectedTime, uiState.is24HourFormat),
+            modifier = Modifier.align(Alignment.CenterHorizontally)
         )
         if (uiState.recommendations.isNotEmpty()) {
             Text(

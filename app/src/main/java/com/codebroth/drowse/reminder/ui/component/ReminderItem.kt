@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -37,6 +38,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.codebroth.drowse.R
+import com.codebroth.drowse.core.ui.theme.DrowseTheme
 import com.codebroth.drowse.reminder.domain.model.Reminder
 import com.codebroth.drowse.reminder.domain.model.formattedTime
 
@@ -49,6 +51,10 @@ fun ReminderItem(
     is24Hour: Boolean = false,
 ) {
     Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        ),
+        shape = MaterialTheme.shapes.medium,
         modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
@@ -91,15 +97,35 @@ fun ReminderItem(
 @Preview
 @Composable
 fun ReminderItemPreview() {
-    ReminderItem(
-        reminder = Reminder(
-            id = 1,
-            hour = 12,
-            minute = 30,
-            daysOfWeek = setOf(),
-            label = "Test Reminder"
-        ),
-        onClick = {},
-        onDelete = {}
-    )
+    DrowseTheme {
+        ReminderItem(
+            reminder = Reminder(
+                id = 1,
+                hour = 12,
+                minute = 30,
+                daysOfWeek = setOf(),
+                label = "Test Reminder"
+            ),
+            onClick = {},
+            onDelete = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun ReminderItemDarkThemePreview() {
+    DrowseTheme(darkTheme = true) {
+        ReminderItem(
+            reminder = Reminder(
+                id = 1,
+                hour = 12,
+                minute = 30,
+                daysOfWeek = setOf(),
+                label = "Test Reminder"
+            ),
+            onClick = {},
+            onDelete = {}
+        )
+    }
 }

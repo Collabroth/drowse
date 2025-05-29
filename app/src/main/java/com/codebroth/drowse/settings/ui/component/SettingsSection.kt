@@ -47,7 +47,7 @@ fun SettingsSection(
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(vertical = dimensionResource(R.dimen.padding_small))
         )
-        HorizontalDivider()
+        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
         Column {
             content()
         }

@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -35,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.codebroth.drowse.R
 import com.codebroth.drowse.alarm.domain.model.Alarm
 import com.codebroth.drowse.alarm.domain.model.formattedTime
+import com.codebroth.drowse.core.ui.theme.DrowseTheme
 import java.time.DayOfWeek
 
 @Composable
@@ -46,6 +48,10 @@ fun AlarmItem(
     is24Hour: Boolean = false,
 ) {
     Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        ),
+        shape = MaterialTheme.shapes.medium,
         modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
@@ -87,16 +93,37 @@ fun AlarmItem(
 @Preview
 @Composable
 fun AlarmItemPreview() {
-    AlarmItem(
-        alarm = Alarm(
-            id = 1,
-            hour = 7,
-            minute = 30,
-            daysOfWeek = setOf(DayOfWeek.MONDAY, DayOfWeek.TUESDAY),
-            label = "Morning Alarm",
-            isEnabled = true
-        ),
-        onClick = {},
-        onToggle = {}
-    )
+    DrowseTheme {
+        AlarmItem(
+            alarm = Alarm(
+                id = 1,
+                hour = 7,
+                minute = 30,
+                daysOfWeek = setOf(DayOfWeek.MONDAY, DayOfWeek.TUESDAY),
+                label = "Morning Alarm",
+                isEnabled = true
+            ),
+            onClick = {},
+            onToggle = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun AlarmItemDarkThemePreview() {
+    DrowseTheme(darkTheme = true) {
+        AlarmItem(
+            alarm = Alarm(
+                id = 1,
+                hour = 7,
+                minute = 30,
+                daysOfWeek = setOf(DayOfWeek.MONDAY, DayOfWeek.TUESDAY),
+                label = "Morning Alarm",
+                isEnabled = true
+            ),
+            onClick = {},
+            onToggle = {}
+        )
+    }
 }

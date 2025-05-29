@@ -19,6 +19,7 @@ package com.codebroth.drowse
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -64,7 +65,6 @@ fun DrowseApp(userPreferencesRepository: UserPreferencesRepository) {
             }
         }
     }
-
     Scaffold(
         topBar = {
             TopBar()
@@ -77,7 +77,8 @@ fun DrowseApp(userPreferencesRepository: UserPreferencesRepository) {
         },
         snackbarHost = {
             SnackbarHost(snackBarHostState)
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
         DrowseNavHost(
             navController = navController,

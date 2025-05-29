@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -47,6 +46,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import com.codebroth.drowse.R
+import com.codebroth.drowse.core.ui.theme.DrowseTheme
 
 /**
  * A dialog for picking a number within a specified range.
@@ -76,7 +76,7 @@ fun NumberPickerDialog(
             modifier = modifier
                 .fillMaxWidth()
                 .padding(horizontal = dimensionResource(R.dimen.padding_large)),
-            shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_size_large)),
+            shape = MaterialTheme.shapes.medium,
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surface
             ),
@@ -132,7 +132,8 @@ fun NumberPickerDialog(
                     isError = isError || !isValidValue,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = MaterialTheme.shapes.small,
                 )
                 Row(modifier = Modifier.fillMaxWidth()) {
                     TextButton(
@@ -165,14 +166,34 @@ fun NumberPickerDialog(
 @Composable
 fun NumberPickerDialogPreview() {
     var value by rememberSaveable { mutableIntStateOf(90) }
-    NumberPickerDialog(
-        onDismissRequest = {},
-        onConfirmRequest = { value = it },
-        title = "Set Sleep Cycle Length",
-        description = "Length of one sleep cycle",
-        currentValue = value,
-        defaultValue = 90,
-        minValue = 70,
-        maxValue = 110
-    )
+    DrowseTheme {
+        NumberPickerDialog(
+            onDismissRequest = {},
+            onConfirmRequest = { value = it },
+            title = "Set Sleep Cycle Length",
+            description = "Length of one sleep cycle",
+            currentValue = value,
+            defaultValue = 90,
+            minValue = 70,
+            maxValue = 110
+        )
+    }
+}
+
+@Preview
+@Composable
+fun NumberPickerDialogDarkThemePreview() {
+    var value by rememberSaveable { mutableIntStateOf(90) }
+    DrowseTheme(darkTheme = true) {
+        NumberPickerDialog(
+            onDismissRequest = {},
+            onConfirmRequest = { value = it },
+            title = "Set Sleep Cycle Length",
+            description = "Length of one sleep cycle",
+            currentValue = value,
+            defaultValue = 90,
+            minValue = 70,
+            maxValue = 110
+        )
+    }
 }
