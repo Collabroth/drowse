@@ -21,6 +21,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.codebroth.drowse.alarm.data.scheduling.AlarmSchedulerService
 import com.codebroth.drowse.core.data.local.UserPreferencesRepository
+import com.codebroth.drowse.settings.data.EmailSender
+import com.codebroth.drowse.settings.data.UriIntentLauncher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -37,6 +39,8 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val userPreferencesRepository: UserPreferencesRepository,
     private val alarmSchedulerService: AlarmSchedulerService,
+    private val feedbackEmailSender: EmailSender,
+    private val uriIntentLauncher: UriIntentLauncher,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
@@ -73,6 +77,14 @@ class SettingsViewModel @Inject constructor(
 
     fun onSleepCycleLengthChanged(minutes: Int) = viewModelScope.launch {
         userPreferencesRepository.setSleepCycleLength(minutes)
+    }
+
+    fun onClickSendFeedback() {
+        feedbackEmailSender.send()
+    }
+
+    fun onClickGithub() {
+        uriIntentLauncher.openUrl("https://github.com/Collabroth/drowse")
     }
 }
 

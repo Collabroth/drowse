@@ -130,7 +130,7 @@ fun SettingsScreen(
                     icon = Icons.Default.ChatBubble,
                     label = stringResource(R.string.label_send_feedback),
                     description = stringResource(R.string.send_feedback_description),
-                    onClick = { },
+                    onClick = viewModel::onClickSendFeedback,
                     trailingContent = {
                         Icon(
                             imageVector = Icons.Default.ChevronRight,
@@ -142,7 +142,7 @@ fun SettingsScreen(
                     icon = Icons.Default.Code,
                     label = stringResource(R.string.label_github),
                     description = stringResource(R.string.github_description),
-                    onClick = { },
+                    onClick = viewModel::onClickGithub,
                     trailingContent = {
                         Icon(
                             imageVector = Icons.Default.ChevronRight,
