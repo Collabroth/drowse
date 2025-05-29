@@ -24,8 +24,10 @@ import com.codebroth.drowse.R
 import com.codebroth.drowse.alarm.data.AlarmConstants.CHANNEL_ID
 import com.codebroth.drowse.alarm.data.AlarmConstants.CHANNEL_NAME
 
+/**
+ * Creates a notification channel for alarms.
+ */
 object AlarmNotificationChannel {
-
     fun createAlarmNotificationChannel(context: Context) {
         val channel = NotificationChannel(
             CHANNEL_ID,

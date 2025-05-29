@@ -29,6 +29,9 @@ import com.codebroth.drowse.alarm.data.AlarmConstants.EXTRA_ALARM_LABEL
 import com.codebroth.drowse.alarm.data.AlarmConstants.EXTRA_ALARM_TIME
 import com.codebroth.drowse.alarm.data.AlarmConstants.INTENT_ACTION_DISMISS
 
+/**
+ * Starts and displays a notification.
+ */
 class AlarmTriggerService : Service() {
 
     private lateinit var ringtone: Ringtone

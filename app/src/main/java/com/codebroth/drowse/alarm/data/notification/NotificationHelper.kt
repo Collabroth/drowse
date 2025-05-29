@@ -24,8 +24,16 @@ import com.codebroth.drowse.R
 import com.codebroth.drowse.alarm.data.AlarmConstants.CHANNEL_ID
 import com.codebroth.drowse.alarm.data.AlarmConstants.INTENT_ACTION_DISMISS
 
+/**
+ * Helper for building notifications.
+ */
 object NotificationHelper {
-
+    /**
+     * Builds a full screen notification for an alarm.
+     *
+     * Might show up as a heads up notification if user is actively
+     * using the phone.
+     */
     fun buildAlarmNotification(
         context: Context,
         fullScreenPendingIntent: PendingIntent,

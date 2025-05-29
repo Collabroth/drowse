@@ -46,7 +46,7 @@
             android:exported="false">
             <property
                 android:name="android:foregroundServiceType"
-                android:value="specialUse" />
+                android:value="manages active alarm by showing notification playing alarm sounds." />
         </service>
         <receiver
             android:name=".reminder.data.receiver.ReminderReceiver"
