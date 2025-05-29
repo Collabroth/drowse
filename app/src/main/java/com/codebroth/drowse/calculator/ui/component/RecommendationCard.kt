@@ -19,15 +19,16 @@ package com.codebroth.drowse.calculator.ui.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -36,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,6 +50,7 @@ import java.time.LocalTime
 @Composable
 fun RecommendationCard(
     rec: SleepRecommendation,
+    iconImageVector: ImageVector,
     onClick: (LocalTime) -> Unit,
     modifier: Modifier = Modifier,
     is24Hour: Boolean = false,
@@ -67,14 +70,18 @@ fun RecommendationCard(
                 .fillMaxWidth()
                 .padding(dimensionResource(R.dimen.padding_medium)),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium))
         ) {
-            Box {
-                Text(
-                    text = TimeUtils.formatTime(rec.time, is24Hour),
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
+            Icon(
+                imageVector = iconImageVector,
+                contentDescription = null,
+                modifier = Modifier.size(dimensionResource(R.dimen.icon_size_large))
+            )
+            Text(
+                text = TimeUtils.formatTime(rec.time, is24Hour),
+                style = MaterialTheme.typography.titleLarge
+            )
+            Spacer(Modifier.weight(1f))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
@@ -90,7 +97,6 @@ fun RecommendationCard(
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
-                Spacer(Modifier.width(dimensionResource(R.dimen.spacer_small)))
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
                     contentDescription = stringResource(R.string.label_schedule)
@@ -110,6 +116,7 @@ fun RecommendationCardPreview() {
                 minutes = 7,
                 cycles = 5
             ),
+            iconImageVector = Icons.Default.Alarm,
             onClick = {},
             is24Hour = true
         )
@@ -126,6 +133,7 @@ fun RecommendationCardDarkThemePreview() {
                 minutes = 7,
                 cycles = 5
             ),
+            iconImageVector = Icons.Default.Notifications,
             onClick = {},
             is24Hour = true
         )

@@ -37,7 +37,7 @@ class CalculateWakeTimesUseCase {
         sleepCycleDurationMinutes: Int = 90,
         fallAsleepBufferMinutes: Int = 15,
     ): List<SleepRecommendation> {
-        return (1..6).map { cycles ->
+        return (6 downTo 1).map { cycles ->
             val totalSleepMinutes = cycles * sleepCycleDurationMinutes + fallAsleepBufferMinutes
             val recommendedTime = bedtime.plusMinutes(totalSleepMinutes.toLong())
             SleepRecommendation(cycles, totalSleepMinutes, recommendedTime)

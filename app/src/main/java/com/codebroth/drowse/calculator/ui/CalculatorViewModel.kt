@@ -88,6 +88,11 @@ class CalculatorViewModel @Inject constructor(
         onCalculate()
     }
 
+    fun onClickSleepNow() {
+        _uiState.update { it.copy(selectedTime = LocalTime.now()) }
+        onCalculate()
+    }
+
     fun onCalculate() {
         val state = _uiState.value
         val recs = when (state.mode) {

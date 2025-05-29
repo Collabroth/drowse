@@ -205,7 +205,7 @@ fun AlarmDetailsDialog(
                                     },
                                     modifier = Modifier
                                         .padding(start = dimensionResource(R.dimen.padding_small))
-                                        .size(dimensionResource(R.dimen.icon_size))
+                                        .size(dimensionResource(R.dimen.icon_size_medium))
                                         .rotate(if (expanded) 180f else 0f),
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                                 )

@@ -27,10 +27,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Alarm
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -81,7 +85,8 @@ fun CalculatorScreen(
         modifier = modifier
             .fillMaxSize()
             .padding(dimensionResource(R.dimen.padding_medium)),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium))
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium)),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -105,18 +110,15 @@ fun CalculatorScreen(
         Text(
             text = promptMessage,
             style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
         )
         TimePickerButton(
             onClick = { viewModel.onShowTimePicker(true) },
             timeText = TimeUtils.formatTime(uiState.selectedTime, uiState.is24HourFormat),
-            modifier = Modifier.align(Alignment.CenterHorizontally)
         )
         if (uiState.recommendations.isNotEmpty()) {
             Text(
                 text = recommendationsTitle,
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
             )
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small)),
@@ -143,12 +145,23 @@ fun CalculatorScreen(
                                 }
                             }
                         },
+                        iconImageVector = if (uiState.mode == CalculatorMode.WAKE_UP_TIME) {
+                            Icons.Default.Notifications
+                        } else {
+                            Icons.Default.Alarm
+                        },
                         is24Hour = uiState.is24HourFormat
                     )
                 }
             }
-        }
-        if (uiState.recommendations.isEmpty()) {
+        } else {
+            if (uiState.mode == CalculatorMode.BED_TIME) {
+                TextButton(
+                    onClick = viewModel::onClickSleepNow
+                ) {
+                    Text("Sleep Now ->")
+                }
+            }
             Spacer(Modifier.weight(1f))
         }
     }

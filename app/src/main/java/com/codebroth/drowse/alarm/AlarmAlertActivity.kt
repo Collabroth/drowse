@@ -29,6 +29,7 @@ import com.codebroth.drowse.alarm.data.AlarmConstants.EXTRA_ALARM_LABEL
 import com.codebroth.drowse.alarm.data.AlarmConstants.EXTRA_ALARM_TIME
 import com.codebroth.drowse.alarm.ui.AlarmAlertContent
 import com.codebroth.drowse.alarm.ui.AlarmAlertViewModel
+import com.codebroth.drowse.alarm.ui.theme.DrowseAlarmAlertTheme
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.Instant
 import java.time.ZoneId
@@ -63,10 +64,12 @@ class AlarmAlertActivity : ComponentActivity() {
         setWindowFlags()
 
         setContent {
-            AlarmAlertContent(
-                alarmTime = localTime,
-                alarmLabel = if (alarmLabel.isNotBlank()) alarmLabel else null
-            )
+            DrowseAlarmAlertTheme {
+                AlarmAlertContent(
+                    alarmTime = localTime,
+                    alarmLabel = if (alarmLabel.isNotBlank()) alarmLabel else null
+                )
+            }
         }
 
         viewModel.shouldFinish.observe(this) { shouldFinish ->
