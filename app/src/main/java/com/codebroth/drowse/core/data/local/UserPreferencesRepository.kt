@@ -52,7 +52,8 @@ class UserPreferencesRepository(
                 useAlarmClockApi = preferences[USE_ALARM_CLOCK_API] != false,
                 fallAsleepBuffer = preferences[FALL_ASLEEP_BUFFER] ?: 15,
                 sleepCycleLengthMinutes = preferences[SLEEP_CYCLE_LENGTH_MINUTES] ?: 90,
-                themePreference = preferences[THEME_PREFERENCE] ?: ThemePreference.SYSTEM.ordinal
+                themePreference = preferences[THEME_PREFERENCE] ?: ThemePreference.AUTO.value,
+                useDynamicColor = preferences[USE_DYNAMIC_COLOR] == true
             )
         }
 
@@ -64,6 +65,15 @@ class UserPreferencesRepository(
     suspend fun setThemePreference(themePreference: Int) {
         dataStore.edit { preferences ->
             preferences[THEME_PREFERENCE] = themePreference
+        }
+    }
+
+    /**
+     * Sets whether the user wants to use dynamic color.
+     */
+    suspend fun setUseDynamicColor(enabled: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[USE_DYNAMIC_COLOR] = enabled
         }
     }
 
@@ -93,6 +103,7 @@ class UserPreferencesRepository(
 
     private companion object {
         val THEME_PREFERENCE = intPreferencesKey("theme_preference")
+        val USE_DYNAMIC_COLOR = booleanPreferencesKey("use_dynamic_color")
         val IS_24_HOUR_FORMAT = booleanPreferencesKey("is_24_hour_format")
         val USE_ALARM_CLOCK_API = booleanPreferencesKey("use_alarm_clock_api")
         val FALL_ASLEEP_BUFFER = intPreferencesKey("fall_asleep_buffer")

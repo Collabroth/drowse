@@ -21,7 +21,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import com.codebroth.drowse.core.data.local.UserPreferencesRepository
+import com.codebroth.drowse.core.domain.model.ThemePreference
+import com.codebroth.drowse.core.domain.model.UserPreferences
 import com.codebroth.drowse.core.ui.theme.DrowseTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -36,7 +40,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            DrowseTheme {
+            val preferences by userPreferencesRepository.userPreferencesFlow.collectAsState(
+                initial = UserPreferences.DEFAULT
+            )
+            DrowseTheme(
+                darkTheme = ThemePreference.isDarkTheme(preferences.themePreference),
+                dynamicColor = preferences.useDynamicColor,
+            ) {
                 DrowseApp(userPreferencesRepository)
             }
         }

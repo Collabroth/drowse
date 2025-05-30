@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.codebroth.drowse.alarm.data.scheduling.AlarmSchedulerService
 import com.codebroth.drowse.core.data.local.UserPreferencesRepository
+import com.codebroth.drowse.core.domain.model.ThemePreference
 import com.codebroth.drowse.settings.data.EmailSender
 import com.codebroth.drowse.settings.data.UriIntentLauncher
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -55,6 +56,7 @@ class SettingsViewModel @Inject constructor(
                 fallAsleepBuffer = userPreferences.fallAsleepBuffer,
                 sleepCycleLength = userPreferences.sleepCycleLengthMinutes,
                 themePreference = userPreferences.themePreference,
+                useDynamicColor = userPreferences.useDynamicColor
             )
         }
             .stateIn(
@@ -63,8 +65,12 @@ class SettingsViewModel @Inject constructor(
                 initialValue = _uiState.value
             )
 
-    fun onClickThemeDropDown() {
+    fun onClickThemeDropDown(themePreference: ThemePreference) = viewModelScope.launch {
+        userPreferencesRepository.setThemePreference(themePreference.value)
+    }
 
+    fun onToggleUseDynamicColor(useDynamicColor: Boolean) = viewModelScope.launch {
+        userPreferencesRepository.setUseDynamicColor(useDynamicColor)
     }
 
     fun onToggle24HourFormat(is24HourFormat: Boolean) = viewModelScope.launch {
@@ -95,6 +101,7 @@ class SettingsViewModel @Inject constructor(
 
 data class SettingsUiState(
     val is24HourFormat: Boolean = false,
+    val useDynamicColor: Boolean = false,
     val useAlarmClockApi: Boolean = false,
     val fallAsleepBuffer: Int = 15,
     val sleepCycleLength: Int = 90,

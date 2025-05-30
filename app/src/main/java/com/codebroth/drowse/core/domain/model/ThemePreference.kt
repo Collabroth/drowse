@@ -17,6 +17,9 @@
 
 package com.codebroth.drowse.core.domain.model
 
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
+
 /**
  * Enum class representing the user's theme preference.
  */
@@ -24,7 +27,7 @@ enum class ThemePreference(val value: Int) {
     /**
      * System default theme.
      */
-    SYSTEM(0),
+    AUTO(0),
 
     /**
      * Light theme.
@@ -34,5 +37,19 @@ enum class ThemePreference(val value: Int) {
     /**
      * Dark theme.
      */
-    DARK(2),
+    DARK(2);
+
+    companion object {
+        /**
+         * Checks if the given theme value is a dark theme.
+         */
+        @Composable
+        fun isDarkTheme(themeValue: Int): Boolean {
+            return when (themeValue) {
+                AUTO.value -> isSystemInDarkTheme()
+                DARK.value -> true
+                else -> false
+            }
+        }
+    }
 }

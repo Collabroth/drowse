@@ -27,6 +27,7 @@ package com.codebroth.drowse.core.domain.model
  */
 data class UserPreferences(
     val themePreference: Int,
+    val useDynamicColor: Boolean,
     val is24HourFormat: Boolean,
     val useAlarmClockApi: Boolean,
     val fallAsleepBuffer: Int,
@@ -35,6 +36,7 @@ data class UserPreferences(
     companion object {
         val DEFAULT = UserPreferences(
             themePreference = 0,
+            useDynamicColor = false,
             is24HourFormat = false,
             useAlarmClockApi = true,
             fallAsleepBuffer = 15,

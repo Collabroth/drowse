@@ -32,8 +32,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.codebroth.drowse.R
 import com.codebroth.drowse.core.domain.model.ThemePreference
 import com.codebroth.drowse.core.ui.theme.DrowseTheme
 
@@ -54,10 +55,10 @@ fun ThemeDropDownMenu(
         OutlinedTextField(
             modifier = Modifier
                 .menuAnchor(MenuAnchorType.PrimaryNotEditable)
-                .widthIn(max = 116.dp)
+                .widthIn(max = dimensionResource(R.dimen.theme_dropdown_box_max_width))
                 .wrapContentWidth(),
             value = selectedTheme.name,
-            onValueChange = {},
+            onValueChange = { },
             readOnly = true,
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = isDropDownExpanded)
@@ -88,7 +89,7 @@ fun ThemeDropDownMenuPreview() {
     DrowseTheme {
         ThemeDropDownMenu(
             isDropDownExpanded = true,
-            selectedTheme = ThemePreference.SYSTEM,
+            selectedTheme = ThemePreference.AUTO,
             onSelected = {},
             onExpandedChanged = { isDropDownExpanded = !isDropDownExpanded }
         )
@@ -102,7 +103,7 @@ fun ThemeDropDownMenuDarkThemePreview() {
     DrowseTheme(darkTheme = true) {
         ThemeDropDownMenu(
             isDropDownExpanded = true,
-            selectedTheme = ThemePreference.SYSTEM,
+            selectedTheme = ThemePreference.AUTO,
             onSelected = { },
             onExpandedChanged = { isDropDownExpanded = !isDropDownExpanded }
         )

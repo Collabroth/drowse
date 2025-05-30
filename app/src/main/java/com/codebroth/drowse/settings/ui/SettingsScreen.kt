@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
+import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.ChatBubble
 import androidx.compose.material.icons.filled.ChevronRight
@@ -85,9 +86,10 @@ fun SettingsScreen(
         item {
             SettingsSection(stringResource(R.string.title_appearance)) {
                 var isDropDownExpanded by rememberSaveable { mutableStateOf(false) }
-                var selectedTheme by rememberSaveable {
-                    mutableStateOf<ThemePreference>(ThemePreference.SYSTEM)
-                }
+                val selectedTheme = ThemePreference
+                    .entries
+                    .firstOrNull { it.value == uiState.themePreference }
+                    ?: ThemePreference.AUTO
                 PreferenceRow(
                     icon = Icons.Default.Palette,
                     label = stringResource(R.string.label_theme),
@@ -96,7 +98,20 @@ fun SettingsScreen(
                             selectedTheme = selectedTheme,
                             isDropDownExpanded = isDropDownExpanded,
                             onExpandedChanged = { isDropDownExpanded = it },
-                            onSelected = { selectedTheme = it }
+                            onSelected = {
+                                viewModel.onClickThemeDropDown(it)
+                            }
+                        )
+                    }
+                )
+                PreferenceRow(
+                    icon = Icons.Default.AutoAwesome, //Colorize
+                    label = stringResource(R.string.label_use_dynamic_color),
+                    description = stringResource(R.string.dynamic_color_description),
+                    trailingContent = {
+                        Switch(
+                            checked = uiState.useDynamicColor,
+                            onCheckedChange = viewModel::onToggleUseDynamicColor
                         )
                     }
                 )
