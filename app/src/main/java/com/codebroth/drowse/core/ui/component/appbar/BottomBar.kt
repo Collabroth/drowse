@@ -41,7 +41,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.codebroth.drowse.R
-import com.codebroth.drowse.core.data.local.UserPreferences
+import com.codebroth.drowse.core.domain.model.UserPreferences
 import com.codebroth.drowse.core.ui.navigation.AppDestination
 import com.codebroth.drowse.core.ui.navigation.AppDestination.Alarms
 import com.codebroth.drowse.core.ui.navigation.AppDestination.Calculator
@@ -83,7 +83,7 @@ fun BottomBar(
     userPreferencesFlow: Flow<UserPreferences>,
     modifier: Modifier = Modifier,
 ) {
-    val userPreferences by userPreferencesFlow.collectAsState(initial = UserPreferences())
+    val userPreferences by userPreferencesFlow.collectAsState(initial = UserPreferences.DEFAULT)
 
     val navigationBarItems = if (userPreferences.useAlarmClockApi) {
         getNavbarItems().filterNot { it.destination is Alarms }

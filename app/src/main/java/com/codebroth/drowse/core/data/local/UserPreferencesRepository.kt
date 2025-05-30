@@ -25,24 +25,11 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
+import com.codebroth.drowse.core.domain.model.ThemePreference
+import com.codebroth.drowse.core.domain.model.UserPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-
-/**
- * Data class representing user preferences.
- *
- * @property is24HourFormat Whether to use 24-hour time format.
- * @property useAlarmClockApi Whether to use the Alarm Clock API.
- * @property fallAsleepBuffer The buffer time in minutes before sleep.
- * @property sleepCycleLengthMinutes The length of a sleep cycle in minutes.
- */
-data class UserPreferences(
-    val is24HourFormat: Boolean = false,
-    val useAlarmClockApi: Boolean = false,
-    val fallAsleepBuffer: Int = 15,
-    val sleepCycleLengthMinutes: Int = 90,
-)
 
 /**
  * Repository for managing user preferences using DataStore.
@@ -50,7 +37,6 @@ data class UserPreferences(
 class UserPreferencesRepository(
     private val dataStore: DataStore<Preferences>
 ) {
-
     val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
         .catch {
             if (it is IOException) {
@@ -66,8 +52,20 @@ class UserPreferencesRepository(
                 useAlarmClockApi = preferences[USE_ALARM_CLOCK_API] != false,
                 fallAsleepBuffer = preferences[FALL_ASLEEP_BUFFER] ?: 15,
                 sleepCycleLengthMinutes = preferences[SLEEP_CYCLE_LENGTH_MINUTES] ?: 90,
+                themePreference = preferences[THEME_PREFERENCE] ?: ThemePreference.SYSTEM.ordinal
             )
         }
+
+    /**
+     * Sets the user's preferred theme preference.
+     * @param themePreference The user's preferred theme.
+     * 0 for system default, 1 for light theme, 2 for dark theme.
+     */
+    suspend fun setThemePreference(themePreference: Int) {
+        dataStore.edit { preferences ->
+            preferences[THEME_PREFERENCE] = themePreference
+        }
+    }
 
     suspend fun set24HourFormat(enabled: Boolean) {
         dataStore.edit { preferences ->
@@ -94,6 +92,7 @@ class UserPreferencesRepository(
     }
 
     private companion object {
+        val THEME_PREFERENCE = intPreferencesKey("theme_preference")
         val IS_24_HOUR_FORMAT = booleanPreferencesKey("is_24_hour_format")
         val USE_ALARM_CLOCK_API = booleanPreferencesKey("use_alarm_clock_api")
         val FALL_ASLEEP_BUFFER = intPreferencesKey("fall_asleep_buffer")

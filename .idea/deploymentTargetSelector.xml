@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-05-29T00:10:29.715008500Z">
+        <DropdownSelection timestamp="2025-05-30T05:35:55.179155800Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="PhysicalDevice" identifier="serial=R5CR20CN76D" />
@@ -15,11 +15,11 @@
       </SelectionState>
       <SelectionState runConfigName="drowse.app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-05-28T01:49:37.694823600Z">
+        <DropdownSelection timestamp="2025-05-29T23:11:39.201514600Z">
           <Target type="DEFAULT_BOOT">
-            <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\jayma\.android\avd\Medium_Phone.avd" />
-            </handle>
+            <template>
+              <DeviceId pluginId="FirebaseDirectAccess" type="TEMPLATE" identifier="model_id=comet/34" />
+            </template>
           </Target>
         </DropdownSelection>
         <DialogSelection />

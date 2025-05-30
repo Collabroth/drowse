@@ -76,4 +76,6 @@
     <string name="alarm_icon_content_description">Alarm Icon</string>
     <string name="action_dismiss">Dismiss</string>
     <string name="action_snooze">Snooze</string>
+    <string name="title_appearance">Appearance</string>
+    <string name="label_theme">Theme</string>
 </resources>

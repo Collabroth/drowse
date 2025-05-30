@@ -19,6 +19,7 @@ package com.codebroth.drowse.settings.ui.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
@@ -48,6 +49,7 @@ fun SettingsSection(
             modifier = Modifier.padding(vertical = dimensionResource(R.dimen.padding_small))
         )
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+        Spacer(Modifier.padding(dimensionResource(R.dimen.spacer_small)))
         Column {
             content()
         }

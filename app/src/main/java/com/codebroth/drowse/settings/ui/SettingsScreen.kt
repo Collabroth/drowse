@@ -24,12 +24,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.ChatBubble
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Loop
+import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
@@ -43,10 +44,12 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.codebroth.drowse.R
+import com.codebroth.drowse.core.domain.model.ThemePreference
 import com.codebroth.drowse.settings.ui.component.PreferenceRow
 import com.codebroth.drowse.settings.ui.component.SettingsSection
 import com.codebroth.drowse.settings.ui.component.SleepBufferDialog
 import com.codebroth.drowse.settings.ui.component.SleepCycleLengthDialog
+import com.codebroth.drowse.settings.ui.component.ThemeDropDownMenu
 
 /**
  * Enum class to represent the active dialog in the settings screen.
@@ -62,6 +65,7 @@ private enum class ActiveDialog { Buffer, CycleLength }
  *
  * @param viewModel The ViewModel that provides the UI state and handles user interactions.
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     modifier: Modifier = Modifier,
@@ -79,6 +83,26 @@ fun SettingsScreen(
         contentPadding = PaddingValues(vertical = dimensionResource(R.dimen.padding_medium))
     ) {
         item {
+            SettingsSection(stringResource(R.string.title_appearance)) {
+                var isDropDownExpanded by rememberSaveable { mutableStateOf(false) }
+                var selectedTheme by rememberSaveable {
+                    mutableStateOf<ThemePreference>(ThemePreference.SYSTEM)
+                }
+                PreferenceRow(
+                    icon = Icons.Default.Palette,
+                    label = stringResource(R.string.label_theme),
+                    trailingContent = {
+                        ThemeDropDownMenu(
+                            selectedTheme = selectedTheme,
+                            isDropDownExpanded = isDropDownExpanded,
+                            onExpandedChanged = { isDropDownExpanded = it },
+                            onSelected = { selectedTheme = it }
+                        )
+                    }
+                )
+            }
+        }
+        item {
             SettingsSection(stringResource(R.string.title_preferences)) {
                 PreferenceRow(
                     icon = Icons.Default.AccessTime,
@@ -90,16 +114,17 @@ fun SettingsScreen(
                         )
                     },
                 )
-                PreferenceRow(
-                    icon = Icons.Default.Alarm,
-                    label = stringResource(R.string.label_use_system_alarm_app),
-                    trailingContent = {
-                        Switch(
-                            checked = uiState.useAlarmClockApi,
-                            onCheckedChange = viewModel::onToggleUseAlarmClockApi
-                        )
-                    }
-                )
+                // Not yet ready for production. Alarm feature is a work in progress.
+//                PreferenceRow(
+//                    icon = Icons.Default.Alarm,
+//                    label = stringResource(R.string.label_use_system_alarm_app),
+//                    trailingContent = {
+//                        Switch(
+//                            checked = uiState.useAlarmClockApi,
+//                            onCheckedChange = viewModel::onToggleUseAlarmClockApi
+//                        )
+//                    }
+//                )
             }
         }
         item {

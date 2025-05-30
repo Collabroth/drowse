@@ -53,7 +53,8 @@ class SettingsViewModel @Inject constructor(
                 is24HourFormat = userPreferences.is24HourFormat,
                 useAlarmClockApi = userPreferences.useAlarmClockApi,
                 fallAsleepBuffer = userPreferences.fallAsleepBuffer,
-                sleepCycleLength = userPreferences.sleepCycleLengthMinutes
+                sleepCycleLength = userPreferences.sleepCycleLengthMinutes,
+                themePreference = userPreferences.themePreference,
             )
         }
             .stateIn(
@@ -61,6 +62,10 @@ class SettingsViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = _uiState.value
             )
+
+    fun onClickThemeDropDown() {
+
+    }
 
     fun onToggle24HourFormat(is24HourFormat: Boolean) = viewModelScope.launch {
         userPreferencesRepository.set24HourFormat(is24HourFormat)
@@ -93,4 +98,5 @@ data class SettingsUiState(
     val useAlarmClockApi: Boolean = false,
     val fallAsleepBuffer: Int = 15,
     val sleepCycleLength: Int = 90,
+    val themePreference: Int = 0,
 )
