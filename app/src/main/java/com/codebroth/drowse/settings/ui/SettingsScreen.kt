@@ -24,11 +24,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
+import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.ChatBubble
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Loop
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -130,16 +132,22 @@ fun SettingsScreen(
                     },
                 )
                 // Not yet ready for production. Alarm feature is a work in progress.
-//                PreferenceRow(
-//                    icon = Icons.Default.Alarm,
-//                    label = stringResource(R.string.label_use_system_alarm_app),
-//                    trailingContent = {
-//                        Switch(
-//                            checked = uiState.useAlarmClockApi,
-//                            onCheckedChange = viewModel::onToggleUseAlarmClockApi
-//                        )
-//                    }
-//                )
+                PreferenceRow(
+                    icon = Icons.Default.Alarm,
+                    label = stringResource(R.string.label_use_system_alarm_app),
+                    description = "recommended to keep on",
+                    trailingContent = {
+                        Switch(
+                            checked = uiState.useAlarmClockApi,
+                            onCheckedChange = viewModel::onToggleUseAlarmClockApi
+                        )
+                    }
+                )
+                PreferenceRow(
+                    icon = Icons.Default.Info,
+                    label = stringResource(R.string.label_note),
+                    description = stringResource(R.string.temporary_resource_alarm_feature_note)
+                )
             }
         }
         item {
