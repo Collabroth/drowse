@@ -62,7 +62,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.codebroth.drowse.R
 import com.codebroth.drowse.core.domain.util.TimeUtils
-import com.codebroth.drowse.core.domain.util.TimeUtils.summarizeSelectedDaysOfWeek
 import com.codebroth.drowse.core.ui.component.input.DialTimePickerDialog
 import com.codebroth.drowse.core.ui.theme.DrowseTheme
 import com.codebroth.drowse.reminder.domain.model.Reminder
@@ -179,7 +178,7 @@ fun ReminderDetailsDialog(
                                 )
                                 Spacer(Modifier.weight(1f))
                                 Text(
-                                    text = summarizeSelectedDaysOfWeek(days),
+                                    text = TimeUtils.summarizeSelectedDaysOfWeek(days),
                                     style = MaterialTheme.typography.bodySmall
                                 )
                                 Icon(

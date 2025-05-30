@@ -38,6 +38,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.codebroth.drowse.R
+import com.codebroth.drowse.core.domain.util.TimeUtils
 import com.codebroth.drowse.core.ui.theme.DrowseTheme
 import com.codebroth.drowse.reminder.domain.model.Reminder
 import com.codebroth.drowse.reminder.domain.model.formattedTime
@@ -79,7 +80,7 @@ fun ReminderItem(
                     modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_xsmall))
                 )
                 Text(
-                    text = reminder.daysOfWeek.joinToString { it.name.take(3) },
+                    text = "Repeat: ${TimeUtils.summarizeSelectedDaysOfWeek(reminder.daysOfWeek)}",
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_xsmall))
                 )
