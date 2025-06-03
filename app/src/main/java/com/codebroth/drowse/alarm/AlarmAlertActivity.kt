@@ -24,15 +24,21 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import com.codebroth.drowse.alarm.data.AlarmConstants.EXTRA_ALARM_ID
 import com.codebroth.drowse.alarm.data.AlarmConstants.EXTRA_ALARM_LABEL
 import com.codebroth.drowse.alarm.data.AlarmConstants.EXTRA_ALARM_TIME
 import com.codebroth.drowse.alarm.ui.AlarmAlertContent
 import com.codebroth.drowse.alarm.ui.AlarmAlertViewModel
-import com.codebroth.drowse.alarm.ui.theme.DrowseAlarmAlertTheme
+import com.codebroth.drowse.core.data.local.UserPreferencesRepository
+import com.codebroth.drowse.core.domain.model.ThemePreference
+import com.codebroth.drowse.core.domain.model.UserPreferences
+import com.codebroth.drowse.core.ui.theme.DrowseTheme
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.Instant
 import java.time.ZoneId
+import javax.inject.Inject
 
 private const val DEBUG_TAG = "AlarmActivity"
 
@@ -44,6 +50,9 @@ private const val DEBUG_TAG = "AlarmActivity"
  */
 @AndroidEntryPoint
 class AlarmAlertActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var userPreferencesRepository: UserPreferencesRepository
 
     private var alarmId: Int = -1
 
@@ -64,7 +73,13 @@ class AlarmAlertActivity : ComponentActivity() {
         setWindowFlags()
 
         setContent {
-            DrowseAlarmAlertTheme {
+            val preferences by userPreferencesRepository.userPreferencesFlow.collectAsState(
+                initial = UserPreferences.DEFAULT
+            )
+            DrowseTheme(
+                darkTheme = ThemePreference.isDarkTheme(preferences.themePreference),
+                dynamicColor = preferences.useDynamicColor,
+            ) {
                 AlarmAlertContent(
                     alarmTime = localTime,
                     alarmLabel = if (alarmLabel.isNotBlank()) alarmLabel else null
