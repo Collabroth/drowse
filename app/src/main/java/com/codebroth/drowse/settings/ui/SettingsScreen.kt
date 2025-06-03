@@ -186,6 +186,10 @@ fun SettingsScreen(
                         )
                     }
                 )
+            }
+        }
+        item {
+            SettingsSection("About") {
                 PreferenceRow(
                     icon = Icons.Default.Code,
                     label = stringResource(R.string.label_github),
