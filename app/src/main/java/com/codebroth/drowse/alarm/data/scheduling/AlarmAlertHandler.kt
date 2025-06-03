@@ -17,29 +17,67 @@
 
 package com.codebroth.drowse.alarm.data.scheduling
 
+import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import com.codebroth.drowse.alarm.data.AlarmConstants
 import com.codebroth.drowse.alarm.data.AlarmConstants.INTENT_ACTION_DISMISS
 import com.codebroth.drowse.alarm.data.notification.AlarmTriggerService
+import com.codebroth.drowse.alarm.data.receiver.AlarmReceiver
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class AlarmAlertHandler @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
+
+    @Inject
+    lateinit var alarmManager: AlarmManager
+
+    val dismissIntent = Intent(context, AlarmTriggerService::class.java).apply {
+        action = INTENT_ACTION_DISMISS
+    }
+
     fun dismissAlarm() {
-        val intent = Intent(context, AlarmTriggerService::class.java).apply {
-            action = INTENT_ACTION_DISMISS
-        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            context.startForegroundService(intent)
+            context.startForegroundService(dismissIntent)
         } else {
-            context.startService(intent)
+            context.startService(dismissIntent)
         }
     }
 
+    @SuppressLint("MissingPermission") // used "Use exact alarm" permission
     fun snoozeAlarm() {
-        TODO()
+        val alarmId = System.currentTimeMillis().toInt()
+        val snoozeTimeMillis = System.currentTimeMillis() + 10 * 60 * 1000
+
+        val snoozeIntent = Intent(context, AlarmReceiver::class.java).apply {
+            putExtra(AlarmConstants.EXTRA_ALARM_ID, alarmId)
+            putExtra(AlarmConstants.EXTRA_ALARM_TIME, snoozeTimeMillis)
+            putExtra(AlarmConstants.EXTRA_ALARM_LABEL, "Snoozed Alarm")
+            putExtra(AlarmConstants.EXTRA_IS_SNOOZE, true)
+        }
+
+        val snoozePendingIntent = PendingIntent.getBroadcast(
+            context,
+            alarmId,
+            snoozeIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            snoozeTimeMillis,
+            snoozePendingIntent
+        )
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(dismissIntent)
+        } else {
+            context.startService(dismissIntent)
+        }
     }
 }

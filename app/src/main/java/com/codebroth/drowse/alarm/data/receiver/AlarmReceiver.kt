@@ -23,14 +23,13 @@ import android.content.Intent
 import com.codebroth.drowse.alarm.data.AlarmConstants
 import com.codebroth.drowse.alarm.data.notification.AlarmTriggerService
 import com.codebroth.drowse.alarm.data.scheduling.AlarmSchedulerService
-import com.codebroth.drowse.alarm.domain.model.Alarm
+import com.codebroth.drowse.alarm.domain.usecase.GetAlarmByIdUseCase
 import com.codebroth.drowse.alarm.domain.usecase.GetAllAlarmsUseCase
 import com.codebroth.drowse.alarm.domain.usecase.UpdateAlarmUseCase
 import com.codebroth.drowse.core.data.scheduling.Scheduler
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -43,6 +42,9 @@ class AlarmReceiver : BroadcastReceiver() {
 
     @Inject
     lateinit var getAllAlarmsUseCase: GetAllAlarmsUseCase
+
+    @Inject
+    lateinit var getAlarmByIdUseCase: GetAlarmByIdUseCase
 
     @Inject
     lateinit var updateAlarmUseCase: UpdateAlarmUseCase
@@ -63,14 +65,14 @@ class AlarmReceiver : BroadcastReceiver() {
             it.putExtra(AlarmConstants.EXTRA_ALARM_LABEL, label)
             context.startForegroundService(it)
         }
+        val isSnoozed = intent.getBooleanExtra(AlarmConstants.EXTRA_IS_SNOOZE, false)
+        if (isSnoozed) return // snoozed alarms are temporary alarms, no need to schedule again or update db
+
         val oneShot = intent.getBooleanExtra(Scheduler.Companion.EXTRA_ONE_SHOT, false)
         if (oneShot) {
             CoroutineScope(Dispatchers.IO).launch {
-                val alarms: Flow<List<Alarm>> = getAllAlarmsUseCase()
-
-                val alarm = alarms
-                    .first()
-                    .first { it.id == alarmId }
+                val alarm = getAlarmByIdUseCase(alarmId).first()
+                    ?: throw IllegalArgumentException("No alarm found with id=$alarmId")
 
                 updateAlarmUseCase(alarm.copy(isEnabled = false))
             }

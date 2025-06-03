@@ -44,6 +44,11 @@ object AlarmConstants {
     const val EXTRA_ALARM_LABEL = "extra_alarm_label"
 
     /**
+     * Name of the extra data to indicate if the alarm is snoozed.
+     */
+    const val EXTRA_IS_SNOOZE = "extra_is_snooze"
+
+    /**
      * Name of the action to dismiss the alarm.
      */
     const val INTENT_ACTION_DISMISS = "Dismiss"
