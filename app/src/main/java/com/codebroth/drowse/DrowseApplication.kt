@@ -32,6 +32,5 @@ class DrowseApplication : Application() {
             createReminderNotificationChannel(applicationContext)
             createAlarmNotificationChannel(applicationContext)
         }
-
     }
 }

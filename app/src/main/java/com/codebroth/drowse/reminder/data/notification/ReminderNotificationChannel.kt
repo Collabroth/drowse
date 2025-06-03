@@ -26,6 +26,9 @@ import com.codebroth.drowse.reminder.data.Constants.REMINDER_NOTIFICATION_CHANNE
 
 object ReminderNotificationChannel {
 
+    /**
+     * Creates a notification channel for reminders.
+     */
     fun createReminderNotificationChannel(context: Context) {
         val channel = NotificationChannel(
             REMINDER_NOTIFICATION_CHANNEL_ID,
