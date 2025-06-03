@@ -24,17 +24,36 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import com.codebroth.drowse.R
+import androidx.compose.ui.tooling.preview.Preview
+import com.codebroth.drowse.core.ui.theme.DrowseTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(modifier: Modifier = Modifier) {
+fun TopBar(
+    title: String,
+    modifier: Modifier = Modifier
+) {
     TopAppBar(
         modifier = modifier,
-        title = { Text(stringResource(R.string.app_name)) },
+        title = { Text(title) },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
     )
+}
+
+@Preview
+@Composable
+fun TopAppBarPreview() {
+    DrowseTheme {
+        TopBar("Drowse")
+    }
+}
+
+@Preview
+@Composable
+fun TopAppBarDarkThemePreview() {
+    DrowseTheme(darkTheme = true) {
+        TopBar("Settings")
+    }
 }

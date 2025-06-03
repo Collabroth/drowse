@@ -22,21 +22,21 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class AppDestination() {
     @Serializable
-    object Calculator : AppDestination()
+    object CalculatorDestination : AppDestination()
 
     @Serializable
-    data class Reminders(
+    data class ReminderDestination(
         val setReminderHour: Int? = null,
         val setReminderMinutes: Int? = null
     ) : AppDestination()
 
     @Serializable
-    data class Alarms(
+    data class AlarmDestination(
         val setAlarmHour: Int? = null,
         val setAlarmMinutes: Int? = null
     ) : AppDestination()
 
     @Serializable
-    object Settings : AppDestination()
+    object SettingsDestination : AppDestination()
 }
 

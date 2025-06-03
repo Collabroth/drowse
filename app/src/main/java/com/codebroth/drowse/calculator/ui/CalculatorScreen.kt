@@ -133,9 +133,9 @@ fun CalculatorScreen(
                             } else {
                                 navController.navigate(
                                     if (uiState.mode == CalculatorMode.WAKE_UP_TIME) {
-                                        AppDestination.Reminders(time.hour, time.minute)
+                                        AppDestination.ReminderDestination(time.hour, time.minute)
                                     } else {
-                                        AppDestination.Alarms(time.hour, time.minute)
+                                        AppDestination.AlarmDestination(time.hour, time.minute)
                                     }
                                 ) {
                                     popUpTo(navController.graph.findStartDestination().id) {

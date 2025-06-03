@@ -27,6 +27,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.codebroth.drowse.alarm.ui.AlarmScreen
 import com.codebroth.drowse.calculator.ui.CalculatorScreen
+import com.codebroth.drowse.core.ui.navigation.AppDestination.AlarmDestination
+import com.codebroth.drowse.core.ui.navigation.AppDestination.CalculatorDestination
+import com.codebroth.drowse.core.ui.navigation.AppDestination.ReminderDestination
+import com.codebroth.drowse.core.ui.navigation.AppDestination.SettingsDestination
 import com.codebroth.drowse.reminder.ui.ReminderScreen
 import com.codebroth.drowse.settings.ui.SettingsScreen
 
@@ -44,7 +48,7 @@ fun DrowseNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = AppDestination.Calculator,
+        startDestination = CalculatorDestination,
         modifier = modifier,
         enterTransition = {
             EnterTransition.None
@@ -53,24 +57,24 @@ fun DrowseNavHost(
             ExitTransition.None
         }
     ) {
-        composable<AppDestination.Calculator> {
+        composable<CalculatorDestination> {
             CalculatorScreen(navController)
         }
-        composable<AppDestination.Alarms> {
-            val args = it.toRoute<AppDestination.Alarms>()
+        composable<AlarmDestination> {
+            val args = it.toRoute<AlarmDestination>()
             AlarmScreen(
                 setAlarmHour = args.setAlarmHour,
                 setAlarmMinute = args.setAlarmMinutes
             )
         }
-        composable<AppDestination.Reminders> {
-            val args = it.toRoute<AppDestination.Reminders>()
+        composable<ReminderDestination> {
+            val args = it.toRoute<ReminderDestination>()
             ReminderScreen(
                 setReminderHour = args.setReminderHour,
                 setReminderMinute = args.setReminderMinutes
             )
         }
-        composable<AppDestination.Settings> {
+        composable<SettingsDestination> {
             SettingsScreen()
         }
     }

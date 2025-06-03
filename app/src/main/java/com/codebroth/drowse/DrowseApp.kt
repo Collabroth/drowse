@@ -26,15 +26,21 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.codebroth.drowse.core.data.local.UserPreferencesRepository
 import com.codebroth.drowse.core.ui.component.appbar.BottomBar
 import com.codebroth.drowse.core.ui.component.appbar.TopBar
 import com.codebroth.drowse.core.ui.component.snackbar.ObserveAsEvents
 import com.codebroth.drowse.core.ui.component.snackbar.SnackbarController
+import com.codebroth.drowse.core.ui.navigation.AppDestination.AlarmDestination
+import com.codebroth.drowse.core.ui.navigation.AppDestination.ReminderDestination
+import com.codebroth.drowse.core.ui.navigation.AppDestination.SettingsDestination
 import com.codebroth.drowse.core.ui.navigation.DrowseNavHost
 import kotlinx.coroutines.launch
 
@@ -42,10 +48,27 @@ import kotlinx.coroutines.launch
 fun DrowseApp(userPreferencesRepository: UserPreferencesRepository) {
 
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination?.route
 
     val snackBarHostState = remember { SnackbarHostState() }
-
     val snackBarScope = rememberCoroutineScope()
+
+
+    val screenTitle = when {
+        currentDestination?.startsWith(AlarmDestination::class.qualifiedName ?: "") == true ->
+            stringResource(R.string.title_alarms)
+
+        currentDestination?.startsWith(ReminderDestination::class.qualifiedName ?: "") == true ->
+            stringResource(R.string.title_reminders)
+
+        currentDestination == SettingsDestination::class.qualifiedName ->
+            stringResource(R.string.title_settings)
+
+        else -> {
+            stringResource(R.string.app_name)
+        }
+    }
 
     ObserveAsEvents(
         flow = SnackbarController.events,
@@ -65,9 +88,10 @@ fun DrowseApp(userPreferencesRepository: UserPreferencesRepository) {
             }
         }
     }
+
     Scaffold(
         topBar = {
-            TopBar()
+            TopBar(screenTitle)
         },
         bottomBar = {
             BottomBar(

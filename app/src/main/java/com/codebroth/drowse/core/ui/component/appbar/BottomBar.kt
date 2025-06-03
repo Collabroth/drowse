@@ -43,35 +43,35 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.codebroth.drowse.R
 import com.codebroth.drowse.core.domain.model.UserPreferences
 import com.codebroth.drowse.core.ui.navigation.AppDestination
-import com.codebroth.drowse.core.ui.navigation.AppDestination.Alarms
-import com.codebroth.drowse.core.ui.navigation.AppDestination.Calculator
-import com.codebroth.drowse.core.ui.navigation.AppDestination.Reminders
-import com.codebroth.drowse.core.ui.navigation.AppDestination.Settings
+import com.codebroth.drowse.core.ui.navigation.AppDestination.AlarmDestination
+import com.codebroth.drowse.core.ui.navigation.AppDestination.CalculatorDestination
+import com.codebroth.drowse.core.ui.navigation.AppDestination.ReminderDestination
+import com.codebroth.drowse.core.ui.navigation.AppDestination.SettingsDestination
 import kotlinx.coroutines.flow.Flow
 
 @Composable
 private fun getNavbarItems() = listOf(
     BottomNavigationItem(
         title = stringResource(R.string.title_calculator),
-        destination = Calculator,
+        destination = CalculatorDestination,
         selectedIcon = Icons.Default.Analytics,
         unselectedIcon = Icons.Outlined.Analytics
     ),
     BottomNavigationItem(
         title = stringResource(R.string.title_alarms),
-        destination = Alarms(),
+        destination = AlarmDestination(),
         selectedIcon = Icons.Default.Alarm,
         unselectedIcon = Icons.Outlined.Alarm
     ),
     BottomNavigationItem(
         title = stringResource(R.string.title_reminders),
-        destination = Reminders(),
+        destination = ReminderDestination(),
         selectedIcon = Icons.Default.Notifications,
         unselectedIcon = Icons.Outlined.Notifications
     ),
     BottomNavigationItem(
         title = stringResource(R.string.title_settings),
-        destination = Settings,
+        destination = SettingsDestination,
         selectedIcon = Icons.Default.Settings,
         unselectedIcon = Icons.Outlined.Settings
     )
@@ -86,7 +86,7 @@ fun BottomBar(
     val userPreferences by userPreferencesFlow.collectAsState(initial = UserPreferences.DEFAULT)
 
     val navigationBarItems = if (userPreferences.useAlarmClockApi) {
-        getNavbarItems().filterNot { it.destination is Alarms }
+        getNavbarItems().filterNot { it.destination is AlarmDestination }
     } else {
         getNavbarItems()
     }
@@ -98,11 +98,11 @@ fun BottomBar(
         navigationBarItems.forEachIndexed { index, item ->
             val isSelected = currentDestination?.hierarchy?.any { destination ->
                 when (item.destination) {
-                    is Reminders -> destination.route
-                        ?.startsWith(Reminders::class.qualifiedName ?: "") == true
+                    is ReminderDestination -> destination.route
+                        ?.startsWith(ReminderDestination::class.qualifiedName ?: "") == true
 
-                    is Alarms -> destination.route
-                        ?.startsWith(Alarms::class.qualifiedName ?: "") == true
+                    is AlarmDestination -> destination.route
+                        ?.startsWith(AlarmDestination::class.qualifiedName ?: "") == true
 
                     else -> destination.route == item.destination::class.qualifiedName
                 }
