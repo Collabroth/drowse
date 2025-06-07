@@ -31,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.codebroth.drowse.core.data.local.UserPreferencesRepository
@@ -39,6 +40,7 @@ import com.codebroth.drowse.core.ui.component.appbar.TopBar
 import com.codebroth.drowse.core.ui.component.snackbar.ObserveAsEvents
 import com.codebroth.drowse.core.ui.component.snackbar.SnackbarController
 import com.codebroth.drowse.core.ui.navigation.AppDestination.AlarmDestination
+import com.codebroth.drowse.core.ui.navigation.AppDestination.CalculatorDestination
 import com.codebroth.drowse.core.ui.navigation.AppDestination.ReminderDestination
 import com.codebroth.drowse.core.ui.navigation.AppDestination.SettingsDestination
 import com.codebroth.drowse.core.ui.navigation.DrowseNavHost
@@ -49,25 +51,26 @@ fun DrowseApp(userPreferencesRepository: UserPreferencesRepository) {
 
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination?.route
+    val currentDestination = navBackStackEntry?.destination?.let { dest ->
+        when {
+            dest.hasRoute<CalculatorDestination>() -> CalculatorDestination
+            dest.hasRoute<ReminderDestination>() -> ReminderDestination()
+            dest.hasRoute<AlarmDestination>() -> AlarmDestination()
+            dest.hasRoute<SettingsDestination>() -> SettingsDestination
+            else -> null
+        }
+    }
 
     val snackBarHostState = remember { SnackbarHostState() }
     val snackBarScope = rememberCoroutineScope()
 
 
     val screenTitle = when {
-        currentDestination?.startsWith(AlarmDestination::class.qualifiedName ?: "") == true ->
-            stringResource(R.string.title_alarms)
-
-        currentDestination?.startsWith(ReminderDestination::class.qualifiedName ?: "") == true ->
-            stringResource(R.string.title_reminders)
-
-        currentDestination == SettingsDestination::class.qualifiedName ->
-            stringResource(R.string.title_settings)
-
-        else -> {
-            stringResource(R.string.app_name)
-        }
+        currentDestination is CalculatorDestination -> stringResource(R.string.app_name)
+        currentDestination is ReminderDestination -> stringResource(R.string.title_reminders)
+        currentDestination is AlarmDestination -> stringResource(R.string.title_alarms)
+        currentDestination is SettingsDestination -> stringResource(R.string.title_settings)
+        else -> stringResource(R.string.app_name)
     }
 
     ObserveAsEvents(

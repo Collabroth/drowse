@@ -36,7 +36,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -93,20 +93,24 @@ fun BottomBar(
 
     NavigationBar(modifier = modifier) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentDestination = navBackStackEntry?.destination
+        val currentDestination = navBackStackEntry?.destination?.let { dest ->
+            when {
+                dest.hasRoute<CalculatorDestination>() -> CalculatorDestination
+                dest.hasRoute<ReminderDestination>() -> ReminderDestination()
+                dest.hasRoute<AlarmDestination>() -> AlarmDestination()
+                dest.hasRoute<SettingsDestination>() -> SettingsDestination
+                else -> null
+            }
+        }
 
         navigationBarItems.forEachIndexed { index, item ->
-            val isSelected = currentDestination?.hierarchy?.any { destination ->
-                when (item.destination) {
-                    is ReminderDestination -> destination.route
-                        ?.startsWith(ReminderDestination::class.qualifiedName ?: "") == true
-
-                    is AlarmDestination -> destination.route
-                        ?.startsWith(AlarmDestination::class.qualifiedName ?: "") == true
-
-                    else -> destination.route == item.destination::class.qualifiedName
-                }
-            } == true
+            val isSelected = when {
+                item.destination is CalculatorDestination && currentDestination is CalculatorDestination -> true
+                item.destination is ReminderDestination && currentDestination is ReminderDestination -> true
+                item.destination is AlarmDestination && currentDestination is AlarmDestination -> true
+                item.destination is SettingsDestination && currentDestination is SettingsDestination -> true
+                else -> false
+            }
             NavigationBarItem(
                 selected = isSelected,
                 onClick = {
