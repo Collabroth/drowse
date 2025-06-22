@@ -17,6 +17,7 @@
 
 package com.codebroth.drowse.calculator.domain.usecase
 
+import androidx.annotation.VisibleForTesting
 import com.codebroth.drowse.calculator.domain.model.SleepRecommendation
 import java.time.LocalTime
 
@@ -34,8 +35,8 @@ class CalculateWakeTimesUseCase {
      */
     operator fun invoke(
         bedtime: LocalTime,
-        sleepCycleDurationMinutes: Int = 90,
-        fallAsleepBufferMinutes: Int = 15,
+        sleepCycleDurationMinutes: Int,
+        fallAsleepBufferMinutes: Int,
     ): List<SleepRecommendation> {
         return (6 downTo 1).map { cycles ->
             val totalSleepMinutes = cycles * sleepCycleDurationMinutes + fallAsleepBufferMinutes
