@@ -21,7 +21,19 @@ import java.time.DayOfWeek
 import java.time.ZonedDateTime
 import java.time.temporal.TemporalAdjusters
 
+/**
+ * Utility object for calculating the next trigger time based on the specified days of the week and time.
+ */
 object TriggerTimeCalculator {
+    /**
+     * Calculates the next trigger time based on the specified days of the week, hour, and minute.
+     *
+     * @param daysOfWeek The set of days of the week to consider for the trigger.
+     * @param hour The hour of the day for the trigger.
+     * @param minute The minute of the hour for the trigger.
+     * @param now The current time, defaults to the current system time.
+     * @return The next trigger time as a ZonedDateTime object.
+     */
     fun nextTrigger(
         daysOfWeek: Set<DayOfWeek>,
         hour: Int,

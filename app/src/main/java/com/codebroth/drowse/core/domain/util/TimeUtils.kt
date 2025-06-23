@@ -40,6 +40,13 @@ object TimeUtils {
         return time.format(DateTimeFormatter.ofPattern(pattern))
     }
 
+    /**
+     * Converts hour and minute to a LocalTime object.
+     *
+     * @param hour The hour of the time.
+     * @param minute The minute of the time.
+     * @return The LocalTime object representing the given hour and minute.
+     */
     fun getTimeFromHourMinute(hour: Int, minute: Int): LocalTime {
         return LocalTime.of(
             hour,
@@ -47,6 +54,12 @@ object TimeUtils {
         )
     }
 
+    /**
+     * Summarizes the selected days of the week into a human-readable string.
+     *
+     * @param days The set of selected days of the week.
+     * @return A string summarizing the selected days.
+     */
     fun summarizeSelectedDaysOfWeek(days: Set<DayOfWeek>): String = when {
         days.isEmpty() -> "None"
         days.size == 7 -> "Everyday"
