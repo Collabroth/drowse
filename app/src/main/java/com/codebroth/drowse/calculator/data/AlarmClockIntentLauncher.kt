@@ -36,6 +36,7 @@ class AlarmClockIntentLauncher @Inject constructor(
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             putExtra(AlarmClock.EXTRA_HOUR, hour)
             putExtra(AlarmClock.EXTRA_MINUTES, minute)
+            putExtra(AlarmClock.EXTRA_MESSAGE, "Drowse Alarm")
         }
         context.startActivity(intent)
     }
