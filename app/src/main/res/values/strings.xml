@@ -57,11 +57,11 @@
     <string name="set_sleep_cycle_length_description">length of one sleep cycle</string>
     <string name="title_preferences">Preferences</string>
     <string name="title_sleep">Sleep</string>
-    <string name="label_fall_asleep_buffer">Fall asleep Buffer</string>
+    <string name="label_fall_asleep_buffer">Fall asleep buffer</string>
     <string name="label_sleep_cycle_length">Sleep cycle length</string>
     <string name="parameter_value_minutes">%1$s minutes</string>
-    <string name="title_contact">Contact</string>
-    <string name="label_send_feedback">Send Feedback</string>
+    <string name="title_developer_contact">Contact</string>
+    <string name="label_send_feedback">Send feedback</string>
     <string name="send_feedback_description">email the developer</string>
     <string name="label_github">GitHub</string>
     <string name="github_description">view source code</string>
@@ -73,4 +73,10 @@
     <string name="label_use_dynamic_color">Use dynamic color</string>
     <string name="dynamic_color_description">Syncs with wallpaper palette</string>
     <string name="label_note">Note</string>
+    <string name="title_about">About</string>
+    <string name="label_license">License</string>
+    <string name="license_description">View the license for this app</string>
+    <string name="label_kofi">Buy me a coffee</string>
+    <string name="kofi_description">Support the development!</string>
+    <string name="label_report_bug">Report a bug</string>
 </resources>

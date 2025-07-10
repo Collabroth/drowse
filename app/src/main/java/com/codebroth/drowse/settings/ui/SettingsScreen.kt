@@ -24,13 +24,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.ChatBubble
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Code
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Coffee
+import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Loop
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -155,24 +156,9 @@ fun SettingsScreen(
                 )
             }
         }
+        val chevronRight = Icons.Default.ChevronRight
         item {
-            SettingsSection(stringResource(R.string.title_contact)) {
-                PreferenceRow(
-                    icon = Icons.Default.ChatBubble,
-                    label = stringResource(R.string.label_send_feedback),
-                    description = stringResource(R.string.send_feedback_description),
-                    onClick = viewModel::onClickSendFeedback,
-                    trailingContent = {
-                        Icon(
-                            imageVector = Icons.Default.ChevronRight,
-                            contentDescription = null,
-                        )
-                    }
-                )
-            }
-        }
-        item {
-            SettingsSection("About") {
+            SettingsSection(stringResource(R.string.title_about)) {
                 PreferenceRow(
                     icon = Icons.Default.Code,
                     label = stringResource(R.string.label_github),
@@ -180,7 +166,58 @@ fun SettingsScreen(
                     onClick = viewModel::onClickGithub,
                     trailingContent = {
                         Icon(
-                            imageVector = Icons.Default.ChevronRight,
+                            imageVector = chevronRight,
+                            contentDescription = null,
+                        )
+                    }
+                )
+                PreferenceRow(
+                    icon = Icons.Default.Error,
+                    label = stringResource(R.string.label_report_bug),
+                    onClick = { viewModel::onClickReportABug },
+                    trailingContent = {
+                        Icon(
+                            imageVector = chevronRight,
+                            contentDescription = null,
+                        )
+                    }
+                )
+                PreferenceRow(
+                    icon = Icons.Default.Description,
+                    label = stringResource(R.string.label_license),
+                    description = stringResource(R.string.license_description),
+                    onClick = viewModel::onClickLicense,
+                    trailingContent = {
+                        Icon(
+                            imageVector = chevronRight,
+                            contentDescription = null,
+                        )
+                    }
+                )
+            }
+        }
+        item {
+            SettingsSection(stringResource(R.string.title_developer_contact)) {
+                PreferenceRow(
+                    icon = Icons.Default.ChatBubble,
+                    label = stringResource(R.string.label_send_feedback),
+                    description = stringResource(R.string.send_feedback_description),
+                    onClick = viewModel::onClickSendFeedback,
+                    trailingContent = {
+                        Icon(
+                            imageVector = chevronRight,
+                            contentDescription = null,
+                        )
+                    }
+                )
+                PreferenceRow(
+                    icon = Icons.Default.Coffee,
+                    label = stringResource(R.string.label_kofi),
+                    description = stringResource(R.string.kofi_description),
+                    onClick = viewModel::onClickBuyMeACoffee,
+                    trailingContent = {
+                        Icon(
+                            imageVector = chevronRight,
                             contentDescription = null,
                         )
                     }

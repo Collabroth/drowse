@@ -82,13 +82,26 @@ class SettingsViewModel @Inject constructor(
         userPreferencesRepository.setSleepCycleLength(minutes)
     }
 
+    fun onClickGithub() {
+        uriIntentLauncher.openUrl("https://github.com/Collabroth/drowse")
+    }
+
+    fun onClickReportABug() {
+        uriIntentLauncher.openUrl("https://github.com/Collabroth/drowse/issues")
+    }
+
+    fun onClickLicense() {
+        uriIntentLauncher.openUrl("https://github.com/Collabroth/drowse/blob/master/LICENSE")
+    }
+
     fun onClickSendFeedback() {
         feedbackEmailSender.send()
     }
 
-    fun onClickGithub() {
-        uriIntentLauncher.openUrl("https://github.com/Collabroth/drowse")
+    fun onClickBuyMeACoffee() {
+        uriIntentLauncher.openUrl("https://ko-fi.com/jaymanr")
     }
+
 }
 
 data class SettingsUiState(
