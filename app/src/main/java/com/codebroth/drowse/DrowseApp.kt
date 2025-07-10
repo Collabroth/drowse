@@ -62,10 +62,10 @@ fun DrowseApp() {
     val snackBarScope = rememberCoroutineScope()
 
 
-    val screenTitle = when {
-        currentDestination is CalculatorDestination -> stringResource(R.string.app_name)
-        currentDestination is ReminderDestination -> stringResource(R.string.title_reminders)
-        currentDestination is SettingsDestination -> stringResource(R.string.title_settings)
+    val screenTitle = when (currentDestination) {
+        is CalculatorDestination -> stringResource(R.string.app_name)
+        is ReminderDestination -> stringResource(R.string.title_reminders)
+        is SettingsDestination -> stringResource(R.string.title_settings)
         else -> stringResource(R.string.app_name)
     }
 
