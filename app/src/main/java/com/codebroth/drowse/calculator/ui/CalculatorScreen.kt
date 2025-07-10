@@ -93,13 +93,13 @@ fun CalculatorScreen(
             horizontalArrangement = Arrangement.Center
         ) {
             FilterChip(
-                selected = uiState.mode == CalculatorMode.WAKE_UP_TIME,
+                selected = isWakeUpMode,
                 onClick = { viewModel.onModeChange(CalculatorMode.WAKE_UP_TIME) },
                 label = { Text(stringResource(R.string.wake_up_tab_name)) }
             )
             Spacer(Modifier.width(dimensionResource(R.dimen.spacer_small)))
             FilterChip(
-                selected = uiState.mode == CalculatorMode.BED_TIME,
+                selected = !isWakeUpMode,
                 onClick = { viewModel.onModeChange(CalculatorMode.BED_TIME) },
                 label = { Text(stringResource(R.string.sleep_at_tab_name)) }
             )
@@ -127,8 +127,25 @@ fun CalculatorScreen(
                 items(uiState.recommendations) { rec ->
                     RecommendationCard(
                         rec = rec,
-                        onClick = { viewModel.sendAlarmClockIntent(it) },
-                        iconImageVector = if (uiState.mode == CalculatorMode.WAKE_UP_TIME) {
+                        onClick = {
+                            if (!isWakeUpMode) {
+                                viewModel.sendAlarmClockIntent(it)
+                            }
+                            else {
+                                navController.navigate(
+                                    AppDestination.ReminderDestination(
+                                        setReminderHour = it.hour,
+                                        setReminderMinutes = it.minute
+                                    )
+                                ) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop
+                                }
+                            }
+                                  },
+                        iconImageVector = if (isWakeUpMode) {
                             Icons.Default.Notifications
                         } else {
                             Icons.Default.Alarm
@@ -138,11 +155,11 @@ fun CalculatorScreen(
                 }
             }
         } else {
-            if (uiState.mode == CalculatorMode.BED_TIME) {
+            if (!isWakeUpMode) {
                 TextButton(
                     onClick = viewModel::onClickSleepNow
                 ) {
-                    Text("Sleep Now ->")
+                    Text(stringResource(R.string.label_sleep_now))
                 }
             }
             Spacer(Modifier.weight(1f))

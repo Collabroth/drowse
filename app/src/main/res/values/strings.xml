@@ -79,4 +79,5 @@
     <string name="label_kofi">Buy me a coffee</string>
     <string name="kofi_description">Support the development!</string>
     <string name="label_report_bug">Report a bug</string>
+    <string name="label_sleep_now"><![CDATA[Sleep Now ->]]></string>
 </resources>

@@ -94,10 +94,7 @@ fun DrowseApp(userPreferencesRepository: UserPreferencesRepository) {
             TopBar(screenTitle)
         },
         bottomBar = {
-            BottomBar(
-                navController = navController,
-                userPreferencesFlow = userPreferencesRepository.userPreferencesFlow
-            )
+            BottomBar(navController)
         },
         snackbarHost = {
             SnackbarHost(snackBarHostState)
