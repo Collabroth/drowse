@@ -130,8 +130,7 @@ fun CalculatorScreen(
                         onClick = {
                             if (!isWakeUpMode) {
                                 viewModel.sendAlarmClockIntent(it)
-                            }
-                            else {
+                            } else {
                                 navController.navigate(
                                     AppDestination.ReminderDestination(
                                         setReminderHour = it.hour,
@@ -144,7 +143,7 @@ fun CalculatorScreen(
                                     launchSingleTop
                                 }
                             }
-                                  },
+                        },
                         iconImageVector = if (isWakeUpMode) {
                             Icons.Default.Notifications
                         } else {

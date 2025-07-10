@@ -18,11 +18,9 @@
 package com.codebroth.drowse.core.ui.component.appbar
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Settings
@@ -31,7 +29,6 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -41,12 +38,10 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.codebroth.drowse.R
-import com.codebroth.drowse.core.domain.model.UserPreferences
 import com.codebroth.drowse.core.ui.navigation.AppDestination
 import com.codebroth.drowse.core.ui.navigation.AppDestination.CalculatorDestination
 import com.codebroth.drowse.core.ui.navigation.AppDestination.ReminderDestination
 import com.codebroth.drowse.core.ui.navigation.AppDestination.SettingsDestination
-import kotlinx.coroutines.flow.Flow
 
 @Composable
 private fun getNavbarItems() = listOf(
@@ -73,10 +68,8 @@ private fun getNavbarItems() = listOf(
 @Composable
 fun BottomBar(
     navController: NavHostController,
-    userPreferencesFlow: Flow<UserPreferences>,
     modifier: Modifier = Modifier,
 ) {
-    val userPreferences by userPreferencesFlow.collectAsState(initial = UserPreferences.DEFAULT)
 
     val navigationBarItems = getNavbarItems()
 

@@ -34,7 +34,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.codebroth.drowse.core.data.local.UserPreferencesRepository
 import com.codebroth.drowse.core.ui.component.appbar.BottomBar
 import com.codebroth.drowse.core.ui.component.appbar.TopBar
 import com.codebroth.drowse.core.ui.component.snackbar.ObserveAsEvents
@@ -46,7 +45,7 @@ import com.codebroth.drowse.core.ui.navigation.DrowseNavHost
 import kotlinx.coroutines.launch
 
 @Composable
-fun DrowseApp(userPreferencesRepository: UserPreferencesRepository) {
+fun DrowseApp() {
 
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()

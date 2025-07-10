@@ -17,7 +17,6 @@
 
 package com.codebroth.drowse.calculator.domain.usecase
 
-import androidx.annotation.VisibleForTesting
 import com.codebroth.drowse.calculator.domain.model.SleepRecommendation
 import java.time.LocalTime
 

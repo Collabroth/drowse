@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
                 darkTheme = ThemePreference.isDarkTheme(preferences.themePreference),
                 dynamicColor = preferences.useDynamicColor,
             ) {
-                DrowseApp(userPreferencesRepository)
+                DrowseApp()
             }
         }
     }

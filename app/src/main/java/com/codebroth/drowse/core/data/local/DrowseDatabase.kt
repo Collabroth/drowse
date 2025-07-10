@@ -23,7 +23,7 @@ import com.codebroth.drowse.reminder.data.local.ReminderDao
 import com.codebroth.drowse.reminder.data.local.ReminderEntity
 
 @Database(
-    entities = [ReminderEntity::class,],
+    entities = [ReminderEntity::class],
     version = 3,
     exportSchema = true
 )
