@@ -19,7 +19,6 @@ package com.codebroth.drowse
 
 import android.app.Application
 import android.os.Build
-import com.codebroth.drowse.alarm.data.notification.AlarmNotificationChannel.createAlarmNotificationChannel
 import com.codebroth.drowse.reminder.data.notification.ReminderNotificationChannel.createReminderNotificationChannel
 import dagger.hilt.android.HiltAndroidApp
 
@@ -30,7 +29,6 @@ class DrowseApplication : Application() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createReminderNotificationChannel(applicationContext)
-            createAlarmNotificationChannel(applicationContext)
         }
     }
 }

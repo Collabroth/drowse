@@ -49,7 +49,6 @@ class UserPreferencesRepository(
         .map { preferences ->
             UserPreferences(
                 is24HourFormat = preferences[IS_24_HOUR_FORMAT] == true,
-                useAlarmClockApi = preferences[USE_ALARM_CLOCK_API] != false,
                 fallAsleepBuffer = preferences[FALL_ASLEEP_BUFFER] ?: 15,
                 sleepCycleLengthMinutes = preferences[SLEEP_CYCLE_LENGTH_MINUTES] ?: 90,
                 themePreference = preferences[THEME_PREFERENCE] ?: ThemePreference.AUTO.value,
@@ -83,12 +82,6 @@ class UserPreferencesRepository(
         }
     }
 
-    suspend fun setUseAlarmClockApi(enabled: Boolean) {
-        dataStore.edit { preferences ->
-            preferences[USE_ALARM_CLOCK_API] = enabled
-        }
-    }
-
     suspend fun setFallAsleepBuffer(minutes: Int) {
         dataStore.edit { preferences ->
             preferences[FALL_ASLEEP_BUFFER] = minutes
@@ -105,7 +98,6 @@ class UserPreferencesRepository(
         val THEME_PREFERENCE = intPreferencesKey("theme_preference")
         val USE_DYNAMIC_COLOR = booleanPreferencesKey("use_dynamic_color")
         val IS_24_HOUR_FORMAT = booleanPreferencesKey("is_24_hour_format")
-        val USE_ALARM_CLOCK_API = booleanPreferencesKey("use_alarm_clock_api")
         val FALL_ASLEEP_BUFFER = intPreferencesKey("fall_asleep_buffer")
         val SLEEP_CYCLE_LENGTH_MINUTES = intPreferencesKey("sleep_cycle_length_minutes")
 

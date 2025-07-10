@@ -39,7 +39,6 @@ import com.codebroth.drowse.core.ui.component.appbar.BottomBar
 import com.codebroth.drowse.core.ui.component.appbar.TopBar
 import com.codebroth.drowse.core.ui.component.snackbar.ObserveAsEvents
 import com.codebroth.drowse.core.ui.component.snackbar.SnackbarController
-import com.codebroth.drowse.core.ui.navigation.AppDestination.AlarmDestination
 import com.codebroth.drowse.core.ui.navigation.AppDestination.CalculatorDestination
 import com.codebroth.drowse.core.ui.navigation.AppDestination.ReminderDestination
 import com.codebroth.drowse.core.ui.navigation.AppDestination.SettingsDestination
@@ -55,7 +54,6 @@ fun DrowseApp(userPreferencesRepository: UserPreferencesRepository) {
         when {
             dest.hasRoute<CalculatorDestination>() -> CalculatorDestination
             dest.hasRoute<ReminderDestination>() -> ReminderDestination()
-            dest.hasRoute<AlarmDestination>() -> AlarmDestination()
             dest.hasRoute<SettingsDestination>() -> SettingsDestination
             else -> null
         }
@@ -68,7 +66,6 @@ fun DrowseApp(userPreferencesRepository: UserPreferencesRepository) {
     val screenTitle = when {
         currentDestination is CalculatorDestination -> stringResource(R.string.app_name)
         currentDestination is ReminderDestination -> stringResource(R.string.title_reminders)
-        currentDestination is AlarmDestination -> stringResource(R.string.title_alarms)
         currentDestination is SettingsDestination -> stringResource(R.string.title_settings)
         else -> stringResource(R.string.app_name)
     }

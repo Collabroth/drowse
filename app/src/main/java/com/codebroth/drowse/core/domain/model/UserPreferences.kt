@@ -21,7 +21,6 @@ package com.codebroth.drowse.core.domain.model
  * Data class representing user preferences.
  *
  * @property is24HourFormat Whether to use 24-hour time format.
- * @property useAlarmClockApi Whether to use the Alarm Clock API.
  * @property fallAsleepBuffer The buffer time in minutes before sleep.
  * @property sleepCycleLengthMinutes The length of a sleep cycle in minutes.
  */
@@ -29,7 +28,6 @@ data class UserPreferences(
     val themePreference: Int,
     val useDynamicColor: Boolean,
     val is24HourFormat: Boolean,
-    val useAlarmClockApi: Boolean,
     val fallAsleepBuffer: Int,
     val sleepCycleLengthMinutes: Int,
 ) {
@@ -38,7 +36,6 @@ data class UserPreferences(
             themePreference = 0,
             useDynamicColor = false,
             is24HourFormat = false,
-            useAlarmClockApi = true,
             fallAsleepBuffer = 15,
             sleepCycleLengthMinutes = 90,
         )

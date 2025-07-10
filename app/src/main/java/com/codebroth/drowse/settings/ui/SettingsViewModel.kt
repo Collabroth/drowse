@@ -19,7 +19,6 @@ package com.codebroth.drowse.settings.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.codebroth.drowse.alarm.data.scheduling.AlarmSchedulerService
 import com.codebroth.drowse.core.data.local.UserPreferencesRepository
 import com.codebroth.drowse.core.domain.model.ThemePreference
 import com.codebroth.drowse.settings.data.EmailSender
@@ -39,7 +38,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val userPreferencesRepository: UserPreferencesRepository,
-    private val alarmSchedulerService: AlarmSchedulerService,
     private val feedbackEmailSender: EmailSender,
     private val uriIntentLauncher: UriIntentLauncher,
 ) : ViewModel() {
@@ -52,7 +50,6 @@ class SettingsViewModel @Inject constructor(
         ) { state, userPreferences ->
             state.copy(
                 is24HourFormat = userPreferences.is24HourFormat,
-                useAlarmClockApi = userPreferences.useAlarmClockApi,
                 fallAsleepBuffer = userPreferences.fallAsleepBuffer,
                 sleepCycleLength = userPreferences.sleepCycleLengthMinutes,
                 themePreference = userPreferences.themePreference,
@@ -77,11 +74,6 @@ class SettingsViewModel @Inject constructor(
         userPreferencesRepository.set24HourFormat(is24HourFormat)
     }
 
-    fun onToggleUseAlarmClockApi(useAlarmClockApi: Boolean) = viewModelScope.launch {
-        userPreferencesRepository.setUseAlarmClockApi(useAlarmClockApi)
-        alarmSchedulerService.cancelAllActive()
-    }
-
     fun onFallAsleepBufferChanged(minutes: Int) = viewModelScope.launch {
         userPreferencesRepository.setFallAsleepBuffer(minutes)
     }
@@ -102,7 +94,6 @@ class SettingsViewModel @Inject constructor(
 data class SettingsUiState(
     val is24HourFormat: Boolean = false,
     val useDynamicColor: Boolean = false,
-    val useAlarmClockApi: Boolean = false,
     val fallAsleepBuffer: Int = 15,
     val sleepCycleLength: Int = 90,
     val themePreference: Int = 0,

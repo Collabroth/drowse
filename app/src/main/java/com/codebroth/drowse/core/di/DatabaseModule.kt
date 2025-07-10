@@ -46,7 +46,4 @@ object DatabaseModule {
 
     @Provides
     fun provideRemindersDao(db: DrowseDatabase): ReminderDao = db.reminderDao()
-
-    @Provides
-    fun provideAlarmsDao(db: DrowseDatabase) = db.alarmDao()
 }

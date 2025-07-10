@@ -31,12 +31,6 @@ sealed class AppDestination() {
     ) : AppDestination()
 
     @Serializable
-    data class AlarmDestination(
-        val setAlarmHour: Int? = null,
-        val setAlarmMinutes: Int? = null
-    ) : AppDestination()
-
-    @Serializable
     object SettingsDestination : AppDestination()
 }
 

@@ -25,9 +25,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.codebroth.drowse.alarm.ui.AlarmScreen
 import com.codebroth.drowse.calculator.ui.CalculatorScreen
-import com.codebroth.drowse.core.ui.navigation.AppDestination.AlarmDestination
 import com.codebroth.drowse.core.ui.navigation.AppDestination.CalculatorDestination
 import com.codebroth.drowse.core.ui.navigation.AppDestination.ReminderDestination
 import com.codebroth.drowse.core.ui.navigation.AppDestination.SettingsDestination
@@ -59,13 +57,6 @@ fun DrowseNavHost(
     ) {
         composable<CalculatorDestination> {
             CalculatorScreen(navController)
-        }
-        composable<AlarmDestination> {
-            val args = it.toRoute<AlarmDestination>()
-            AlarmScreen(
-                setAlarmHour = args.setAlarmHour,
-                setAlarmMinute = args.setAlarmMinutes
-            )
         }
         composable<ReminderDestination> {
             val args = it.toRoute<ReminderDestination>()

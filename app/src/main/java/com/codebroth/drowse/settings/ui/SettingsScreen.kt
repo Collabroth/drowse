@@ -131,23 +131,6 @@ fun SettingsScreen(
                         )
                     },
                 )
-                // Not yet ready for production. Alarm feature is a work in progress.
-//                PreferenceRow(
-//                    icon = Icons.Default.Alarm,
-//                    label = stringResource(R.string.label_use_system_alarm_app),
-//                    description = "recommended to keep on",
-//                    trailingContent = {
-//                        Switch(
-//                            checked = uiState.useAlarmClockApi,
-//                            onCheckedChange = viewModel::onToggleUseAlarmClockApi
-//                        )
-//                    }
-//                )
-//                PreferenceRow(
-//                    icon = Icons.Default.Info,
-//                    label = stringResource(R.string.label_note),
-//                    description = stringResource(R.string.temporary_resource_alarm_feature_note)
-//                )
             }
         }
         item {

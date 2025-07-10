@@ -35,13 +35,7 @@
     <string name="reminder_channel_description">This channel is used for bedtime reminders.</string>
     <string name="reminder_notification_title">Bedtime Reminder</string>
     <string name="reminder_notification_description">Time to wind down and get ready for bed!</string>
-    <string name="title_alarms">Alarms</string>
-    <string name="empty_alarms_description">No alarms yet.\nTap + to add one.</string>
     <string name="action_delete">Delete</string>
-    <string name="title_activity_alarm">AlarmActivity</string>
-    <string name="alarm_channel_description">This channel is used for displaying alarm notifications.</string>
-    <string name="action_add_alarm">Add Alarm</string>
-    <string name="action_edit_alarm">Edit Alarm</string>
     <string name="label_select_time">Select Time</string>
     <string name="label_abbreviated_hour">%1$s hr %2$s min</string>
     <string name="label_cycles">%1$s cycles</string>
@@ -51,7 +45,6 @@
     <string name="label_repeat">Repeat</string>
     <string name="action_collapse_content_description">Collapse</string>
     <string name="action_expand_content_description">Expand</string>
-    <string name="title_alarm">Alarm</string>
     <string name="notification_text_swipe_to_dismiss">Swipe to dismiss</string>
     <string name="label_time_format">24 - hour time</string>
     <string name="label_time">Time</string>
@@ -63,7 +56,6 @@
     <string name="title_set_sleep_cycle_length">Set Sleep Cycle Length</string>
     <string name="set_sleep_cycle_length_description">length of one sleep cycle</string>
     <string name="title_preferences">Preferences</string>
-    <string name="label_use_system_alarm_app">Use system alarm app</string>
     <string name="title_sleep">Sleep</string>
     <string name="label_fall_asleep_buffer">Fall asleep Buffer</string>
     <string name="label_sleep_cycle_length">Sleep cycle length</string>
@@ -80,6 +72,5 @@
     <string name="label_theme">Theme</string>
     <string name="label_use_dynamic_color">Use dynamic color</string>
     <string name="dynamic_color_description">Syncs with wallpaper palette</string>
-    <string name="temporary_resource_alarm_feature_note">Toggle ON: Uses your phone\'s default alarm app (recommended)\nToggle OFF: Uses Drowse\'s built-in alarm (still in development and may have bugs)</string>
     <string name="label_note">Note</string>
 </resources>

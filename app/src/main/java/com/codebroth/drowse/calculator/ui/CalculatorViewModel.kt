@@ -60,7 +60,6 @@ class CalculatorViewModel @Inject constructor(
                 _uiState.update { currentState ->
                     currentState.copy(
                         is24HourFormat = preferences.is24HourFormat,
-                        useAlarmClockApi = preferences.useAlarmClockApi,
                         fallAsleepBuffer = preferences.fallAsleepBuffer,
                         sleepCycleLength = preferences.sleepCycleLengthMinutes
                     )
@@ -138,7 +137,6 @@ class CalculatorViewModel @Inject constructor(
 
         // user preferences
         val is24HourFormat: Boolean = false,
-        val useAlarmClockApi: Boolean = false,
         val fallAsleepBuffer: Int = 15,
         val sleepCycleLength: Int = 90
     )

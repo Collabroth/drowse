@@ -43,7 +43,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.codebroth.drowse.R
 import com.codebroth.drowse.core.domain.model.UserPreferences
 import com.codebroth.drowse.core.ui.navigation.AppDestination
-import com.codebroth.drowse.core.ui.navigation.AppDestination.AlarmDestination
 import com.codebroth.drowse.core.ui.navigation.AppDestination.CalculatorDestination
 import com.codebroth.drowse.core.ui.navigation.AppDestination.ReminderDestination
 import com.codebroth.drowse.core.ui.navigation.AppDestination.SettingsDestination
@@ -56,12 +55,6 @@ private fun getNavbarItems() = listOf(
         destination = CalculatorDestination,
         selectedIcon = Icons.Default.Analytics,
         unselectedIcon = Icons.Outlined.Analytics
-    ),
-    BottomNavigationItem(
-        title = stringResource(R.string.title_alarms),
-        destination = AlarmDestination(),
-        selectedIcon = Icons.Default.Alarm,
-        unselectedIcon = Icons.Outlined.Alarm
     ),
     BottomNavigationItem(
         title = stringResource(R.string.title_reminders),
@@ -85,11 +78,7 @@ fun BottomBar(
 ) {
     val userPreferences by userPreferencesFlow.collectAsState(initial = UserPreferences.DEFAULT)
 
-    val navigationBarItems = if (userPreferences.useAlarmClockApi) {
-        getNavbarItems().filterNot { it.destination is AlarmDestination }
-    } else {
-        getNavbarItems()
-    }
+    val navigationBarItems = getNavbarItems()
 
     NavigationBar(modifier = modifier) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -97,7 +86,6 @@ fun BottomBar(
             when {
                 dest.hasRoute<CalculatorDestination>() -> CalculatorDestination
                 dest.hasRoute<ReminderDestination>() -> ReminderDestination()
-                dest.hasRoute<AlarmDestination>() -> AlarmDestination()
                 dest.hasRoute<SettingsDestination>() -> SettingsDestination
                 else -> null
             }
@@ -107,7 +95,6 @@ fun BottomBar(
             val isSelected = when {
                 item.destination is CalculatorDestination && currentDestination is CalculatorDestination -> true
                 item.destination is ReminderDestination && currentDestination is ReminderDestination -> true
-                item.destination is AlarmDestination && currentDestination is AlarmDestination -> true
                 item.destination is SettingsDestination && currentDestination is SettingsDestination -> true
                 else -> false
             }

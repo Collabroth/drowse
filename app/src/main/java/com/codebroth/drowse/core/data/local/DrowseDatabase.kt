@@ -19,17 +19,14 @@ package com.codebroth.drowse.core.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.codebroth.drowse.alarm.data.local.AlarmDao
-import com.codebroth.drowse.alarm.data.local.AlarmEntity
 import com.codebroth.drowse.reminder.data.local.ReminderDao
 import com.codebroth.drowse.reminder.data.local.ReminderEntity
 
 @Database(
-    entities = [ReminderEntity::class, AlarmEntity::class],
-    version = 2,
+    entities = [ReminderEntity::class,],
+    version = 3,
     exportSchema = true
 )
 abstract class DrowseDatabase : RoomDatabase() {
     abstract fun reminderDao(): ReminderDao
-    abstract fun alarmDao(): AlarmDao
 }

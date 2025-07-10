@@ -127,24 +127,7 @@ fun CalculatorScreen(
                 items(uiState.recommendations) { rec ->
                     RecommendationCard(
                         rec = rec,
-                        onClick = { time ->
-                            if (uiState.useAlarmClockApi && !isWakeUpMode) {
-                                viewModel.sendAlarmClockIntent(time)
-                            } else {
-                                navController.navigate(
-                                    if (uiState.mode == CalculatorMode.WAKE_UP_TIME) {
-                                        AppDestination.ReminderDestination(time.hour, time.minute)
-                                    } else {
-                                        AppDestination.AlarmDestination(time.hour, time.minute)
-                                    }
-                                ) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
-                                    }
-                                    launchSingleTop
-                                }
-                            }
-                        },
+                        onClick = { viewModel.sendAlarmClockIntent(it) },
                         iconImageVector = if (uiState.mode == CalculatorMode.WAKE_UP_TIME) {
                             Icons.Default.Notifications
                         } else {
