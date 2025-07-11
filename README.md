@@ -1,45 +1,34 @@
 # Drowse
 
 Drowse is an open-source sleep cycle calculator app that helps you optimize your sleep by
-calculating the best times to go to bed or wake up. You can schedule alarms directly in-app or hand
-off to your device’s native clock application. Built with the Android Jetpack Compose library.
+calculating the best times to go to bed or wake up. You can schedule alarms directly to your device’s native clock application based on suggestions. Built with the Android Jetpack Compose library.
 
 ## Features
 
 * **Sleep Cycle Calculator**: Choose between “Sleep” or “Wake‑Up” modes and get recommendations
   based on 90‑minute sleep cycles.
-* **Recommendation Cards**: One-tap cards schedule your alarm for the suggested time.
-* **Pick where alarms are schedules**:
-
-    * **In-App Alarms** via `AlarmManager` for full control and customization.
-    * **System Alarm Hand-Off** using `AlarmClock.ACTION_SET_ALARM` when you prefer your device’s
-      native clock app (toggle in Settings).
-* **Reminders**: Create one-off or repeating reminders with their own UI.
-* **Full-Screen Alarm UI**: Custom full-screen alarm activity with snooze and dismiss, when the
-  phone is locked.
+* **Recommendation Cards**: Tap on a recommendation card schedule your alarm or reminder for the suggested time.
+* **Alarm Scheduling**: System alarm hand-off -> using `AlarmClock.ACTION_SET_ALARM` to set alarm on your device’s native clock app.
+* **Reminders**: Create one-off or repeating bedtime reminders to ensure you are consistent with your sleep.
 * **Persistence**:
-
-    * **Room** for alarm and reminder data
-    * **DataStore** for user preferences
-    * **Broadcast Receivers** to reschedule alarms on boot
+    * **Room Database** for storing reminder data.
+    * **DataStore** for saving user preferences.
+    * **Broadcast Receivers** to reschedule reminders on boot.
 
 ## 💻 Usage
 
 1. **Calculator Tab**
-
-    * Switch between **Sleep‑At** (choose bedtime) or **Wake‑Up** modes
-    * select a time.
+    * Switch between **Sleep‑At** (choose bedtime) or **Wake‑Up** (choose wake up time) modes
+    * Select a time using the time picker.
+    * View the suggested times.
     * Tap a recommendation card to schedule the alarm or reminder.
-2. **Alarms Tab** (hidden if system-alarm toggle is on)
-
-    * View your in-app alarms; edit or delete them
-3. **Reminders Tab**
-
+2. **Reminders Tab**
     * Manage your reminders.
-4. **Settings**
-
-    * Toggle **24-hour format**
-    * Toggle **Use system alarm app**
+    * Reminders can be scheduled as a one time reminder (non-repeating) or repeating reminders where you can select specific days.
+3. **Settings**
+    * Toggle 24-hour format.
+    * Theme preferences (Dark/Light/Dynamic).
+    * Customize sleep buffer (time it takes to fall asleep) and sleep cycle length.
 
 ## 📄 License
 
